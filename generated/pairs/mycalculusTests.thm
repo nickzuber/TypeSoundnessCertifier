@@ -1,0 +1,35 @@
+Specification "mycalculus".
+
+Define test_beta : prop by
+   test_beta := forall T1 R APPLIED T2, {typeOf (abs R) (arrow T1 T2)} -> {typeOf APPLIED T1} -> {typeOf (R APPLIED) T2} -> {typeOf (R APPLIED) T2}.
+
+
+Define test_conditional_true : prop by
+   test_conditional_true := forall E2 E1 T, {typeOf (tt ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E1 T}.
+
+
+Define test_conditional_false : prop by
+   test_conditional_false := forall E1 E2 T, {typeOf (ff ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E2 T}.
+
+
+Define test_fst : prop by
+   test_fst := forall E2 T2 E1 T1, {typeOf (pair E1 E2) (times T1 T2)} -> {typeOf E1 T1} -> {typeOf E2 T2} -> {typeOf E1 T1}.
+
+
+Define test_snd : prop by
+   test_snd := forall E1 T1 E2 T2, {typeOf (pair E1 E2) (times T1 T2)} -> {typeOf E1 T1} -> {typeOf E2 T2} -> {typeOf E2 T2}.
+
+
+Query test_beta.
+
+
+Query test_conditional_true.
+
+
+Query test_conditional_false.
+
+
+Query test_fst.
+
+
+Query test_snd.
