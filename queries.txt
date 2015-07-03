@@ -1,154 +1,47 @@
-to change:
-assert (exists , E1 = tt  /\ exists , E1 = ff ) i.e. when we dont have arguments.
-backchain canonical_form_if i.e. should be bool not if. and arrow not app
+ocamlfind ocamlc -package batteries -linkpkg aux.ml type_system.ml terms.ml values.ml nonvalues.ml eitherLemma.ml canonicalForms.ml contextualRules.ml progress.ml preservationTests.ml preservation.ml generateLambdaProlog.ml calculi.ml
 
-generateValues stlcMin;;
-generateTermPred (generateValues stlcMin);;
-generateNonValues (generateTermPred (generateValues stlcMin));;
+#use "topfind";;
+#require "batteries";;
+open Batteries;;
+#load "unix.cma";;
 
-let ts = generateNonValues (generateTermPred (generateValues stlcBool));;
+#load  "aux.cmo";;
+#load "type_system.cmo" ;;
+#load  "terms.cmo";;
+#load  "values.cmo";;
+#load  "nonvalues.cmo";;
+#load  "eitherLemma.cmo";;
+#load  "canonicalForms.cmo";;
+#load  "contextualRules.cmo";;
+#load  "progress.cmo";;
+#load  "preservationTests.cmo";;
+#load  "preservation.cmo";;
+#load  "generateLambdaProlog.cmo";;
+#load  "calculi.cmo";;
+
+open Aux;;
+open Type_system;;
+open Terms;;
+open Values;;
+open Nonvalues;;
+open EitherLemma;;
+open CanonicalForms;;
+open ContextualRules;;
+open Progress;;
+open PreservationTests;;
+open Preservation;;
+open GenerateLambdaProlog;;
+open Calculi;;
+
+let ts = generateNonValues (generateTermPred (generateValues systemF));;
 let ts = addContextualRules ts;;
 print_string (generateModule ts);;
 print_string (generateSignature ts);;
 print_string (generateEitherLemma ts);;
 print_string (generateCanonicalFormsLemma ts);;
-
 print_string (generateProgressLemmas ts);;
 print_string (generateProgressTheorem ts);;
 print_string (generatePreservationTheorem ts);;
-
-
-ocamlfind ocamlc -o blabla -package batteries -linkpkg aux.ml type_system.ml terms.ml values.ml nonvalues.ml eitherLemma.ml canonicalForms.ml contextualRules.ml progress.ml generateLambdaProlog.ml preservationTests.ml preservation.ml calculi.ml 
-
-                  let arg2pre = (List.map generateTerm outputs) in
-                  let arg1 = if arg1pre == [] then "" else (String.concat " " arg1pre) in
-                  let arg2 = if arg2pre == [] then "" else (String.concat " " arg2pre) in
-
-
-let rules = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> rules;;
-let signatureTypes = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> signatureTypes;;
-
-match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-         List.filter (onlyValueRules) rules;;
-
-match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-         List.filter (onlyNonValueRules) rules;;
-
-match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-         List.filter (onlyTermPredRules ) rules;;
-
-match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-         List.filter (onlyTypingRules ) rules;;
-
-match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-         List.filter (onlyStepRules ) rules;;
-
-
-let rec formalTermByConstructor signatureTypes constructor =  match signatureTypes with
-                        | [] -> raise (Failure ("formalTermByConstructor: Given a constructor I could not find it in signatureTypes: " ^ constructor))
-                        | DeclType(c, kind, constructors, deconstructors, arguments)::rest -> if c = constructor then Constructor(c, getFormalVariablesAsTerms "ARG" (List.length arguments)) else formalTermByConstructor rest constructor
-let destructedTermBy_Formal signatureTypes constructor = List.map (formalTermByConstructor signatureTypes) (destructedTermsBy signatureTypes constructor)
-
-
-         let SubstHyp = getFormalVariables "Subst" 1 abstractionsNum in 
-
-
-match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-
- raise (Failure ("maybeSubstitutionLemmaBeforeSearch: " ^ nestedDestructed ^ (string_of_int abstractionsNum))) in
-
-getSimplesAndAbstractions
-let toValueDefs_byTermDecl signatureEntry = match signatureEntry with DeclTrm(c,kind,arguments) ->
-                            let abstractionsNum = getNumberOfAbstractions arguments in 
-                            let simplesNum = (List.length arguments) - abstractionsNum in 
-                            let abstractions = Aux.getFormalVariables "R" abstractionsNum in 
-                            let simples = Aux.getFormalVariables "E" simplesNum in 
-                            let createTermForVar = (fun name -> (Var name)) in
-                            let numeberedArgs = fun newVars -> (List.map createTermForVar newVars) in 
-                            Rule("value_"^c, (List.map toValuePremises (numeberedArgs simples)), Formula("value", [Constructor(c, (numeberedArgs abstractions) @ (numeberedArgs simples))], []))
-
-let toTermPred_byDecl signatureEntry = match signatureEntry with DeclTrm(c,kind,arguments) -> 
-			   let newVars = (Aux.getFormalVariables "E" (List.length arguments)) in 
-			   let createTermForVar = (fun name -> (Var name)) in
-			   let numeberedArgs = (List.map createTermForVar newVars) in 
-			    Rule(termPredicate^"_"^c, (List.map toTermPredFormula numeberedArgs), toTermPredFormula (Constructor(c,numeberedArgs)))
-
-
-
-Define ctx : olist -> prop by
-  ctx nil ;
-  nabla x, ctx (termPred x :: G) := ctx G ;
-  nabla x, ctx (termPred x :: (G x)) := nabla x, ctx (G x).
-
-
-Define ctx2 : olist -> prop by
-  ctx nil ;
-  nabla x, ctx (termPred x, [G]) := ctx G ;
-  nabla x, ctx (termPred x, [(G x)]) := nabla x, ctx (G x).
-
-
-Define name : term -> prop by
-  nabla x, name x.
-
-
-Theorem ctx_member : forall E G,
-  ctx G -> member E G -> exists X, E = termPred X /\ name X.
-  
-Theorem eitherValueOrNotABS : forall G E, ctx G -> {G |- termPred E} -> {G |- value E} \/ {G |- nonvalue E}.
-
-Theorem dioca : forall A B E, {A, [B] |- termPred E} -> {B :: A |- termPred E}.
-
-Theorem eitherValueOrNotABS : forall R, nabla n1, {termPred n1 |- termPred (R n1)} -> {termPred n1} -> {value (R n1)} \/ {nonvalue (R n1)}.
-
-Theorem eitherValueOrNotABS : forall R, nabla n1, {termPred (R n1)} -> {termPred n1} -> {value (R n1)} \/ {nonvalue (R n1)}.
-
-
-Theorem eitherValueOrNot : forall E, {termPred E} -> {value E} \/ {nonvalue E}.
-
-induction on 1. intros Main. case Main.
-
-Tmp : apply IH to H1. case Tmp.
-search. search. Tmp : apply IH to H1. case Tmp.
-Tmp : apply IH to H2. case Tmp.
-search. search.  search. search. search. Tmp : apply IH to H1. case Tmp.
-Tmp : apply IH to H2. case Tmp.
-Tmp : apply IH to H3. case Tmp.
-search. search.  search.  search. 
-
-
-Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> exists E', E = abs E'.
-
-intros Main Value. case Main. 
-search.
-case Value. case Value.
-
-Theorem  canonical_form_bool : forall E , {typeOf E (bool )} -> {value E} -> E = tt  \/ E = ff .
-
-intros Main Value. case Main. 
-search. search.
-case Value. case Value.
-
-Define progresses : term -> prop by
-	 progresses E := {value E} ;
-	 progresses E := exists E', {step E E'}.
-
-Theorem progress_abs : forall E T, {typeOf (abs E) T} -> progresses E -> progresses (abs E).
-intros Main E. case Main. case E. 
-search. search. 
-
-Theorem progress_tt : forall T, {typeOf (tt) T} -> progresses (tt).
-intros Main. case Main. 
- search. 
-
-Theorem progress_ff : forall T, {typeOf (ff) T} -> progresses (ff).
-intros Main. case Main. 
- search. 
-
-Theorem progress_app : forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses E2 -> progresses (app E1 E2).
-intros Main E1 E2. case Main. case E1.  case E2. 
-Canonical : assert (exists ARG1, E1 = abs ARG1). backchain canonical_form_arrow. case Canonical. search. search. search.
-Theorem progress_if : forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 -> progresses E2 -> progresses E3 -> progresses (if E1 E2 E3).
-intros Main E1 E2 E3. case Main. case E1.  case E2.  case E3. 
-Canonical : assert (E1 = tt  \/ E1 = ff ). backchain canonical_form_bool. case Canonical. search. search. search. search. search.
-
+print_string (generateTestModule ts);;
+print_string (runPreservationTests ts);;
 
