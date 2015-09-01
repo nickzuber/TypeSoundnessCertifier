@@ -13,8 +13,13 @@ type type_expression =
 type signature_type =
   | DeclType of string * string * string list * string list * type_expression list
 
+type ctx_info =
+| Sequential
+| Contextual of int list
+
+(* Examples: Decl app term Contextual [1,2] [Simple term, Simple term] where [1,2] are the contextual arguments *)
 type signature_term =
-  | DeclTrm of string * string * type_expression list
+  | DeclTrm of string * string * ctx_info * type_expression list
 
 type term =
   | Var of string
@@ -43,12 +48,23 @@ let getConclusion rule = match rule with Rule(name,premises,conclusion) -> concl
 let turnFormulaTo newpred formula = match formula with Formula(pred, inputs, outputs) -> Formula(newpred, inputs, outputs)
 let turnFormulaToByOutput newpred output formula = match formula with Formula(pred, inputs, outputs) -> Formula(newpred, inputs, output::outputs)
 
-let getConstructor term = match term with Constructor(name, arguments) -> name
+let rec toString term = match term with 
+  | Var(name) -> name
+  | Constructor(name, arguments) -> "(" ^ name ^ " " ^ String.concat " " (List.map toString arguments) ^ ")"
+  | Application(term1, term2) -> "(" ^ toString term1 ^ " " ^ toString term2 ^ ")"
+
+let rec toStringWith' term = match term with 
+  | Var(name) -> name ^ "'"
+  | Constructor(name, arguments) -> name ^ " " ^ String.concat " " (List.map toStringWith' arguments)
+
+let getConstructor term = match term with 
+| Constructor(name, arguments) -> name
+| other -> raise (Failure ("getConstructor: I did not find a constructed term, but found : " ^ (toString term)))
 let getArgumentsOfConstructor term = match term with Constructor(name, arguments) -> arguments
 
 let rec lookupEntryTerms constructor signatureTerms =  match signatureTerms with
                         | [] -> raise (Failure ("lookupEntryTerms: Given a constructor I could not find it in signatureTerms: " ^ constructor))
-                        | DeclTrm(c, kind, arguments)::rest -> if c = constructor then DeclTrm(c, kind, arguments) else lookupEntryTerms constructor rest
+                        | DeclTrm(c, kind, ctx, arguments)::rest -> if c = constructor then DeclTrm(c, kind, ctx, arguments) else lookupEntryTerms constructor rest
 
 let rec destructedTermsBy signatureTypes constructor =  match signatureTypes with
                         | [] -> raise (Failure ("destructedTermsBy: Given a deconstructor I could not find its corresponding constructor: " ^ constructor))
@@ -63,13 +79,13 @@ let getFormalVariablesAsTerms prefix n = List.map toTerm (getFormalVariables pre
 
 let rec formalTermByConstructor signatureTerms constructor =  match signatureTerms with
                         | [] -> raise (Failure ("formalTermByConstructor: Given a constructor I could not find it in signatureTerms: " ^ constructor))
-                        | DeclTrm(c, kind, arguments)::rest -> if c = constructor then Constructor(c, getFormalVariablesAsTerms "ARG" (List.length arguments)) else formalTermByConstructor rest constructor
+                        | DeclTrm(c, kind, cxt, arguments)::rest -> if c = constructor then Constructor(c, getFormalVariablesAsTerms "ARG" (List.length arguments)) else formalTermByConstructor rest constructor
 
 let getConstructorInInput formula = match formula with Formula(pred, inputs, outputs) -> getConstructor (List.hd inputs)
 let getTermInInput formula = match formula with Formula(pred, inputs, outputs) -> (List.hd inputs)
 let getTermInOutput formula = match formula with Formula(pred, inputs, outputs) -> (List.hd outputs)
 
-let getConstructorAndArityForOperator termEntry = match termEntry with DeclTrm(c, kind, arguments) -> (c, List.length arguments)
+let getConstructorAndArityForOperator termEntry = match termEntry with DeclTrm(c, kind, ctx, arguments) -> (c, List.length arguments)
 
 let getDeConstructorFromTypeSignature typeSignature = let getForEach = (fun entry -> match entry with DeclType(c,kind,constructors,deconstructors,arguments) -> deconstructors) in
 			                        List.concat (List.map getForEach typeSignature)
@@ -91,15 +107,6 @@ let rec isTypeConstructor signatureTypes constructor = match signatureTypes with
 let isConstructor term = match term with 
   | Constructor(name, arguments) -> true
   | _ -> false
-
-let rec toString term = match term with 
-  | Var(name) -> name
-  | Constructor(name, arguments) -> "(" ^ name ^ " " ^ String.concat " " (List.map toString arguments) ^ ")"
-  | Application(term1, term2) -> "(" ^ toString term1 ^ " " ^ toString term2 ^ ")"
-
-let rec toStringWith' term = match term with 
-  | Var(name) -> name ^ "'"
-  | Constructor(name, arguments) -> name ^ " " ^ String.concat " " (List.map toStringWith' arguments)
 
 
 let rec seekPremise pred premises = match premises with
@@ -126,7 +133,7 @@ let rec getNumberOfAbstractions arguments = match arguments with
 						
 let rec getNumberOfAbstractionsByConstr constructor signatureTerm = match signatureTerm with 
                         | [] -> raise (Failure "getNumberOfAbstractionsByConstr: Asked for searching for something in signatureTerm that was not present")
-                        | DeclTrm(c, kind, arguments)::rest -> if constructor = c then getNumberOfAbstractions arguments else getNumberOfAbstractionsByConstr constructor rest
+                        | DeclTrm(c, kind, ctx, arguments)::rest -> if constructor = c then getNumberOfAbstractions arguments else getNumberOfAbstractionsByConstr constructor rest
 
 let rec getNumberOfSimplesByConstr constructor signatureTerm = let searchForMine = fun pair -> match pair with (c, arity) -> if c = constructor then true else false in
                         let (c, arity) = List.hd (List.filter searchForMine (List.map getConstructorAndArityForOperator signatureTerm)) in 
@@ -149,7 +156,14 @@ let getTermsAndTheRest arguments =
                             let numeberedVar = fun newVars -> (List.map createTermForVar newVars) in 
                              ((numeberedVar formalTerms), (numeberedVar formalAbstractions), (numeberedVar formalTheRest))
 
-let getTermsAndTheRestByConstructor constructor signatureTerms = match (lookupEntryTerms constructor signatureTerms) with DeclTrm(c, kind, arguments) -> getTermsAndTheRest arguments
+let getTermsAndTheRestByConstructor constructor signatureTerms = match (lookupEntryTerms constructor signatureTerms) with DeclTrm(c, kind, ctx, arguments) -> getTermsAndTheRest arguments
+
+let getContextualIndexesByConstructor constructor signatureTerms = 
+	match (lookupEntryTerms constructor signatureTerms) with DeclTrm(c, kind, ctx, arguments) -> 
+		let (formalTerms,b,c) = (getTermsAndTheRestByConstructor constructor signatureTerms) in 
+		 match ctx with 
+		| Sequential -> Aux.range 0 ((List.length formalTerms) - 1)
+		| Contextual(args) -> List.map Aux.decrement args 
 
 let rec getAllVariables_Term term = match term with 
   | Var(name) ->  [Var(name)]
@@ -181,4 +195,4 @@ let rec getRangeOfArgumentsOfTypeTerms constructor signatureTerms =
 	let spotTerms = fun i -> fun entry -> match entry with | Simple("term") -> (true, i) | _ -> (false, i)  in 
 		match signatureTerms with 
                         | [] -> raise (Failure "getNumberOfAbstractionsByConstr: Asked for searching for something in signatureTerm that was not present")
-                        | DeclTrm(c, kind, arguments)::rest -> if c = constructor then List.map snd (List.filter onlyTerms (List.mapi spotTerms arguments)) else getRangeOfArgumentsOfTypeTerms constructor rest
+                        | DeclTrm(c, kind, ctx, arguments)::rest -> if c = constructor then List.map snd (List.filter onlyTerms (List.mapi spotTerms arguments)) else getRangeOfArgumentsOfTypeTerms constructor rest

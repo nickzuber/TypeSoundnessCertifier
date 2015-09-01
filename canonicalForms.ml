@@ -2,6 +2,7 @@
 open Type_system
 open Aux
 open Terms
+open Proof
 
 let eachCanonicalForm values numberOfDeconstructors signatureEntry = match signatureEntry with DeclType(c,kind,constructors,deconstructors,arguments) ->
          let termConstructors = List.map getTermInInput (List.map getConclusion (List.filter (onlyRulesOfOutput c) values)) in 
@@ -9,17 +10,17 @@ let eachCanonicalForm values numberOfDeconstructors signatureEntry = match signa
          let universalQuantificationOnArguments = "forall E " ^ String.concat " " newVars ^ ", " in
          let formalOfType = "(" ^ c ^ " " ^ String.concat " " newVars ^ ")" in
          let existentialQuantificationOnArguments =  fun termConstructor -> let aa = (List.map toStringWith' (getArgumentsOfConstructor termConstructor)) in if aa = [] then "E = " ^ (toStringWith' termConstructor) else "exists " ^ String.concat " " aa ^ ", E = " ^ (toStringWith' termConstructor) in 
-         let theorem =  "Theorem " ^ " canonical_form_" ^ c ^ " : " ^ universalQuantificationOnArguments ^ "{typeOf E " ^ formalOfType ^ "} -> {value E} -> " ^ String.concat " \\/ " (List.map existentialQuantificationOnArguments termConstructors) ^ ".\n" in
-         let searches = (fun term -> "search.") in
-         let preamble = "intros Main Value. case Main. \n" in
-         let proof = " " ^ (String.concat " " (List.map searches termConstructors)) ^ "\n" in
-         let dismissedCases = " " ^ (String.concat " " (Aux.repeat "case Value." numberOfDeconstructors)) ^ "\n" in 
-         theorem ^ preamble ^ proof ^ dismissedCases
+         let theorem =  "Theorem " ^ " canonical_form_" ^ c ^ " : " ^ universalQuantificationOnArguments ^ "{typeOf E " ^ formalOfType ^ "} -> {value E} -> " ^ String.concat " \\/ " (List.map existentialQuantificationOnArguments termConstructors) ^ "." in
+         let preamble = createSeq([Intros(["Main" ; "Value"]) ; Case("Main")]) in
+         let proof = Seq([RepeatPlain(List.length termConstructors, Tactic(Search))]) in
+         let dismissedCases = Seq([RepeatPlain(numberOfDeconstructors, Tactic(Case("Value")))]) in 
+          Theorem(theorem, Seq([preamble ; proof ; dismissedCases]))
 
+(* this function below returns a list of Theorem(theorem,proof) *)
 let generateCanonicalFormsLemma ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
          let values = List.filter (onlyTypingRulesOfValues signatureTypes) rules in
          let numberOfDeconstructors = List.length (getDeConstructorFromTypeSignature signatureTypes) in
-         String.concat "\n" (List.map (eachCanonicalForm values numberOfDeconstructors) signatureTypes)
+          (List.map (eachCanonicalForm values numberOfDeconstructors) signatureTypes)
 
 
 

@@ -1,4 +1,4 @@
-ocamlfind ocamlc -package batteries -linkpkg aux.ml type_system.ml terms.ml values.ml nonvalues.ml eitherLemma.ml canonicalForms.ml contextualRules.ml progress.ml preservationTests.ml preservation.ml generateLambdaProlog.ml calculi.ml
+ocamlfind ocamlc -package batteries -linkpkg aux.ml type_system.ml proof.ml terms.ml values.ml nonvalues.ml eitherLemma.ml canonicalForms.ml contextualRules.ml progress.ml preservationTests.ml preservation.ml generateLambdaProlog.ml calculi.ml
 
 #use "topfind";;
 #require "batteries";;
@@ -6,7 +6,8 @@ open Batteries;;
 #load "unix.cma";;
 
 #load  "aux.cmo";;
-#load "type_system.cmo" ;;
+#load  "type_system.cmo" ;;
+#load  "proof.cmo" ;;
 #load  "terms.cmo";;
 #load  "values.cmo";;
 #load  "nonvalues.cmo";;
@@ -21,6 +22,7 @@ open Batteries;;
 
 open Aux;;
 open Type_system;;
+open Proof;;
 open Terms;;
 open Values;;
 open Nonvalues;;
@@ -33,15 +35,28 @@ open Preservation;;
 open GenerateLambdaProlog;;
 open Calculi;;
 
-let ts = generateNonValues (generateTermPred (generateValues systemF));;
+let ts = generateNonValues (generateTermPred (generateValues systemF_CBN));;
 let ts = addContextualRules ts;;
 print_string (generateModule ts);;
 print_string (generateSignature ts);;
-print_string (generateEitherLemma ts);;
-print_string (generateCanonicalFormsLemma ts);;
-print_string (generateProgressLemmas ts);;
-print_string (generateProgressTheorem ts);;
-print_string (generatePreservationTheorem ts);;
+print_string (generateTheorem (generateEitherLemma ts));;
+print_string (generateTheoremS (generateCanonicalFormsLemma ts));;
+print_string progressDefinition;;
+print_string (generateTheoremS (generateProgressLemmas ts));;
+print_string (generateTheorem (generateProgressTheorem ts));;
+print_string (generateTheorem (generatePreservationTheorem ts));;
 print_string (generateTestModule ts);;
 print_string (runPreservationTests ts);;
 
+let ts = generateNonValues (generateTermPred (generateValues systemF_CBV));;
+let ts = addContextualRules ts;;
+print_string (generateModule ts);;
+print_string (generateSignature ts);;
+print_string (generateTheorem (generateEitherLemma ts));;
+print_string (generateTheoremS (generateCanonicalFormsLemma ts));;
+print_string progressDefinition;;
+print_string (generateTheoremS (generateProgressLemmas ts));;
+print_string (generateTheorem (generateProgressTheorem ts));;
+print_string (generateTheorem (generatePreservationTheorem ts));;
+print_string (generateTestModule ts);;
+print_string (runPreservationTests ts);;

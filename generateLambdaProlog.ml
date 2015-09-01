@@ -3,6 +3,7 @@ open Batteries
 open Type_system
 open Aux
 open Terms
+open Proof
 open PreservationTests
 open Unix
 
@@ -17,7 +18,7 @@ let generateTypeEntry signatureEntry = match signatureEntry with DeclType(c,kind
 let displayArguments = if List.length arguments = 0 then "" else (String.concat " -> " (List.map generateTypeExpr arguments)) ^ " -> " in
 "type " ^ c ^ " " ^ displayArguments ^ "typ."
 
-let generateTermEntry signatureEntry = match signatureEntry with DeclTrm(c,kind,arguments) ->
+let generateTermEntry signatureEntry = match signatureEntry with DeclTrm(c,kind,ctx,arguments) ->
 let displayArguments = if List.length arguments = 0 then "" else (String.concat " -> " (List.map generateTypeExpr arguments)) ^ " -> " in
 "type " ^ c ^ " " ^ displayArguments ^ "term."
 
@@ -63,6 +64,31 @@ let generateTestDefinitions rule = match rule with Rule(name,premises,conclusion
 let generateTestModule ts = let testRules = rulesForPreservationTests ts in 
          let generateTestQuery = fun rule -> match rule with Rule(name,premises,conclusion) -> "Query test_" ^ name ^ ".\n\n"in 
          (String.concat "\n" (List.map generateTestDefinitions testRules)) ^ "\n" ^ (String.concat "\n" (List.map generateTestQuery testRules))
+
+let rec generateTactic tactic = match tactic with 
+ | Intros(hyps) -> "intros " ^ (String.concat " " hyps) ^ "."
+ | Case(hyp) -> "case " ^ hyp ^ "."
+ | CaseKeep(hyp) -> "case " ^ hyp ^ "(keep)."
+ | Induction(n) -> "induction on " ^ (string_of_int n) ^ "."
+ | Backchain(lemma, name) -> "backchain " ^ lemma ^ "_" ^ name ^ "."
+ | Apply(lemma,hyps) -> "apply " ^ lemma ^ " to " ^ (String.concat " " hyps) ^ "."
+ | Assert(formula) -> "assert (" ^ formula ^ ")."
+ | Inst(hyp, term) -> "inst " ^ hyp ^ " with n1 = " ^ term ^ "."
+ | InstAndCut(hyp1,term,hyp2) -> generateTactic (Named("ToCut", Inst(hyp1, term))) ^ " cut ToCut with " ^ hyp2 ^ "." 
+ | Search -> "search."
+ | Named(hyp,tactic) -> hyp ^ " : " ^ generateTactic tactic
+
+ let rec generateProof proof = match proof with 
+| Qed -> ""
+| Tactic(tactic) -> generateTactic tactic
+| Seq(proofs) -> String.concat " " (List.map generateProof proofs) ^ "\n"
+| Repeat(n, hyp, pr) -> generateProof (ForEach((getFormalVariables hyp n), pr))
+| ForEach(hyps, pr) -> String.concat " " (List.map generateProof (List.map (substituteXinProof pr) hyps))
+| RepeatPlain(n, pr) ->   String.concat " " (Array.to_list (Array.make n (generateProof pr)))
+
+let rec generateTheorem theorem = match theorem with Theorem(statement, proof) -> statement ^ "\n" ^ generateProof proof
+let rec generateTheoremS theorems = String.concat "\n\n" (List.map generateTheorem theorems)
+
 
 let runPreservationTests dummy = let () = chdir "generated" in let output = callAbella "abella ./mycalculusTests.thm" in let () = chdir "../" in
          let extractNameOfRule = fun line -> let n = String.length "Abella < Query test_" in String.rchop (String.sub line n ((String.length line) - n)) in 

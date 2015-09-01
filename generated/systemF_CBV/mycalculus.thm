@@ -1,0 +1,101 @@
+Specification "mycalculus".
+
+Theorem eitherValueOrNot : forall E, {termPred E} -> {value E} \/ {nonvalue E}.
+induction on 1. intros Main. TermPred1 : case Main.
+  search. 
+  search. 
+  search. 
+  search. 
+ Tmp : apply IH to TermPred1. case Tmp.
+ Tmp : apply IH to TermPred2. case Tmp.
+ search. search. search.
+ Tmp : apply IH to TermPred1. case Tmp.
+ Tmp : apply IH to TermPred2. case Tmp.
+ Tmp : apply IH to TermPred3. case Tmp.
+ search. search. search. search.
+ Tmp : apply IH to TermPred1. case Tmp.
+ search. search.
+
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> exists R', E = abs R'.
+intros Main Value. case Main.
+ search.
+ case Value. case Value. case Value.
+
+
+
+Theorem  canonical_form_bool : forall E , {typeOf E (bool )} -> {value E} -> E = tt  \/ E = ff .
+intros Main Value. case Main.
+ search. search.
+ case Value. case Value. case Value.
+
+
+
+Theorem  canonical_form_all : forall E T1, {typeOf E (all T1)} -> {value E} -> exists R2', E = absT R2'.
+intros Main Value. case Main.
+ search.
+ case Value. case Value. case Value.
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_tt : forall T, {typeOf (tt) T} -> progresses (tt).
+intros Main . case Main. 
+ search.
+
+
+Theorem progress_ff : forall T, {typeOf (ff) T} -> progresses (ff).
+intros Main . case Main. 
+ search.
+
+
+Theorem progress_absT : forall R2 T, {typeOf (absT R2) T} -> progresses (absT R2).
+intros Main  R2. case Main. 
+ search.
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses E2 -> progresses (app E1 E2).
+intros Main  E1 E2. case Main. case E1. case E2.
+ Canonical : assert (exists ARG1, E1 = abs ARG1). backchain canonical_form_arrow. case Canonical. search. search. search.
+
+
+
+Theorem progress_if : forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 -> progresses E2 -> progresses E3 -> progresses (if E1 E2 E3).
+intros Main  E1 E2 E3. case Main. case E1. case E2. case E3.
+ Canonical : assert (E1 = tt  \/ E1 = ff ). backchain canonical_form_bool. case Canonical. search. search. search. search. search.
+
+
+
+Theorem progress_appT : forall E X T, {typeOf (appT E X) T} -> progresses E -> progresses (appT E X).
+intros Main  E X. case Main. case E.
+ Canonical : assert (exists ARG1, E = absT ARG1). backchain canonical_form_all. case Canonical. search. search.
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. E1 : case Main.
+search. search. search. search. apply IH to E1.
+ apply IH to E2.
+ backchain progress_app.
+ apply IH to E1.
+ apply IH to E2.
+ apply IH to E3.
+ backchain progress_if.
+ apply IH to E1.
+ backchain progress_appT.
+
+
+Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
+induction on 1. intros Main TypeOf. Step : case Main.
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1. ToCut : inst Arg2_1 with n1 = APPLIED. cut ToCut with Arg1_2. search.
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1.  search.
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1.  search.
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1. inst Arg2_1 with n1 = X. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf3. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.

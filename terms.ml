@@ -7,7 +7,7 @@ let termPredicate = "termPred"
 
 let toTermPredFormula term = Formula(termPredicate, [term], [])
 
-let toTermPred_byDecl signatureEntry = match signatureEntry with DeclTrm(c,kind,arguments) -> 
+let toTermPred_byDecl signatureEntry = match signatureEntry with DeclTrm(c,kind,ctx, arguments) -> 
                            let (terms, abstractions, theRest) = getTermsAndTheRest arguments in 
 			    Rule(termPredicate^"_"^c, (List.map toTermPredFormula terms), toTermPredFormula (Constructor(c, terms @ abstractions @ theRest)))
 	  

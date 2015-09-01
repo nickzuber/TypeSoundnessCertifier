@@ -16,6 +16,8 @@ let repeat string n =
 
 let stringReplace input output =
     Str.global_replace (Str.regexp_string input) output;;
+	
+let decrement n = n-1
 
 let callAbella command =
   let lines = ref [] in

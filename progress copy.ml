@@ -18,7 +18,7 @@ let appealToCanonicalForm progressingArguments argToInstanciate c signatureTypes
          let typeBeingDestructed =  destructedTypeBy c signatureTypes in 
          let arguments = fun term -> String.concat " " (List.map toString (getArgumentsOfConstructor term)) in 
          let transformation = fun term -> if (getArgumentsOfConstructor term) = [] then argToInstanciate ^ " = " ^ (toString term) else "exists " ^ (arguments term) ^ ", " ^ argToInstanciate ^ " = " ^ (toString term) in
-		  [Tactic(Named("Canonical", Assert(String.concat " \\/ " (List.map transformation terms)))) ; Tactic(Backchain("canonical_form", typeBeingDestructed)) ; Tactic(Case("Canonical")) ; RepeatPlain(List.length terms, Tactic(Search))]
+		  appendProof (createSeq [Named("Canonical", Assert(String.concat " \\/ " (List.map transformation terms))) ; Backchain("canonical_form", typeBeingDestructed) ; Case("Canonical")]) (RepeatPlain(List.length terms, Tactic(Search)))
 
 let progressLemmasForEachConstructor signatureTypes signatureTerms term = 
          let extract = fun arguments -> fun n -> List.nth arguments n in
@@ -36,7 +36,7 @@ let progressLemmasForEachConstructor signatureTypes signatureTerms term =
          let searches = (fun name -> "search.") in
          let preamble = Seq([Tactic(Intros(["Main" ; arguments])) ; Tactic(Case("Main")) ; ForEach(progressingArguments, Tactic(Case("x")))])  in 
          let proof = if (isTypeConstructor signatureTypes constructor) then RepeatPlain((List.length progressingArguments) + 1, Tactic(Search)) (* I had to add one more search *)
-                           else Seq((appealToCanonicalForm progressingArguments (List.hd argumentsAsList) constructor signatureTypes signatureTerms (destructedTermsBy signatureTypes constructor)) @ [(RepeatPlain((List.length progressingArguments), Tactic(Search)))]) in 
+                           else Seq(appealToCanonicalForm progressingArguments (List.hd argumentsAsList) constructor signatureTypes signatureTerms (destructedTermsBy signatureTypes constructor)) @ [(RepeatPlain((List.length progressingArguments), Tactic(Search)))] in 
                   Theorem(theorem, Seq([preamble ; proof]))
 
 (* returns progressDef, (theorem, proof) list *)
