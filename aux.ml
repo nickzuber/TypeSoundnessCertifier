@@ -9,13 +9,20 @@ let getFormalVariables prefix n = if n = 0 then [] else
     let getVars = (fun n -> (prefix^(string_of_int n))) in
     List.map getVars numbers 
 
-let repeat string n =
+let repeat obj n = if n = 0 then [] else 
     let numbers = (range 1 n) in
-    let getRepeat = (fun n -> string) in
+    let getRepeat = (fun n -> obj) in
     List.map getRepeat numbers 
+
+let nthMinusOne myList n = 
+	List.nth myList (n-1) 
 
 let stringReplace input output =
     Str.global_replace (Str.regexp_string input) output;;
+
+let find obj myList = 
+	let getIndex = fun obj1 -> fun index -> fun obj2 -> if obj1 = obj2 then index+1 else 0 in 
+		List.fold_left max 0 (List.mapi (getIndex obj) myList)
 	
 let decrement n = n-1
 
@@ -31,3 +38,6 @@ let callAbella command =
       ignore (Unix.close_process_in in_channel)
   end;
   List.rev !lines
+  
+let withSpaces = String.concat " "
+

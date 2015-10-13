@@ -2,27 +2,9 @@
 open Batteries
 open Aux
 open Type_system
-open Terms
-
-(*
-let rec retrieveApplications term signatureTerms conclusionTerm = match term with Constructor(name, arguments) -> 
-         let abstractionsNum = getNumberOfAbstractionsByConstr name signatureTerms in
-         let abstractions = List.take abstractionsNum (getArgumentsOfConstructor term) in 
-         let getAssociations = fun abstraction -> (abstraction, getAppliedTermsFor abstraction conclusionTerm) in
-         let firstAbstractions = List.map getAssociations abstractions in
-         let nestedArgumentsNonAbstraction = List.drop abstractionsNum (getArgumentsOfConstructor term) in
-         let nestedAbstractions = List.map getAssociations nestedArgumentsNonAbstraction in
-          firstAbstractions @ nestedAbstractions 
-*)
-
-
-let rec retrieveApplications term = match term with 
-		  | Var(name) -> []
-		  | Constructor(name, arguments) -> List.concat (List.map retrieveApplications arguments)
-		  | Application(term1, term2) -> [(term1, term2)]
 
 let addOutputFromTypingRule typingRule formula = match formula with Formula(pred, inputs, outputs) ->
-         let finaltype = getTermInOutput (getConclusion typingRule) in
+         let finaltype = rule_getInputTerm typingRule in
           Formula(pred, inputs, [finaltype])
 
 let outputBecomesInput formula = match formula with Formula(pred, inputs, outputs) -> Formula(pred, outputs, [])
@@ -30,8 +12,7 @@ let outputBecomesInput formula = match formula with Formula(pred, inputs, output
 let sameapplication applicationsInConclusion term1 term2 = match (term1, term2) with 
 	| (Application(var1, sameTerm1), Application(var2, sameTerm2)) -> if toString sameTerm1 = toString sameTerm2 then (try [var2, (List.assoc var1 applicationsInConclusion)] with Not_found -> [var1, (List.assoc var2 applicationsInConclusion)]) else []
 	| _ -> []							
-								
-
+	
 let rec substitutionsTerm associations applicationsInConclusion term = match term with
          | Var(variable) -> (try (List.assoc (Var(variable)) associations) with Not_found -> (Var(variable)))
          | Application(term1,term2) ->  
@@ -49,25 +30,23 @@ let substitutionsFormula associations applicationsInConclusion formula = match f
 
 
 let flattenTheDoubleApplication signatureTerms typingRules rule = match rule with Rule(name,premises,conclusion) ->
-         let term = (getTermInInput conclusion) in 
-         let constructor = getConstructor term in 
-         let nestedTerm = (List.hd (getArgumentsOfConstructor term)) in 
-         let nestedConstructor = getConstructor nestedTerm in 
-         let applicationsInConclusion = retrieveApplications (getTermInOutput conclusion) in
-         let [typingRuleForTerm] = lookupRuleByConstructor constructor typingRules in 
-         let associationsForTerm = List.combine (getArgumentsOfConstructor (getTermInInput (getConclusion typingRuleForTerm))) (getArgumentsOfConstructor term) in
-         let newPremisesTerm = List.map (substitutionsFormula associationsForTerm applicationsInConclusion) (getPremises typingRuleForTerm) in
-         let [typingRuleForNested] = lookupRuleByConstructor nestedConstructor typingRules in 
-         let associationsForNested = List.combine (getArgumentsOfConstructor (getTermInInput (getConclusion typingRuleForNested))) (getArgumentsOfConstructor nestedTerm) in
-         let newPremisesNested = List.map (substitutionsFormula associationsForNested applicationsInConclusion) (getPremises typingRuleForNested) in
-         let newConclusion = addOutputFromTypingRule typingRuleForTerm (outputBecomesInput (turnFormulaTo "typeOf" conclusion)) in
+         let Constructor(constructor,arguments) = rule_getInputTerm rule in 
+         let Constructor(nestedConstructor, nestedArguments) = List.hd arguments in 
+         let applicationsInConclusion = retrieveApplications (rule_getInputTerm rule) in
+         let typingRuleForTerm = rule_seekTypeOf constructor typingRules in 
+         let associationsForTerm = match rule_getInputTerm typingRuleForTerm with Constructor(constructor2,argumentsTyping) -> List.combine argumentsTyping arguments in
+         let newPremisesTerm = List.map (substitutionsFormula associationsForTerm applicationsInConclusion) (rule_getPremises typingRuleForTerm) in
+         let typingRuleForNested = rule_seekTypeOf nestedConstructor typingRules in 
+         let associationsForNested = match rule_getInputTerm typingRuleForNested with Constructor(constructor3,argumentsTypingNested) -> List.combine argumentsTypingNested nestedArguments in
+         let newPremisesNested = List.map (substitutionsFormula associationsForNested applicationsInConclusion) (rule_getPremises typingRuleForNested) in
+         let newConclusion = addOutputFromTypingRule typingRuleForTerm (outputBecomesInput (rule_turnFormulaTo "typeOf" conclusion)) in
          let testRule = Rule(name, newPremisesTerm @ newPremisesNested, newConclusion) in
           testRule
 
 		  (* reduction rules are all the step rules minus context rules. They come first.  *)
 let rulesForPreservationTests ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-         let typingRules = (List.filter onlyTypingRules rules) in 
-         let reductionRules = List.take ((List.length (List.filter onlyStepRules rules)) - (List.length (List.filter onlyContextRules rules))) (List.filter onlyStepRules rules) in 
+         let typingRules = (List.filter rule_onlyTypingRules rules) in 
+         let reductionRules = List.take ((List.length (List.filter rule_onlyStepRules rules)) - (List.length (List.filter rule_onlyContextRules rules))) (List.filter rule_onlyStepRules rules) in 
          let testsAsRules = List.map (flattenTheDoubleApplication signatureTerms typingRules) reductionRules
           in testsAsRules
 

@@ -1,36 +1,39 @@
 
 open Batteries
-open Type_system
 open Aux
-open Terms
+open Type_system
 open Proof
 open PreservationTests
-open Unix
 
-let generateSigPreamble = "sig mycalculus.\n\nkind typ, term type.\n\n"
-let generateModPreamble = "module mycalculus.\n\n"
+let generateSigPreamble tsName = "sig " ^ tsName ^ ".\n\nkind typ, term type.\n\n"
+let generateModPreamble tsName = "module " ^ tsName ^ ".\n\n"
+let generateThmPreamble tsName = "Specification \"" ^ tsName ^ "\".\n\n"
 
 let generateTypeExpr te = match te with 
          | Simple(typ) -> typ 
          | Abstraction(typ1,typ2) -> "(" ^ typ1 ^ " -> " ^ typ2 ^ ")"
 
-let generateTypeEntry signatureEntry = match signatureEntry with DeclType(c,kind,constructors,deconstructors,arguments) ->
+let generateTypeEntry signatureEntry = match signatureEntry with DeclType(c,arguments) ->
 let displayArguments = if List.length arguments = 0 then "" else (String.concat " -> " (List.map generateTypeExpr arguments)) ^ " -> " in
 "type " ^ c ^ " " ^ displayArguments ^ "typ."
 
-let generateTermEntry signatureEntry = match signatureEntry with DeclTrm(c,kind,ctx,arguments) ->
+let generateTermEntry signatureEntry = match signatureEntry with DeclTrm(c,info,ctx,arguments) ->
 let displayArguments = if List.length arguments = 0 then "" else (String.concat " -> " (List.map generateTypeExpr arguments)) ^ " -> " in
 "type " ^ c ^ " " ^ displayArguments ^ "term."
 
 let extraSigForPredicates =
-"type termPred term  -> o.\n
-type value term -> o.\n
-type nonvalue term -> o.\n\n
+"type value term -> o.\n
+type error term -> o.\n\n
 type typeOf term -> typ -> o.\n
 type step term -> term -> o.\n"
 
-let generateSignature ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-generateSigPreamble ^ (String.concat "\n" (List.map generateTypeEntry signatureTypes)) ^ "\n" ^ (String.concat "\n" (List.map generateTermEntry signatureTerms))  ^ "\n\n" ^ extraSigForPredicates
+(*
+type nonvalue term -> o.\n\n
+type termPred term  -> o.\n
+*)
+
+let generateSignature tsName ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
+generateSigPreamble tsName ^ (String.concat "\n" (List.map generateTypeEntry signatureTypes)) ^ "\n" ^ (String.concat "\n" (List.map generateTermEntry signatureTerms))  ^ "\n\n" ^ extraSigForPredicates
 
 let rec generateTerm term = match term with
          | Var(variable) -> variable
@@ -50,16 +53,15 @@ let generateRule rule = match rule with Rule(name,premises,conclusion) ->
          let pr = if prePremises = [] then "" else " :- " ^ (String.concat ", " prePremises) in 
            (generateFormula conclusion) ^ pr ^ ".\n"
 
-let generateModule ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> generateModPreamble ^ (String.concat "\n" (List.map generateRule rules))
+let generateModule tsName ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> generateModPreamble tsName ^ (String.concat "\n" (List.map generateRule rules))
 
 let generateTestDefinitions rule = match rule with Rule(name,premises,conclusion) ->
-         let allVariables_ = (getAllVariables rule) in 
-         let forallPreamble = if allVariables_ = [] then "" else "forall " ^ (String.concat " " (List.unique (List.map toString (getAllVariables rule)))) ^ ", " in 
+         let allVariables_ = (rule_getAllVariables rule) in 
+         let forallPreamble = if allVariables_ = [] then "" else "forall " ^ (String.concat " " (List.unique (List.map toString (rule_getAllVariables rule)))) ^ ", " in 
          let testname = "test_" ^ name in 
          let displayedPremises = (List.map generateFormula premises) in
          let wrappedInBrackets = fun formula -> "{" ^ formula ^ "}" in
           "Define " ^ testname ^ " : prop by\n   " ^ testname ^ " := " ^ forallPreamble ^ String.concat " -> " (List.map wrappedInBrackets displayedPremises) ^ " -> " ^ wrappedInBrackets (generateFormula conclusion) ^ ".\n\n"
-
 
 let generateTestModule ts = let testRules = rulesForPreservationTests ts in 
          let generateTestQuery = fun rule -> match rule with Rule(name,premises,conclusion) -> "Query test_" ^ name ^ ".\n\n"in 
@@ -89,13 +91,3 @@ let rec generateTactic tactic = match tactic with
 let rec generateTheorem theorem = match theorem with Theorem(statement, proof) -> statement ^ "\n" ^ generateProof proof
 let rec generateTheoremS theorems = String.concat "\n\n" (List.map generateTheorem theorems)
 
-
-let runPreservationTests dummy = let () = chdir "generated" in let output = callAbella "abella ./mycalculusTests.thm" in let () = chdir "../" in
-         let extractNameOfRule = fun line -> let n = String.length "Abella < Query test_" in String.rchop (String.sub line n ((String.length line) - n)) in 
-         let spotNoSolution = fun output -> fun i -> fun line -> let ok = "ok" in  
-          if String.exists line "No more" then if String.exists (List.at output (i-1)) "Query" then extractNameOfRule (List.at output (i-1)) else ok else ok in
-         let okLinesGoAway = fun line -> if line = "ok" then false else true in 
-         let output2 = output in
-         let errorsWithOkLines = List.mapi (spotNoSolution output2) output in 
-         let failingRules = List.filter okLinesGoAway errorsWithOkLines in 
-          if failingRules = [] then "Type Preservation: Succesfully checked! All the reductions rules preserve types.\n" else "Type Preservation: Failed. The following reductions rules do not preserve types: " ^ String.concat ", " failingRules ^ "\n"

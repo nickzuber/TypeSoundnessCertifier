@@ -1,4 +1,4 @@
-ocamlfind ocamlc -package batteries -linkpkg aux.ml type_system.ml proof.ml terms.ml values.ml nonvalues.ml eitherLemma.ml canonicalForms.ml contextualRules.ml progress.ml preservationTests.ml preservation.ml generateLambdaProlog.ml calculi.ml
+ocamlfind ocamlc -package batteries -linkpkg aux.ml type_system.ml proof.ml values.ml errors.ml canonicalForms.ml contextualRules.ml errorContexts.ml progress.ml preservationTests.ml preservation.ml generateLambdaProlog.ml calculi.ml test.ml
 
 #use "topfind";;
 #require "batteries";;
@@ -8,40 +8,41 @@ open Batteries;;
 #load  "aux.cmo";;
 #load  "type_system.cmo" ;;
 #load  "proof.cmo" ;;
-#load  "terms.cmo";;
 #load  "values.cmo";;
-#load  "nonvalues.cmo";;
-#load  "eitherLemma.cmo";;
-#load  "canonicalForms.cmo";;
+#load  "errors.cmo";;
 #load  "contextualRules.cmo";;
+#load  "errorContexts.cmo";;
+#load  "canonicalForms.cmo";;
 #load  "progress.cmo";;
 #load  "preservationTests.cmo";;
 #load  "preservation.cmo";;
 #load  "generateLambdaProlog.cmo";;
 #load  "calculi.cmo";;
+#load  "test.cmo";;
 
 open Aux;;
 open Type_system;;
 open Proof;;
-open Terms;;
 open Values;;
-open Nonvalues;;
-open EitherLemma;;
-open CanonicalForms;;
+open Errors;;
 open ContextualRules;;
+open ErrorContexts;;
+open CanonicalForms;;
 open Progress;;
 open PreservationTests;;
 open Preservation;;
 open GenerateLambdaProlog;;
 open Calculi;;
+open Test;;
 
-let ts = generateNonValues (generateTermPred (generateValues systemF_CBN));;
-let ts = addContextualRules ts;;
+	let tsWithValues = (generateValues stlc_lists);;
+	let tsWithErrors = (generateErrors tsWithValues) ;;
+	let tsWithContexts = (generateContextualRules tsWithErrors) ;;
+	let ts = (generateErrorContexts tsWithContexts) ;;
 print_string (generateModule ts);;
 print_string (generateSignature ts);;
-print_string (generateTheorem (generateEitherLemma ts));;
 print_string (generateTheoremS (generateCanonicalFormsLemma ts));;
-print_string progressDefinition;;
+print_string (progressDefinition ts);;
 print_string (generateTheoremS (generateProgressLemmas ts));;
 print_string (generateTheorem (generateProgressTheorem ts));;
 print_string (generateTheorem (generatePreservationTheorem ts));;

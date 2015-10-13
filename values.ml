@@ -1,24 +1,25 @@
 
+open Batteries
 open Type_system
 open Aux
 
-let toValuePremises var = Formula("value", [var], [])
+let toValuePremise term = Formula("value", [term], [])
 
-let toValueDefs_byTermDecl signatureEntry = match signatureEntry with DeclTrm(c,kind, ctx, arguments) ->
-                            let (terms, abstractions, theRest) = getTermsAndTheRest arguments in 
-							let howmany = (match ctx with 
-							| Sequential -> Aux.range 0 ((List.length terms) - 1)
-							| Contextual(args) -> List.map Aux.decrement args) in 
-							let valArguments = (List.map (List.nth terms) howmany) in
-                            Rule("value_"^c, (List.map toValuePremises valArguments), Formula("value", [Constructor(c, terms @ abstractions @ theRest)], []))
+let toValueDefinitionsByCTX termDecl ctx_entry = 
+	let (canonical, vars) = (canonicalForTerm termDecl) in
+	let c = termDelc_getOperator termDecl in
+	let rulename = "value_"^c in
+	match ctx_entry with 
+		| None -> Rule(rulename, [], toValuePremise canonical)
+		| Some (index, positions) -> let valueVars = List.map (nthMinusOne vars) (index::positions) in Rule(rulename, List.map toValuePremise valueVars, toValuePremise canonical) 
 
-let rec findDeclOfConstructors signatureTerms constructor = match signatureTerms with DeclTrm(c, kind, ctx, arguments)::rest -> if c = constructor then DeclTrm(c,kind,ctx,arguments) else findDeclOfConstructors rest constructor
+	(* let sd = (List.map print_int (index::positions)) in Rule(rulename, [], toValuePremise canonical) *)
+	
+let generateValues ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> 
+	let toValueDefinitions termDecl = 
+		(match termDecl with DeclTrm(c, info, ctx, arguments) -> 
+		 match ctx with Contextual(ctx_entries) -> if ctx_entries == [] then toValueDefinitionsByCTX termDecl None else toValueDefinitionsByCTX termDecl (Some (List.last ctx_entries))) in 
+	 Type_system.extend ts (List.map toValueDefinitions (getConstructors signatureTerms))
 
-let toValueDefs_byDecl signatureTerms decl = match decl with 
-   | DeclType(c,kind,constructors,deconstructors,arguments) -> List.map toValueDefs_byTermDecl (List.map (findDeclOfConstructors signatureTerms) constructors)
-
-let toValueDefs ts =  match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> List.concat (List.map (toValueDefs_byDecl signatureTerms) signatureTypes)
-
-let generateValues ts = Type_system.extend ts (toValueDefs ts)
-
-
+	 (* Values generation: only constructors. We also look if we allow reductions on such constructors. 
+	 So, we take the last entry of ctx. Assuming it contains the 'greatest' info *)

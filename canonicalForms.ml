@@ -1,31 +1,33 @@
 
 open Type_system
 open Aux
-open Terms
 open Proof
 
-let eachCanonicalForm values numberOfDeconstructors signatureEntry = match signatureEntry with DeclType(c,kind,constructors,deconstructors,arguments) ->
-         let termConstructors = List.map getTermInInput (List.map getConclusion (List.filter (onlyRulesOfOutput c) values)) in 
-         let newVars = (Aux.getFormalVariables "T" (List.length arguments)) in
-         let universalQuantificationOnArguments = "forall E " ^ String.concat " " newVars ^ ", " in
-         let formalOfType = "(" ^ c ^ " " ^ String.concat " " newVars ^ ")" in
-         let existentialQuantificationOnArguments =  fun termConstructor -> let aa = (List.map toStringWith' (getArgumentsOfConstructor termConstructor)) in if aa = [] then "E = " ^ (toStringWith' termConstructor) else "exists " ^ String.concat " " aa ^ ", E = " ^ (toStringWith' termConstructor) in 
-         let theorem =  "Theorem " ^ " canonical_form_" ^ c ^ " : " ^ universalQuantificationOnArguments ^ "{typeOf E " ^ formalOfType ^ "} -> {value E} -> " ^ String.concat " \\/ " (List.map existentialQuantificationOnArguments termConstructors) ^ "." in
+let eachCanonicalForm signatureTerms typeDecl = match typeDecl with DeclType(c,arguments) ->
+         let constructorsOfc = (getConstructorsByOp c signatureTerms) in   
+         let (canonical, newVars) = canonicalForType typeDecl in 
+		 let newVarsInString = List.map toString newVars in
+         let theorem = "Theorem " ^ " canonical_form_" ^ c ^ " : " ^ universalQuantification ("E"::newVarsInString) ^ "{typeOf E " ^ (toString canonical) ^ "} -> {value E} -> " ^ String.concat " \\/ " (List.map (existentiallyClosedEquation "E") constructorsOfc ) ^ "." in
          let preamble = createSeq([Intros(["Main" ; "Value"]) ; Case("Main")]) in
-         let proof = Seq([RepeatPlain(List.length termConstructors, Tactic(Search))]) in
-         let dismissedCases = Seq([RepeatPlain(numberOfDeconstructors, Tactic(Case("Value")))]) in 
-          Theorem(theorem, Seq([preamble ; proof ; dismissedCases]))
+		 let proofConstructorsOfc = Seq(repeat (Tactic(Search)) (List.length constructorsOfc)) in 
+		 let proofNonResults = Seq(repeat (Tactic(Case("Value"))) (List.length (getNonResults signatureTerms))) in 
+		 let proofErrors = Seq(repeat (Tactic(Case("Value"))) (List.length (getErrors signatureTerms))) in 
+          Theorem(theorem, Seq([preamble ; proofConstructorsOfc ; proofNonResults ; proofErrors]))
 
-(* this function below returns a list of Theorem(theorem,proof) *)
+			       (* this function below returns a list of Theorem(theorem,proof) *)
 let generateCanonicalFormsLemma ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-         let values = List.filter (onlyTypingRulesOfValues signatureTypes) rules in
-         let numberOfDeconstructors = List.length (getDeConstructorFromTypeSignature signatureTypes) in
-          (List.map (eachCanonicalForm values numberOfDeconstructors) signatureTypes)
+          (List.map (eachCanonicalForm signatureTerms) signatureTypes)
 
 
-
-(*          match rule with Rule(name,premises,conclusion) ->
-	    let subproofByValue = (fun constructorToProve -> if constructorToProve == constructor then "search.\n" else "case H1\n.") in 
-         let mainproof = String.concat " " (List.map subproofByValue (List.map getConstructorInInput (List.map getConclusion values))) in 
-*)
-
+(*
+		  Algorithm:
+		  	for all types T, generate the canonical form theorem for T. that is for all e of type T and value e, the it is the OR of the constructor. 
+		  	Proof: 	for all constructors of T: search.
+		  		   	for all deconstructors, "case Value." for contradiction. 
+*) 
+		  
+(* 
+         let proof = Seq([RepeatPlain(List.length constructorsOfc, Tactic(Search))]) in
+         let dismissedCases = Seq([RepeatPlain(numberOfNonResults, Tactic(Case("Value")))]) in 
+		  
+		  needed. getConstructors getDestructors only *)		  
