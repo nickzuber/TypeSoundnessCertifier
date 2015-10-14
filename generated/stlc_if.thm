@@ -61,7 +61,6 @@ induction on 1. intros Main TypeOf. Step : case Main.
  search.
 
  TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
  TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
  TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
  TypeOf1 : case TypeOf. apply IH to Step TypeOf3. search.

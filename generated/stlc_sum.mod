@@ -24,6 +24,4 @@ value (inr E1).
 
 step (app E1 E2) (app E1' E2) :- step E1 E1'.
 
-step (app E1 E2) (app E1 E2') :- step E2 E2', value E1.
-
 step (case E1 R2 R3) (case E1' R2 R3) :- step E1 E1'.

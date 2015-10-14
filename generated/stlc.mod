@@ -9,5 +9,3 @@ step (app (abs R T) EE) (R EE).
 value (abs R1 T2).
 
 step (app E1 E2) (app E1' E2) :- step E1 E1'.
-
-step (app E1 E2) (app E1 E2') :- step E2 E2', value E1.

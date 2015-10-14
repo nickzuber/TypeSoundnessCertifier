@@ -24,14 +24,10 @@ error (raise E1).
 
 step (app E1 E2) (app E1' E2) :- step E1 E1'.
 
-step (app E1 E2) (app E1 E2') :- step E2 E2', value E1.
-
 step (try E1 E2) (try E1' E2) :- step E1 E1'.
 
 step (raise E1) (raise E1') :- step E1 E1'.
 
 step (app E1 E2) E1 :- error E1.
-
-step (app E1 E2) E2 :- error E2.
 
 step (raise E1) E1 :- error E1.

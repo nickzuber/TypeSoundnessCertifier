@@ -34,8 +34,6 @@ value (tuple5 E1 E2 E3 E4 E5).
 
 step (app E1 E2) (app E1' E2) :- step E1 E1'.
 
-step (app E1 E2) (app E1 E2') :- step E2 E2', value E1.
-
 step (select1 E1) (select1 E1') :- step E1 E1'.
 
 step (select2 E1) (select2 E1') :- step E1 E1'.
