@@ -8,6 +8,28 @@ let stlc = TypeSystem(
 		   		DeclType("arrow", [Simple("typ") ; Simple("typ")]) ; 
 				],
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term") ; Simple("typ") ]);
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
+	   			],
+	    [  Rule("abs",
+	          [Hypothetical(Var("T1"), Application(Var("R"), Var("x")), Var("T2"))],
+	          Formula("typeOf",     [Constructor( "abs", [Var("R") ; Var("T1")])],      [Constructor( "arrow", [(Var "T1") ; (Var "T2")])])) ;
+	       Rule("app",
+		    [Formula("typeOf", [Var("E1")], [Constructor( "arrow", [Var("T1") ; Var("T2")]) ]  ) ;
+		     Formula("typeOf", [Var("E2")] ,  [Var("T1")])
+		    ],
+		    Formula("typeOf", [Constructor( "app", [Var("E1") ; Var("E2")])], [Var("T2")]  )  ) ;
+	       Rule("beta",
+		    [],
+		    Formula("step",
+			    [Constructor( "app", [Constructor( "abs", [Var("R") ; Var("T")]) ; Var("EE")])],
+			    [Application(Var("R"), Var("EE"))]  )  ) ;				
+	      ])
+
+let stlc_parallel_red = TypeSystem(
+			   [
+		   		DeclType("arrow", [Simple("typ") ; Simple("typ")]) ; 
+				],
+				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term") ; Simple("typ") ]);
 					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
 	   			],
 	    [  Rule("abs",
@@ -25,7 +47,7 @@ let stlc = TypeSystem(
 			    [Application(Var("R"), Var("EE"))]  )  ) ;				
 	      ])
 
-
+		  (* stlc_add is not in the tested calculi now *)
 let stlc_add = TypeSystem(
 			   [
 		   		DeclType("arrow", [Simple("typ") ; Simple("typ")]) ;
@@ -81,7 +103,7 @@ let stlc_exc = TypeSystem(
 				],
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
 					DeclTrm("excValue", Constr "excType", Contextual [], []) ;
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("try", ErrorHandler, Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("raise", Error, Contextual [(1,[])], [Simple("term")]) ;					
 	   			],
@@ -127,7 +149,7 @@ let stlc_fix = TypeSystem(
 		   		DeclType("arrow", [Simple("typ") ; Simple("typ")]) ;
 				],
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("fix", Derived (Some "arrow"), Contextual [(1,[])], [Simple("term")]) ;
 	   			],
 	    [  Rule("abs",
@@ -162,7 +184,7 @@ let stlc_if = TypeSystem(
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
 					DeclTrm("tt", Constr "bool", Contextual [], []);
 					DeclTrm("ff", Constr "bool", Contextual [], []);
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("if", Destr "bool", Contextual [(1,[]) ; (2,[1]) ; (3,[1 ; 2])], [Simple("term") ; Simple("term") ; Simple("term")]);
 	   			],
 	    [  Rule("abs",
@@ -213,7 +235,7 @@ let stlc_inf = TypeSystem(
 		   		DeclType("arrow", [Simple("typ") ; Simple("typ")]) ; 
 				],
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 	   			],
 	    [  Rule("abs",
 	          [Hypothetical(Var("T1"), Application(Var("R"), Var("x")), Var("T2"))],
@@ -236,7 +258,7 @@ let stlc_let = TypeSystem(
 		   		DeclType("arrow", [Simple("typ") ; Simple("typ")]) ;
 				],
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("let", Derived None, Contextual [(1,[])], [Simple("term") ; Abstraction("term", "term")]) ;
 	   			],
 	    [  Rule("abs",
@@ -268,7 +290,7 @@ let stlc_letrec = TypeSystem(
 			   		DeclType("arrow", [Simple("typ") ; Simple("typ")]) ;
 					],
 					[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
-						DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+						DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 						DeclTrm("let", Derived None, Contextual [(1,[])], [Simple("term") ; Abstraction("term", "term")]) ;
 						DeclTrm("letrec", Derived None, Contextual [], [Abstraction("term", "term") ; Abstraction("term", "term")]) ;
 						DeclTrm("fix", Derived (Some "arrow"), Contextual [(1,[])], [Simple("term")]) ;
@@ -324,7 +346,7 @@ let stlc_lists = TypeSystem(
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
 					DeclTrm("emptyList", Constr "list", Contextual [], []);
 					DeclTrm("cons", Constr "list", Contextual [], [Simple("term"); Simple("term")]);
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("head", Destr "list", Contextual [(1,[])], [Simple("term")]) ;
 					DeclTrm("myError", Error , Contextual [], []) ;
 	   			],
@@ -376,7 +398,7 @@ let stlc_pairs = TypeSystem(
 				],
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
 					DeclTrm("pair", Constr "times", Contextual [], [Simple("term"); Simple("term")]);
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("fst", Destr "times", Contextual [(1,[])], [Simple("term")]) ;
 					DeclTrm("snd", Destr "times", Contextual [(1,[])], [Simple("term")]) ;
 	   			],
@@ -422,7 +444,7 @@ let stlc_sum = TypeSystem(
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term") ; Simple("typ") ]);
 					DeclTrm("inl", Constr "sum", Contextual [], [Simple("term")]) ;
 					DeclTrm("inr", Constr "sum", Contextual [], [Simple("term")]) ;
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("case", Destr "sum", Contextual [(1,[])], [Simple("term"); Abstraction("term", "term") ; Abstraction("term", "term")]) ;
 	   			],
 	    [  Rule("abs",
@@ -470,7 +492,7 @@ let stlc_tuples = TypeSystem(
 				],
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term")]);
 					DeclTrm("tuple5", Constr "times5", Contextual [], [Simple("term") ; Simple("term") ; Simple("term") ; Simple("term") ; Simple("term") ]);
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 					DeclTrm("select1", Destr "times5", Contextual [(1,[])], [Simple("term")]) ;
 					DeclTrm("select2", Destr "times5", Contextual [(1,[])], [Simple("term")]) ;
 					DeclTrm("select3", Destr "times5", Contextual [(1,[])], [Simple("term")]) ;
@@ -547,7 +569,7 @@ let stlc_unit = TypeSystem(
 				],
 				[   DeclTrm("abs", Constr "arrow", Contextual [], [Abstraction("term", "term") ; Simple("typ") ]);
 					DeclTrm("unit", Constr "unitType", Contextual [], []) ;
-					DeclTrm("app", Destr "arrow", Contextual [(1,[]) ; (2,[1])], [Simple("term"); Simple("term")]) ;
+					DeclTrm("app", Destr "arrow", Contextual [(1,[])], [Simple("term"); Simple("term")]) ;
 	   			],
 	    [  Rule("abs",
 	          [Hypothetical(Var("T1"), Application(Var("R"), Var("x")), Var("T2"))],

@@ -20,6 +20,7 @@ let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ (generateTheoremS
 
 let tsTable = [
 ("stlc" , stlc) ; 
+("stlc_parallel_red" , stlc_parallel_red) ; 
 ("stlc_exc" , stlc_exc) ; 
 ("stlc_fix" , stlc_fix) ; 
 ("stlc_if" , stlc_if) ; 
