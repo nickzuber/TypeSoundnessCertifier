@@ -1,0 +1,68 @@
+Specification "stlc_par_if".
+
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1, E = (abs Arg1)).
+intros Main Value. case Main.
+ search.
+ case Value. case Value.
+ 
+
+
+
+Theorem  canonical_form_bool : forall E, {typeOf E (bool )} -> {value E} -> E = (tt ) \/ E = (ff ).
+intros Main Value. case Main.
+ search. search.
+ case Value. case Value.
+ 
+
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_app : forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses (app E1 E2).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1, E1 = (abs Arg1))). backchain canonical_form_arrow. case Canonical. search. search.
+
+
+
+Theorem progress_if : forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 -> progresses (if E1 E2 E3).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert (E1 = (tt ) \/ E1 = (ff )). backchain canonical_form_bool. case Canonical. search. search. search.
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. E1 : case Main.
+search. search. search.
+ apply IH to E1. backchain progress_app.
+ apply IH to E1. backchain progress_if.
+
+ 
+
+
+
+Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
+induction on 1. intros Main TypeOf. Step : case Main.
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
+  
+ ToCut : inst Arg2_1 with n1 = EE. cut ToCut with Arg1_2.
+ search.
+
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
+   
+ 
+ search.
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
+   
+ 
+ search.
+
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf3. search.
+
