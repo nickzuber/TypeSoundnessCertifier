@@ -13,14 +13,16 @@ open Progress
 open PreservationTests
 open Preservation
 open GenerateLambdaProlog
-open Calculi
+open CalculiCBN
+open CalculiPAR
+open CalculiCBV
 
 let sep = "\n\n"
 let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ (generateTheoremS (generateCanonicalFormsLemma ts)) ^ sep ^ (progressDefinition ts) ^ sep ^ (generateTheoremS (generateProgressLemmas ts)) ^ sep ^ (generateTheorem (generateProgressTheorem ts)) ^ sep ^ (generateTheorem (generatePreservationTheorem ts))
 
 let tsTable = [
+(* CBN Calculi  *)
 ("stlc" , stlc) ; 
-("stlc_parallel_red" , stlc_parallel_red) ; 
 ("stlc_exc" , stlc_exc) ; 
 ("stlc_fix" , stlc_fix) ; 
 ("stlc_if" , stlc_if) ; 
@@ -32,6 +34,24 @@ let tsTable = [
 ("stlc_sum" , stlc_sum) ;
 ("stlc_tuples" , stlc_tuples) ;
 ("stlc_unit" , stlc_unit) ;
+("systemF" , systemF) ;
+("fullFledged" , fullFledged) ;
+(* Par Calculi (parallel reduction) *)
+("stlc_par" , stlc_par) ; 
+("stlc_par_exc" , stlc_par_exc) ; 
+("stlc_par_fix" , stlc_par_fix) ; 
+("stlc_par_if" , stlc_par_if) ; 
+("stlc_par_inf" , stlc_par_inf) ;
+("stlc_par_let" , stlc_par_let) ;
+("stlc_par_letrec" , stlc_par_letrec) ;
+("stlc_par_lists" , stlc_par_lists) ;
+("stlc_par_pairs" , stlc_par_pairs) ;
+("stlc_par_sum" , stlc_par_sum) ;
+("stlc_par_tuples" , stlc_par_tuples) ;
+("stlc_par_unit" , stlc_par_unit) ;
+("systemF_par" , systemF_par) ;
+("fullFledged_par" , fullFledged_par) ;
+(* CBV Calculi (not supported yet) *)
 ]
 
 let lookup_typesystem tsName = List.assoc tsName tsTable  

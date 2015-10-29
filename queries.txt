@@ -1,4 +1,4 @@
-ocamlfind ocamlc -package batteries -linkpkg aux.ml type_system.ml proof.ml values.ml errors.ml canonicalForms.ml contextualRules.ml errorContexts.ml progress.ml preservationTests.ml preservation.ml generateLambdaProlog.ml calculi.ml test.ml
+ocamlfind ocamlc -package batteries -linkpkg aux.ml type_system.ml proof.ml values.ml errors.ml canonicalForms.ml contextualRules.ml errorContexts.ml progress.ml preservationTests.ml preservation.ml generateLambdaProlog.ml calculiCBN.ml calculiPAR.ml calculiCBV.ml test.ml
 
 #use "topfind";;
 #require "batteries";;
@@ -17,7 +17,9 @@ open Batteries;;
 #load  "preservationTests.cmo";;
 #load  "preservation.cmo";;
 #load  "generateLambdaProlog.cmo";;
-#load  "calculi.cmo";;
+#load  "calculiCBN.cmo";;
+#load  "calculiPAR.cmo";;
+#load  "calculiCBV.cmo";;
 #load  "test.cmo";;
 
 open Aux;;
@@ -32,7 +34,9 @@ open Progress;;
 open PreservationTests;;
 open Preservation;;
 open GenerateLambdaProlog;;
-open Calculi;;
+open CalculiCBN;;
+open CalculiPAR;;
+open CalculiCBV;;
 open Test;;
 
 	let tsWithValues = (generateValues stlc_lists);;
