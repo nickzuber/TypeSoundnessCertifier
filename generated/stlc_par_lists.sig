@@ -4,11 +4,12 @@ kind typ, term type.
 
 type arrow typ -> typ -> typ.
 type list typ -> typ.
-type abs (term -> term) -> term.
+type abs (term -> term) -> typ -> term.
 type emptyList term.
 type cons term -> term -> term.
 type app term -> term -> term.
 type head term -> term.
+type tail term -> term.
 type myError term.
 
 type value term -> o.

@@ -14,9 +14,9 @@ Define progresses : term -> prop by
 	 progresses E := {value E} ;
 	 progresses E := exists E', {step E E'}.
 
-Theorem progress_app : forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses (app E1 E2).
-intros Main E1. case Main. ProgressClause : case E1.
- Canonical : assert ((exists Arg1, E1 = (abs Arg1))). backchain canonical_form_arrow. case Canonical. search. search.
+Theorem progress_app : forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses E2 -> progresses (app E1 E2).
+intros Main E1 E2. case Main. ProgressClause : case E1. case E2.
+ Canonical : assert ((exists Arg1, E1 = (abs Arg1))). backchain canonical_form_arrow. case Canonical. search. search. search.
 
 
 
@@ -38,7 +38,7 @@ intros Main E1. case Main. ProgressClause : case E1.
 Theorem progress : forall E T, {typeOf E T} -> progresses E. 
 induction on 1. intros Main. E1 : case Main.
 search.
- apply IH to E1. backchain progress_app.
+ apply IH to E1. apply IH to E2. backchain progress_app.
  apply IH to E1. backchain progress_let.
  backchain progress_letrec. apply IH to E1. backchain progress_fix.
 

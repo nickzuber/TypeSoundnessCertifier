@@ -1,6 +1,6 @@
 module stlc_tuples.
 
-typeOf (abs R) (arrow T1 T2) :- (pi x\ typeOf x T1 => typeOf (R x) T2).
+typeOf (abs R T1) (arrow T1 T2) :- (pi x\ typeOf x T1 => typeOf (R x) T2).
 
 typeOf (tuple5 E1 E2 E3 E4 E5) (times5 T1 T2 T3 T4 T5) :- typeOf E1 T1, typeOf E2 T2, typeOf E3 T3, typeOf E4 T4, typeOf E5 T5.
 
@@ -16,7 +16,7 @@ typeOf (select4 E) T4 :- typeOf E (times5 T1 T2 T3 T4 T5).
 
 typeOf (select5 E) T5 :- typeOf E (times5 T1 T2 T3 T4 T5).
 
-step (app (abs R) EE) (R EE).
+step (app (abs R T) EE) (R EE).
 
 step (select1 (tuple5 E1 E2 E3 E4 E5)) E1.
 
@@ -28,7 +28,7 @@ step (select4 (tuple5 E1 E2 E3 E4 E5)) E4.
 
 step (select5 (tuple5 E1 E2 E3 E4 E5)) E5.
 
-value (abs R1).
+value (abs R1 T2).
 
 value (tuple5 E1 E2 E3 E4 E5).
 
