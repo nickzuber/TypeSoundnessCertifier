@@ -31,7 +31,7 @@ let doubleDestruction = Seq([Tactic(Named("Arg1_1", CaseKeep("TypeOf"))) ; Tacti
 let subProofForASingleDestruction nestingLevel termDecl currentStepRule = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
 	Seq(List.mapi (substitutionLemmaForAbstractions nestingLevel currentStepRule) arguments) 
 
-let subProofReductionPerCanonical termDecl canonicalDecl rule = if is_none rule then raise (Failure "ERROR:: One of the destructors does not destruct all the constructors. Progress fails.") 
+let subProofReductionPerCanonical termDecl canonicalDecl rule = if is_none rule then raise (Failure ("ERROR:: The destructor" ^ termDelc_getOperator termDecl ^ " does not destruct all the constructors. Progress fails.")) 
 	else let currentStepRule = get rule in 
 	Seq([doubleDestruction ; subProofForASingleDestruction 1 termDecl currentStepRule ; subProofForASingleDestruction 2 canonicalDecl currentStepRule ; Tactic(Search)])
 	

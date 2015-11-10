@@ -31,6 +31,7 @@ type theorem = Theorem of string * proof
 let createSeq tactics = let wrapInTactic = fun tact -> Tactic(tact) in Seq(List.map wrapInTactic tactics)
 let appendProof proof1 proof2 = Seq([proof1 ; proof2])  (* to do  *)
 let toCaseTactic hypName index = Tactic(Case(hypName ^ (string_of_int index)))
+let toCase hypName = Tactic(Case(hypName))
 
 let rec substituteXinTactic tactic hyp = let substitute hyp1 hyp2 = if hyp2 = "x" then hyp1 else hyp2 in 
 	match tactic with 

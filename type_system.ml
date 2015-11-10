@@ -61,6 +61,8 @@ let rec toStringWith' term = match term with
   | Var(name) -> name ^ "'"
   | Constructor(name, arguments) -> name ^ " " ^ String.concat " " (List.map toStringWith' arguments)
 
+let toVar varname = Var(varname)
+
 let term_getFormalVarByType arguments preIndex typeEntry = let index = preIndex + 1 in match typeEntry with 
   | Simple("term") -> Var("E" ^ (string_of_int index))
   | Abstraction(typ1, "term") -> Var("R" ^ (string_of_int index))
@@ -98,7 +100,9 @@ let sig_onlyErrorHandlers termDecl = match termDecl with DeclTrm(c1, info, ctx, 
 let sig_onlyErrors termDecl = match termDecl with DeclTrm(c1, info, ctx, arguments) -> match info with 
 	| Error -> true
 	| otherwise -> false 
-
+let sig_onlyValueWithValues termDecl = match termDecl with DeclTrm(_, info, ctx, _) -> match info with 
+| Constr(c) -> (List.length (context_getFlattenedInfo ctx)) > 0 
+| otherwise -> false 
 
 let sig_onlyContextual termDecl = match termDecl with DeclTrm(c, info, (Contextual ctxList), arguments) -> not (ctxList == [])
 let sig_onlyAbout c1 termDecl = match termDecl with DeclTrm(c2, info, (Contextual ctxList), arguments) -> c1 == c2
@@ -121,7 +125,7 @@ let getErrors signatureTerms = List.filter sig_onlyErrors signatureTerms
 let getNonResults signatureTerms = (getDestructors signatureTerms) @ (getDerived signatureTerms) @ (getErrorHandlers signatureTerms)
 let getAllButErrorHandlers signatureTerms = (getConstructors signatureTerms) @ (getDestructors signatureTerms) @ (getDerived signatureTerms) @ (getErrors signatureTerms)
 let errorPropagatingContexts signatureTerms = (List.concat (List.map termDelc_getCtxInfo (getAllButErrorHandlers signatureTerms)))
-
+let getValuesWithValues signatureTerms = List.filter sig_onlyValueWithValues signatureTerms
 
 let ts_containErrors ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> not((getErrors signatureTerms) = [])
 
@@ -137,6 +141,7 @@ let info_destructedType info = match info with
 let rule_getOutputTerm rule = match rule with Rule(name, premises, conclusion) -> match conclusion with Formula(pred, inputs, outputs) -> List.hd outputs
 let rule_getInputTerm rule = match rule with Rule(name, premises, conclusion) -> match conclusion with Formula(pred, inputs, outputs) -> List.hd inputs
 let rule_getPremises rule = match rule with Rule(name, premises, conclusion) -> premises
+let rule_getConclusion rule = match rule with Rule(name, premises, conclusion) -> conclusion
 let rule_turnFormulaTo pred1 formula = match formula with Formula(pred2, inputs, outputs) -> Formula(pred1, inputs, outputs)
 let rec term_getAllVariables term = match term with 
 	| Var(name) -> [Var(name)] 
@@ -182,3 +187,8 @@ let seekDeclTermOf signatureTerms c = List.hd (List.filter (sig_onlyAbout c) sig
 let toStepPremise term1 term2 = Formula("step", [term1], [term2])
 let toTypeOfPremise term1 term2 = Formula("typeOf", [term1], [term2])
 
+let unifiableByConstructor c1 rules termDecl = match rule_getOutputTerm (rule_seekTypeOf (termDelc_getOperator termDecl) rules) with
+		| Constructor(c2, arguments) -> c1 = c2
+		| otherwise -> true
+
+	

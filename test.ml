@@ -52,6 +52,20 @@ let tsTable = [
 ("systemF_par" , systemF_par) ;
 ("fullFledged_par" , fullFledged_par) ;
 (* CBV Calculi (not supported yet) *)
+("stlc_cbv" , stlc_cbv) ; 
+("stlc_cbv_exc" , stlc_cbv_exc) ; 
+("stlc_cbv_fix" , stlc_cbv_fix) ; 
+("stlc_cbv_if" , stlc_cbv_if) ; 
+("stlc_cbv_inf" , stlc_cbv_inf) ;
+("stlc_cbv_let" , stlc_cbv_let) ;
+("stlc_cbv_letrec" , stlc_cbv_letrec) ;
+("stlc_cbv_lists" , stlc_cbv_lists) ;
+("stlc_cbv_pairs" , stlc_cbv_pairs) ;
+("stlc_cbv_sum" , stlc_cbv_sum) ;
+("stlc_cbv_tuples" , stlc_cbv_tuples) ;
+("stlc_cbv_unit" , stlc_cbv_unit) ;
+("systemF_cbv" , systemF_cbv) ;
+("fullFledged_cbv" , fullFledged_cbv) ;
 ]
 
 let lookup_typesystem tsName = List.assoc tsName tsTable  
