@@ -23,13 +23,13 @@ let letrecSemantics =
 			[],
 			Formula("step",
 				[Constructor( "letrec", [Var("R1") ; Var("R2")])],
-				[Constructor( "let", [Constructor( "fix", [Constructor( "abs", [Var("R1") ; Var("T")])]) ; Var("R2")])]
+				[Constructor( "let", [Constructor( "fix", [Constructor( "abs", [Var("R1")])]) ; Var("R2")])]
 			))]
 				
 let letrec_ts = [SpecTerm(letrec_decl, letrecc, letrecSemantics)]
 
 let letrec = SafeTypedLanguage([], letrec_ts, None)
-let stlc_cbn_letrec = sl_compose (sl_compose stlc_cbn_fix lett_only) letrec
-let stlc_cbv_letrec = sl_compose (sl_compose stlc_cbv_fix lett_only) letrec
-let stlc_par_letrec = sl_compose (sl_compose stlc_par_fix lett_only) letrec
+let itlc_cbn_letrec = sl_compose (sl_compose itlc_cbn_fix lett_only) letrec
+let itlc_cbv_letrec = sl_compose (sl_compose itlc_cbv_fix lett_only) letrec
+let itlc_par_letrec = sl_compose (sl_compose itlc_par_fix lett_only) letrec
 

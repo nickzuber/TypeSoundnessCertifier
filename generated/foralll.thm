@@ -32,3 +32,10 @@ induction on 1. intros Main. E1 : case Main.
 
  
  
+
+
+Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
+induction on 1. intros Main TypeOf. Step : case Main.
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). inst Arg2_1 with n1 = X. search.
+ TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
+

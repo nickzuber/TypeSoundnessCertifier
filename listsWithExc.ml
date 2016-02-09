@@ -13,7 +13,7 @@ let headSemantics =
 			[],
 			Formula("step",
 				[Constructor( "head", [Constructor( "emptyList", [])])],
-				[Constructor( "raise", [Var("E")])] ) ) 
+				[Constructor( "raise", [Constructor( "excValue", [])])] ) ) 
 				;
 		Rule("headStepCons",
 			[],
@@ -27,7 +27,7 @@ let tailSemantics =
 			[],
 			Formula("step",
 				[Constructor( "tail", [Constructor( "emptyList", [])])],
-				[Constructor( "raise", [Var("E")])] ) ) 
+				[Constructor( "raise", [Constructor( "excValue", [])])] ) ) 
 				;
 		Rule("tailStepCons",
 			[],

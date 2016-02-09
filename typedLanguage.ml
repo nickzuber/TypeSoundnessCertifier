@@ -1,5 +1,6 @@
 
 open Batteries
+open Option
 open Aux
 
 let typing = "typeOf"
@@ -73,6 +74,7 @@ let type_getOperator typeDecl = match typeDecl with DeclType(c,arguments) -> c
 let term_getOperator termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> c
 let term_getValPositions termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> valpos
 let term_getContextInfo termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> ctx
+let term_getContextualPositions termDecl = List.map fst (term_getContextInfo termDecl)
 
 let rec term_getVariables term = match term with 
 | Var(name) -> [Var(name)]
@@ -101,6 +103,10 @@ let tl_setRules tl newrules = match tl with TypedLanguage(type_decls, term_decls
 let tl_lookupTypeDecl tl c = let searchbyname typeDecl = type_getOperator typeDecl = c in try List.hd (List.filter searchbyname (tl_getTypes tl)) with Failure e -> raise(Failure ("tl_lookupTypeDecl: " ^ c))
 let tl_lookupTermDecl tl c = let searchbyname termDecl = term_getOperator termDecl = c in try List.hd (List.filter searchbyname (tl_getTerms tl)) with Failure e -> raise(Failure ("tl_lookupTermDecl: " ^ c))
 let tl_isEmpty tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> rules = []
+
+let formula_isHypothetical premise = match premise with 
+	| Hypothetical(term1, term2, term3) -> true
+	| otherwise -> false
 
 let formula_getFirstInput premise = match premise with 
 	| Formula(pred1, inputs, outputs) -> if inputs = [] then raise(Failure "formula_getFirstInput") else List.hd inputs
@@ -139,6 +145,18 @@ let rec term_retrieveApplications term = match term with
 | Constructor(name, arguments) -> List.concat (List.map term_retrieveApplications arguments)
 | Application(term1, term2) -> if term_isVar term1 && term_isVar term1 then [(term1, term2)] else raise(Failure ("term_retrieveApplications: error in Application(term1, term2), the terms that are not variables"))
 
-
-
+let term_toPosition term (abs, applied) = 
+	try 
+	if term_isConstructor term then 
+		( (let absindex = List.index_of abs (term_getArguments term) in if is_none absindex then (2, get (List.index_of abs (term_getArguments (List.hd (term_getArguments term))))) else (1, get absindex)),   
+		  (let appindex = List.index_of applied (term_getArguments term) in if is_none appindex then (2, get (List.index_of applied (term_getArguments (List.hd (term_getArguments term))))) else (1, get appindex)), 
+		  toString applied
+	  	)
+	else raise(Failure "term_toPosition : top level term is not a constructor.")
+	with Failure _ -> raise(Failure("term_toPosition :" ^ toString term))
 	
+	(*
+((1,1),(2,2), "asd") 	 no, applied can be of the toplevel or nested term, and you need to grab that typing rule. 
+	Moreover the variable used in the reduction rule has nothing to do with the one in the typing rule 
+	let typingrule = ... in 
+*)

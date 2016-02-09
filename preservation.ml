@@ -2,70 +2,67 @@
 open Batteries
 open Option
 open Aux
-open Type_system
+open TypedLanguage
+open SafeTypedLanguage
+open SafeToTyped
 open Proof
 
-let hypothetical argumentEntry = match argumentEntry with 
-	| Abstraction("term", _) -> true 
-	| otherwise -> false 
+let rule_hypothetical sl rule abs_index = 
+	let term = rule_getInputTerm rule in 
+	let targetConstructor = if fst abs_index = 1 then term_getConstructor term else try (term_getConstructor (List.hd (term_getArguments term))) with Failure _ ->  raise(Failure(rule_getRuleName rule))  in 
+	let typingrule = (try List.hd (List.filter (rule_isPredicateAndName typing targetConstructor) (tl_getRules (compile sl))) with Failure _ ->  raise(Failure(rule_getRuleName rule))) in 
+	let targetVar = List.nth (term_getArguments (rule_getInputTerm typingrule)) (snd abs_index) in 
+		List.exists (fun premise -> formula_getFirstInputUpToApp premise = targetVar && formula_isHypothetical premise) (rule_getPremises typingrule) 
 
-let substitutionLemmaForAbstractions nestingLevel rule index argumentEntry = match argumentEntry with 
-| Abstraction(typ1, typ2) -> 
-	let provedTerm = rule_getInputTerm rule in 
-	let targetTerm = rule_getOutputTerm rule in 
-	let Constructor(c,arguments) = if nestingLevel = 1 then provedTerm else term_getFirstArgument provedTerm in 
-	let abstractedVar = try List.nth arguments index with Invalid_argument arg -> raise (Failure "here") in 
-		(match retrieveApplication abstractedVar targetTerm with 
-			| None -> Qed
-			| Some Var(appliedVar) -> 
-				let appliedVarIndex = retrievePosition (Var(appliedVar)) provedTerm in 
-				let abstractedVarIndex = retrievePosition abstractedVar provedTerm in 
-				let argHyp = "Arg" ^ abstractedVarIndex in (* (string_of_int nestingLevel) ^  *)
-				let cutHyp = "Arg" ^ appliedVarIndex in
-				if hypothetical argumentEntry then Tactic(InstAndCut(argHyp, appliedVar, cutHyp)) else Tactic(Inst(argHyp, appliedVar)))	
-| otherwise -> Qed
+let getSignaturesForContextualMovers sl butOnlyErrorContexts = 
+	let signatureConstructors = List.map specTerm_getSig (List.concat (List.map specType_getConstructors (sl_getTypes sl))) in 
+	let signatureEliminators = List.map specTerm_getSig (List.concat (List.map specType_getEliminators (sl_getTypes sl))) in 
+	let signatureOthers = (List.map specTerm_getSig (sl_getOthers sl)) in 
+	let signatureErrors = if sl_containErrors sl then [specTerm_getSig (specError_getError (sl_getError sl))] else [] in 
+	let signatureErrorHandlers = if sl_containErrors sl then (List.map specTerm_getSig (specError_getHandlers (sl_getError sl))) else [] in 
+	let alsoThoseForErrorsIfNeeded = if butOnlyErrorContexts then [] else signatureErrors @ signatureErrorHandlers in  
+	 signatureConstructors @ signatureEliminators  @ signatureOthers  @ alsoThoseForErrorsIfNeeded
 
-let singleDestruction = Tactic(Named("Arg1_1", CaseKeep("TypeOf")))
-let doubleDestruction = Seq([Tactic(Named("Arg1_1", CaseKeep("TypeOf"))) ; Tactic(Named("Arg2_1", CaseKeep("Arg1_1")))])
+let substitutionLemma sl rule = 
+	let toArg (index1, index2) = "Arg" ^ (string_of_int index1) ^ "_" ^ (string_of_int (1 + index2)) in 
+	let instAndCut (abs_index, app_index, applied) = if rule_hypothetical sl rule abs_index then Tactic(InstAndCut(toArg abs_index, applied, toArg app_index)) else Tactic(Inst(toArg abs_index, applied)) in 
+	List.map instAndCut (List.map (term_toPosition (rule_getInputTerm rule)) (term_retrieveApplications (rule_getOutputTerm rule)))
 
-let subProofForASingleDestruction nestingLevel termDecl currentStepRule = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
-	Seq(List.mapi (substitutionLemmaForAbstractions nestingLevel currentStepRule) arguments) 
+let singleDestruction = [Tactic(Named("Arg1_1", CaseKeep("TypeOf")))]
+let doubleDestruction = [Tactic(Named("Arg1_1", CaseKeep("TypeOf"))) ; Tactic(Named("Arg2_1", CaseKeep("Arg1_1")))]
 
-let subProofReductionPerCanonical termDecl canonicalDecl rule = if is_none rule then raise (Failure ("ERROR:: The destructor" ^ termDelc_getOperator termDecl ^ " does not destruct all the constructors. Progress fails.")) 
-	else let currentStepRule = get rule in 
-	Seq([doubleDestruction ; subProofForASingleDestruction 1 termDecl currentStepRule ; subProofForASingleDestruction 2 canonicalDecl currentStepRule ; Tactic(Search)])
-	
-let subProofDestructors signatureTerms rules termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
-	let canonicalDecls = (getConstructorsByOp (info_destructedType info) signatureTerms) in 
-	Seq(List.map2 (subProofReductionPerCanonical termDecl) canonicalDecls (List.map (rule_seekStepOfWith c rules) canonicalDecls)) 
+let subProof sl destructionCases rule = 
+	Seq(destructionCases @ substitutionLemma sl rule @ [Tactic(Search)])
+		
+let subProofErrorHandler sl rule = 
+	if rule_checkEliminatesSome rule then subProof sl doubleDestruction rule else subProof sl singleDestruction rule
 
-let subProofDerivedNoDestructors signatureTerms rules termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) ->
-	Seq([singleDestruction ; subProofForASingleDestruction 1 termDecl (rule_seekStepOf c rules) ; Tactic(Search)])
-
-let subProofDerivedDestructors signatureTerms rules termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
-	Seq([singleDestruction ; subProofForASingleDestruction 1 termDecl (rule_seekStepOf c rules) ; Tactic(Search)])
-
-let subProofErrorHandlers signatureTerms rules termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
-	let errorDecl = (List.hd (getErrors signatureTerms)) in let currentStepRule = rule_seekStepOfWith c rules errorDecl in 
-	if is_none currentStepRule then raise (Failure "ERROR:: ErrorHandlers does not have a rule for handlin the error")
-	else (Seq([singleDestruction ; Tactic(Search) ; (subProofReductionPerCanonical termDecl errorDecl currentStepRule) ]))
-
-let subProofContextual termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
+let subProofContextual termDecl = 
 	let single_line = fun index -> let hypByArgIndex = "TypeOf" ^ (string_of_int index) in Seq([Tactic(Named("TypeOf1", Case("TypeOf"))) ; Tactic(Apply("IH", ["Step" ; hypByArgIndex])) ; Tactic(Search)]) in 
-	 List.map single_line (context_getFlattenedInfo ctx)		 
+	 List.map single_line (term_getContextualPositions termDecl)		 
 
 let generatePreservationTheorem sl = 
          let theorem = "Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}." in 
 		 let preamble = Seq([Tactic(Induction(1)) ; Tactic(Intros(["Main" ; "TypeOf"])) ; Tactic(Named("Step", Case("Main")))]) in
-         let proofReductionsDestructors = List.map (subProofEliminators sl) (List.concat (List.map specType_getEliminators types)) in 
-		 let proofReductionsOthers = List.map (subProofDerivedNoDestructors signatureTerms rules) (getDerivedNoDestructors signatureTerms) in 
-		 let proofErrorHandlers = (List.map (subProofErrorHandlers signatureTerms rules) (getErrorHandlers signatureTerms)) in 
-         let proofContextual = List.concat (List.map subProofContextual (getContextualTerms signatureTerms)) in
-		 let proofErrorContexts = if (sl_containErrors sl) then List.map (fun tactic -> Seq([Tactic(Case("Step")) ; Tactic(Named("TypeOf1", Case("TypeOf"))) ; tactic ; Tactic(Search)])) (List.map (toCaseTactic "TypeOf") (errorPropagatingContexts signatureTerms)) else [] in 
-            Theorem(theorem, Seq( (preamble::proofReductionsDestructors) @ proofReductionsDerivedNoDestructors @ proofReductionsDerivedDestructors @ proofErrorHandlers @ proofContextual @ proofErrorContexts))
+		 let proofEliminators = List.map (subProof sl doubleDestruction) (List.filter rule_isReductionRule (sl_getReductionRulesOfEliminators (sl_getTypes sl))) in 
+		 let proofOthers = List.map (subProof sl singleDestruction) (List.filter rule_isReductionRule (List.concat (List.map specTerm_getRules (sl_getOthers sl)))) in 
+		 let proofErrorHandlers = if sl_containErrors sl then List.map (subProofErrorHandler sl) (List.filter rule_isReductionRule (List.concat (List.map specTerm_getRules (specError_getHandlers (sl_getError sl))))) else [] in 
+         let allSignaturesForContextualMovers = getSignaturesForContextualMovers sl false in 
+		 let proofContextual = List.concat (List.map subProofContextual allSignaturesForContextualMovers) in
+         let allSignaturesForErrorContextualMovers = getSignaturesForContextualMovers sl true in 
+		 let proofErrorContexts = if (sl_containErrors sl) then List.map (fun tactic -> Seq([Tactic(Case("Step")) ; Tactic(Named("TypeOf1", Case("TypeOf"))) ; tactic ; Tactic(Search)])) (List.map (toCaseTactic "TypeOf") (List.concat (List.map term_getContextualPositions allSignaturesForErrorContextualMovers))) else [] in 
+            Theorem(theorem, Seq( (preamble::proofEliminators) @ proofOthers @ proofErrorHandlers @ proofContextual @ proofErrorContexts))
 			
 			
 			(* (seekDeclTermOf signatureTerms canonical_c)
+		List.map2 (subProofReductionPerCanonical termDecl) canonicalDecls (List.map (rule_seekStepOfWith c rules) canonicalDecls)) 
+	let premise = (List.filter (fun premise -> formula_getFirstInputUpToApp premise = targetVar) (rule_getPremises typingrule)) in 
+	if premise = [] then raise(Failure(rule_getRuleName rule)) else 
+		match List.hd premise with Hypothetical(term1, term2, term3) -> true | otherwise -> false
+			
+			[Tactic(Case(term_getOperator termDecl)) ; 
+	if (List.length signatureErrors) > 1 then raise(Failure ("2 error handlers: " ^ (String.concat "-" (List.map term_getOperator signatureErrorHandlers)))) else
+			
 				Algorithm for reduction rules:
 				case on destructive argument, create a substitution lemma for the other arguments if hypothetical. If no destruction of a type, then the proof is done with search. 
 				  if instead, the operator destruct a type, then we case again on the first argument which is the nested operator. Now, create a substitution lemma for ALL the arguments if hypothetical (including the first of the nested). Conclude with search. 				

@@ -1,19 +1,19 @@
 Specification "fullFledged_par".
 
 Define test_beta : prop by
-   test_beta := forall T T1 R EE T2, {typeOf (abs R T) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
+   test_beta := forall T1 R EE T2, {typeOf (abs R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
 
 Define test_betaT : prop by
    test_betaT := forall R2 X R RX, {typeOf (absT R2) (all R)} -> {typeOf (R2 X) (R RX)} -> {typeOf (R2 X) (R X)}.
 
 Define test_headStepEmpty : prop by
-   test_headStepEmpty := forall E T, {typeOf (emptyList ) (list T)} -> {typeOf (raise E) T}.
+   test_headStepEmpty := forall T, {typeOf (emptyList ) (list T)} -> {typeOf (raise (excValue )) T}.
 
 Define test_headStepCons : prop by
    test_headStepCons := forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E1 T}.
 
 Define test_tailStepEmpty : prop by
-   test_tailStepEmpty := forall E T, {typeOf (emptyList ) (list T)} -> {typeOf (raise E) (list T)}.
+   test_tailStepEmpty := forall T, {typeOf (emptyList ) (list T)} -> {typeOf (raise (excValue )) (list T)}.
 
 Define test_tailStepCons : prop by
    test_tailStepCons := forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E2 (list T)}.
@@ -31,7 +31,7 @@ Define test_letStep : prop by
    test_letStep := forall T1 R V T2, {typeOf V T1} -> {typeOf (R V) T2} -> {typeOf (R V) T2}.
 
 Define test_letrecStep : prop by
-   test_letrecStep := forall R1 T R2 T2, {typeOf (let (fix (abs R1 T)) R2) T2}.
+   test_letrecStep := forall R1 R2 T2, {typeOf (let (fix (abs R1)) R2) T2}.
 
 Define test_tryValue : prop by
    test_tryValue := forall E1 E2 T, {typeOf E1 T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E1 T}.

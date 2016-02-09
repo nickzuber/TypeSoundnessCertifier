@@ -25,3 +25,8 @@ induction on 1. intros Main. E1 : case Main.
  
  
  
+
+
+Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
+induction on 1. intros Main TypeOf. Step : case Main.
+

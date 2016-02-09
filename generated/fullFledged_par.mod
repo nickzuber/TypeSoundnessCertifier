@@ -1,6 +1,6 @@
 module fullFledged_par.
 
-typeOf (abs R T1) (arrow T1 T2) :- (pi x\ typeOf x T1 => typeOf (R x) T2).
+typeOf (abs R) (arrow T1 T2) :- (pi x\ typeOf x T1 => typeOf (R x) T2).
 
 typeOf (absT R2) (all R) :- (pi x\ typeOf (R2 x) (R x)).
 
@@ -16,7 +16,7 @@ typeOf (ff ) (bool ).
 
 typeOf (app E1 E2) T2 :- typeOf E1 (arrow T1 T2), typeOf E2 T1.
 
-step (app (abs R T) EE) (R EE).
+step (app (abs R) EE) (R EE).
 
 typeOf (appT E X) (R X) :- typeOf E (all R).
 
@@ -24,13 +24,13 @@ step (appT (absT R2) X) (R2 X).
 
 typeOf (head E) T :- typeOf E (list T).
 
-step (head (emptyList )) (raise E).
+step (head (emptyList )) (raise (excValue )).
 
 step (head (cons E1 E2)) E1.
 
 typeOf (tail E) (list T) :- typeOf E (list T).
 
-step (tail (emptyList )) (raise E).
+step (tail (emptyList )) (raise (excValue )).
 
 step (tail (cons E1 E2)) E2.
 
@@ -50,7 +50,7 @@ step (let V R) (R V) :- value V.
 
 typeOf (letrec R1 R2) T2 :- (pi x\ typeOf x T1 => typeOf (R1 x) T1), (pi x\ typeOf x T1 => typeOf (R2 x) T2).
 
-step (letrec R1 R2) (let (fix (abs R1 T)) R2).
+step (letrec R1 R2) (let (fix (abs R1)) R2).
 
 typeOf (try E1 E2) T :- typeOf E1 T, typeOf E2 (arrow (excType ) T).
 
@@ -58,7 +58,7 @@ step (try E1 E2) E1 :- value E1.
 
 step (try (raise E1) E2) (app E2 E1).
 
-value (abs R1 T2).
+value (abs R1).
 
 value (absT R1).
 

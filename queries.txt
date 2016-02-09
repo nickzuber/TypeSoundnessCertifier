@@ -1,4 +1,4 @@
-ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservationTests.ml stlc.ml pairs.ml iff.ml lists.ml listsIsNil.ml fix.ml let.ml letrec.ml sums.ml unitt.ml absImpl.ml exception.ml listsWithExc.ml tuples.ml forall.ml fullFledged.ml test.ml
+ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservation.ml preservationTests.ml stlc.ml itlc.ml pairs.ml iff.ml lists.ml listsIsNil.ml fix.ml let.ml letrec.ml letrecWithType.ml sums.ml unitt.ml exception.ml listsWithExc.ml tuples.ml forall.ml fullFledged.ml fullFledgedWithType.ml test.ml
 
 #use "topfind";;
 #require "batteries";;
@@ -18,8 +18,10 @@ open Batteries;;
 #load  "safeToTyped.cmo";;
 #load  "typeCheckerSL.cmo";;
 #load  "typeCheckerTL.cmo";;
+#load  "preservation.cmo";;
 #load  "preservationTests.cmo";;
 #load  "stlc.cmo";;
+#load  "itlc.cmo";;
 #load  "pairs.cmo";;
 #load  "iff.cmo";;
 #load  "lists.cmo";;
@@ -27,14 +29,15 @@ open Batteries;;
 #load  "fix.cmo";;
 #load  "let.cmo";;
 #load  "letrec.cmo";;
+#load  "letrecWithType.cmo";;
 #load  "sums.cmo";;
 #load  "unitt.cmo";;
-#load  "absImpl.cmo";;
 #load  "exception.cmo";;
 #load  "listsWithExc.cmo";;
 #load  "tuples.cmo";;
 #load  "forall.cmo";;
 #load  "fullFledged.cmo";;
+#load  "fullFledgedWithType.cmo";;
 #load  "test.cmo";;
 
 open Aux;;
@@ -50,8 +53,10 @@ open ErrorManagement;;
 open SafeToTyped;;
 open TypeCheckerSL;;
 open TypeCheckerTL;;
+open Preservation;;
 open PreservationTests;;
 open Stlc;;
+open Itlc;;
 open Pairs;;
 open Iff;;
 open Lists;;
@@ -59,14 +64,15 @@ open ListsIsNil;;
 open Fix;;
 open Let;;
 open Letrec;;
+open LetrecWithType;;
 open Sums;;
 open Unitt;;
-open AbsImpl;;
 open Exception;;
 open ListsWithExc;;
 open Tuples;;
 open Forall;;
 open FullFledged;;
+open FullFledgedWithType;;
 open Test;;
 
 

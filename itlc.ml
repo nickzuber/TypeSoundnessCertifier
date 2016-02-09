@@ -45,8 +45,8 @@ let absImpl_ts valpos ctx beta = [SpecType(arrow_decl,
 
 let absImpl valpos ctx beta = SafeTypedLanguage(absImpl_ts valpos ctx beta, [], None)
 
-let absImpl_cbn = absImpl [1] [(1,[])] beta
-let absImpl_cbv = absImpl [1 ; 2] [(1,[]) ; (2,[1])] betaCBV
-let absImpl_par = absImpl [1] [(1,[]) ; (2,[])] beta
+let itlc_cbn = absImpl [1] [(1,[])] beta
+let itlc_cbv = absImpl [1 ; 2] [(1,[]) ; (2,[1])] betaCBV
+let itlc_par = absImpl [1] [(1,[]) ; (2,[])] beta
 
 

@@ -14,10 +14,12 @@ open ContextualRules
 open ErrorManagement
 open CanonicalForms
 open Progress
+open Preservation
 open SafeToTyped
 open GenerateLambdaProlog
 open PreservationTests
 open Stlc
+open Itlc
 open Pairs
 open Iff
 open Lists
@@ -25,13 +27,14 @@ open ListsIsNil
 open Fix
 open Let
 open Letrec
+open LetrecWithType
 open Sums
 open Unitt
-open AbsImpl
 open Exception
 open Tuples
 open Forall
 open FullFledged
+open FullFledgedWithType
 
 let checkResult output = 
     let extractNameOfRule = fun line -> let n = String.length "Abella < Query test_" in String.rchop (String.sub line n ((String.length line) - n)) in 
@@ -56,7 +59,7 @@ let runPreservationTests (slName, sl) =
 				checkResult output;;
 		  
 let sep = "\n\n"
-let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ (generateTheoremS (generateCanonicalFormsLemma ts)) ^ sep ^ (progressDefinition ts) ^ sep ^ (generateTheoremS (generateProgressLemmas ts)) ^ sep ^ (generateTheorem (generateProgressTheorem ts))
+let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ (generateTheoremS (generateCanonicalFormsLemma ts)) ^ sep ^ (progressDefinition ts) ^ sep ^ (generateTheoremS (generateProgressLemmas ts)) ^ sep ^ (generateTheorem (generateProgressTheorem ts)) ^ sep ^ (generateTheorem (generatePreservationTheorem ts))
 
 let tsTable = [
 (* CBN Calculi *)
@@ -74,9 +77,9 @@ let tsTable = [
 ("listsIsNil_lazy", listsIsNil_lazy) ;
 ("sums", sums) ;
 ("unitt", unitt) ;
-("absImpl_cbn", absImpl_cbn) ;
-("absImpl_cbv", absImpl_cbv) ;
-("absImpl_par", absImpl_par) ;
+("itlc_cbn", itlc_cbn) ;
+("itlc_cbv", itlc_cbv) ;
+("itlc_par", itlc_par) ;
 ("tuples_lazy", tuples_lazy) ;
 ("tuples_parallel", tuples_parallel) ;
 ("tuples_plain", tuples_plain) ;
@@ -122,14 +125,22 @@ let tsTable = [
 ("stlc_cbn_fix", stlc_cbn_fix) ;
 ("stlc_cbv_fix", stlc_cbv_fix) ;
 ("stlc_par_fix", stlc_par_fix) ;
+(* Implicitly Typed Lambda Calculus with fix *)
+("itlc_cbn_fix", itlc_cbn_fix) ;
+("itlc_cbv_fix", itlc_cbv_fix) ;
+("itlc_par_fix", itlc_par_fix) ;
 (* STLC with let *)
 ("stlc_cbn_let", stlc_cbn_let) ;
 ("stlc_cbv_let", stlc_cbv_let) ;
 ("stlc_par_let", stlc_par_let) ;
-(* STLC with letrec *)
-("stlc_cbn_letrec", stlc_cbn_letrec) ;
-("stlc_cbv_letrec", stlc_cbv_letrec) ;
-("stlc_par_letrec", stlc_par_letrec) ;
+(* STLC with letrec with type annotations *)
+("stlc_cbn_letrecWithType", stlc_cbn_letrecWithType) ;
+("stlc_cbv_letrecWithType", stlc_cbv_letrecWithType) ;
+("stlc_par_letrecWithType", stlc_par_letrecWithType) ;
+(* Implicitly Typed Lambda Calculus with letrec with no type annotations *)
+("itlc_cbn_letrec", itlc_cbn_letrec) ;
+("itlc_cbv_letrec", itlc_cbv_letrec) ;
+("itlc_par_letrec", itlc_par_letrec) ;
 (* STLC with sums *)
 ("stlc_cbn_sums", stlc_cbn_sums) ;
 ("stlc_cbv_sums", stlc_cbv_sums) ;
@@ -157,6 +168,10 @@ let tsTable = [
 ("stlc_cbv_forall", stlc_cbv_forall) ;
 ("stlc_par_forall", stlc_par_forall) ;
 (* FullFledged Language: System F with if-then-else and booleans, lists, exceptions and letrec *)
+("fullFledgedWithType_cbn", fullFledgedWithType_cbn) ;
+("fullFledgedWithType_cbv", fullFledgedWithType_cbv) ;
+("fullFledgedWithType_par", fullFledgedWithType_par) ;
+(* FullFledged Language: System F with implicitly typed abstraction, if-then-else and booleans, lists, exceptions and letrec with no type annotations*)
 ("fullFledged_cbn", fullFledged_cbn) ;
 ("fullFledged_cbv", fullFledged_cbv) ;
 ("fullFledged_par", fullFledged_par) ;

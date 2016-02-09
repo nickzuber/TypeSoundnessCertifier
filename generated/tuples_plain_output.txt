@@ -1,0 +1,2763 @@
+Welcome to Abella 2.0.2
+Abella < Specification "tuples_plain".
+Reading specification "tuples_plain"
+
+Abella < Theorem canonical_form_times5 : 
+forall E T1 T2 T3 T4 T5, {typeOf E (times5 T1 T2 T3 T4 T5)} -> {value E} ->
+  (exists Arg1 Arg2 Arg3 Arg4 Arg5, E = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5).
+
+============================
+ forall E T1 T2 T3 T4 T5, {typeOf E (times5 T1 T2 T3 T4 T5)} -> {value E} ->
+   (exists Arg1 Arg2 Arg3 Arg4 Arg5, E = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5)
+
+canonical_form_times5 < intros Main Value.
+
+Variables: E T1 T2 T3 T4 T5
+Main : {typeOf E (times5 T1 T2 T3 T4 T5)}
+Value : {value E}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, E = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+canonical_form_times5 < case Main.
+Subgoal 1:
+
+Variables: T1 T2 T3 T4 T5 E5 E4 E3 E2 E1
+Value : {value (tuple5 E1 E2 E3 E4 E5)}
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, tuple5 E1 E2 E3 E4 E5 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 2 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select1 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 3 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select2 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 4 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select3 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 5 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select4 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 6 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select5 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+canonical_form_times5 < search.
+Subgoal 2:
+
+Variables: T1 T2 T3 T4 T5 T6 T7 T8 T9 E1
+Value : {value (select1 E1)}
+H1 : {typeOf E1 (times5 (times5 T1 T2 T3 T4 T5) T9 T8 T7 T6)}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select1 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 3 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select2 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 4 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select3 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 5 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select4 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 6 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select5 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+canonical_form_times5 < case Value.
+Subgoal 3:
+
+Variables: T1 T2 T3 T4 T5 T6 T7 T8 T9 E1
+Value : {value (select2 E1)}
+H1 : {typeOf E1 (times5 T9 (times5 T1 T2 T3 T4 T5) T8 T7 T6)}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select2 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 4 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select3 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 5 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select4 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 6 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select5 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+canonical_form_times5 < case Value.
+Subgoal 4:
+
+Variables: T1 T2 T3 T4 T5 T6 T7 T8 T9 E1
+Value : {value (select3 E1)}
+H1 : {typeOf E1 (times5 T9 T8 (times5 T1 T2 T3 T4 T5) T7 T6)}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select3 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 5 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select4 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 6 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select5 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+canonical_form_times5 < case Value.
+Subgoal 5:
+
+Variables: T1 T2 T3 T4 T5 T6 T7 T8 T9 E1
+Value : {value (select4 E1)}
+H1 : {typeOf E1 (times5 T9 T8 T7 (times5 T1 T2 T3 T4 T5) T6)}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select4 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 6 is:
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select5 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+canonical_form_times5 < case Value.
+Subgoal 6:
+
+Variables: T1 T2 T3 T4 T5 T6 T7 T8 T9 E1
+Value : {value (select5 E1)}
+H1 : {typeOf E1 (times5 T9 T8 T7 T6 (times5 T1 T2 T3 T4 T5))}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, select5 E1 =
+   tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+canonical_form_times5 < case Value.
+Proof completed.
+
+Abella < Define progresses : term -> prop by 
+progresses E := {value E};
+progresses E := exists E', {step E E'}.
+
+Abella < Theorem progress_tuple5 : 
+forall E1 E2 E3 E4 E5 T, {typeOf (tuple5 E1 E2 E3 E4 E5) T} ->
+  progresses E1 -> progresses E2 -> progresses E3 -> progresses E4 ->
+  progresses E5 -> progresses (tuple5 E1 E2 E3 E4 E5).
+
+============================
+ forall E1 E2 E3 E4 E5 T, {typeOf (tuple5 E1 E2 E3 E4 E5) T} ->
+   progresses E1 -> progresses E2 -> progresses E3 -> progresses E4 ->
+   progresses E5 -> progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < intros Main E1 E2 E3 E4 E5.
+
+Variables: E1 E2 E3 E4 E5 T
+Main : {typeOf (tuple5 E1 E2 E3 E4 E5) T}
+E1 : progresses E1
+E2 : progresses E2
+E3 : progresses E3
+E4 : progresses E4
+E5 : progresses E5
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < case Main.
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1
+E1 : progresses E1
+E2 : progresses E2
+E3 : progresses E3
+E4 : progresses E4
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < case ProgressClause : E1.
+Subgoal 1:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1
+E2 : progresses E2
+E3 : progresses E3
+E4 : progresses E4
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < case E2.
+Subgoal 1.1:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1
+E3 : progresses E3
+E4 : progresses E4
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+H6 : {value E2}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < case E3.
+Subgoal 1.1.1:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1
+E4 : progresses E4
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+H6 : {value E2}
+H7 : {value E3}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < case E4.
+Subgoal 1.1.1.1:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+H6 : {value E2}
+H7 : {value E3}
+H8 : {value E4}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < case E5.
+Subgoal 1.1.1.1.1:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+H6 : {value E2}
+H7 : {value E3}
+H8 : {value E4}
+H9 : {value E5}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < search.
+Subgoal 1.1.1.1.2:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1 E'
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+H6 : {value E2}
+H7 : {value E3}
+H8 : {value E4}
+H9 : {step E5 E'}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < search.
+Subgoal 1.1.1.2:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1 E'
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+H6 : {value E2}
+H7 : {value E3}
+H8 : {step E4 E'}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < search.
+Subgoal 1.1.2:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1 E'
+E4 : progresses E4
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+H6 : {value E2}
+H7 : {step E3 E'}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 1.2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < search.
+Subgoal 1.2:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1 E'
+E3 : progresses E3
+E4 : progresses E4
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {value E1}
+H6 : {step E2 E'}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < search.
+Subgoal 2:
+
+Variables: E1 E2 E3 E4 E5 T5 T4 T3 T2 T1 E'
+E2 : progresses E2
+E3 : progresses E3
+E4 : progresses E4
+E5 : progresses E5
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+H3 : {typeOf E3 T3}
+H4 : {typeOf E4 T4}
+H5 : {typeOf E5 T5}
+ProgressClause : {step E1 E'}
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+progress_tuple5 < search.
+Proof completed.
+
+Abella < Theorem progress_select1 : 
+forall E1 T, {typeOf (select1 E1) T} -> progresses E1 ->
+  progresses (select1 E1).
+
+============================
+ forall E1 T, {typeOf (select1 E1) T} -> progresses E1 ->
+   progresses (select1 E1)
+
+progress_select1 < intros Main E1.
+
+Variables: E1 T
+Main : {typeOf (select1 E1) T}
+E1 : progresses E1
+============================
+ progresses (select1 E1)
+
+progress_select1 < case Main.
+
+Variables: E1 T T5 T4 T3 T2
+E1 : progresses E1
+H1 : {typeOf E1 (times5 T T2 T3 T4 T5)}
+============================
+ progresses (select1 E1)
+
+progress_select1 < case ProgressClause : E1.
+Subgoal 1:
+
+Variables: E1 T T5 T4 T3 T2
+H1 : {typeOf E1 (times5 T T2 T3 T4 T5)}
+ProgressClause : {value E1}
+============================
+ progresses (select1 E1)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+progress_select1 < assert Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5.
+Subgoal 1.1:
+
+Variables: E1 T T5 T4 T3 T2
+H1 : {typeOf E1 (times5 T T2 T3 T4 T5)}
+ProgressClause : {value E1}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 1 is:
+ progresses (select1 E1)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+progress_select1 < backchain canonical_form_times5.
+Subgoal 1:
+
+Variables: E1 T T5 T4 T3 T2
+H1 : {typeOf E1 (times5 T T2 T3 T4 T5)}
+ProgressClause : {value E1}
+Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 =
+              tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+============================
+ progresses (select1 E1)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+progress_select1 < case Canonical.
+Subgoal 1:
+
+Variables: T T5 T4 T3 T2 Arg1 Arg2 Arg3 Arg4 Arg5
+H1 : {typeOf (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5) (times5 T T2 T3 T4 T5)}
+ProgressClause : {value (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5)}
+============================
+ progresses (select1 (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+progress_select1 < search.
+Subgoal 2:
+
+Variables: E1 T T5 T4 T3 T2 E'
+H1 : {typeOf E1 (times5 T T2 T3 T4 T5)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (select1 E1)
+
+progress_select1 < search.
+Proof completed.
+
+Abella < Theorem progress_select2 : 
+forall E1 T, {typeOf (select2 E1) T} -> progresses E1 ->
+  progresses (select2 E1).
+
+============================
+ forall E1 T, {typeOf (select2 E1) T} -> progresses E1 ->
+   progresses (select2 E1)
+
+progress_select2 < intros Main E1.
+
+Variables: E1 T
+Main : {typeOf (select2 E1) T}
+E1 : progresses E1
+============================
+ progresses (select2 E1)
+
+progress_select2 < case Main.
+
+Variables: E1 T T5 T4 T3 T1
+E1 : progresses E1
+H1 : {typeOf E1 (times5 T1 T T3 T4 T5)}
+============================
+ progresses (select2 E1)
+
+progress_select2 < case ProgressClause : E1.
+Subgoal 1:
+
+Variables: E1 T T5 T4 T3 T1
+H1 : {typeOf E1 (times5 T1 T T3 T4 T5)}
+ProgressClause : {value E1}
+============================
+ progresses (select2 E1)
+
+Subgoal 2 is:
+ progresses (select2 E1)
+
+progress_select2 < assert Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5.
+Subgoal 1.1:
+
+Variables: E1 T T5 T4 T3 T1
+H1 : {typeOf E1 (times5 T1 T T3 T4 T5)}
+ProgressClause : {value E1}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 1 is:
+ progresses (select2 E1)
+
+Subgoal 2 is:
+ progresses (select2 E1)
+
+progress_select2 < backchain canonical_form_times5.
+Subgoal 1:
+
+Variables: E1 T T5 T4 T3 T1
+H1 : {typeOf E1 (times5 T1 T T3 T4 T5)}
+ProgressClause : {value E1}
+Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 =
+              tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+============================
+ progresses (select2 E1)
+
+Subgoal 2 is:
+ progresses (select2 E1)
+
+progress_select2 < case Canonical.
+Subgoal 1:
+
+Variables: T T5 T4 T3 T1 Arg1 Arg2 Arg3 Arg4 Arg5
+H1 : {typeOf (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5) (times5 T1 T T3 T4 T5)}
+ProgressClause : {value (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5)}
+============================
+ progresses (select2 (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))
+
+Subgoal 2 is:
+ progresses (select2 E1)
+
+progress_select2 < search.
+Subgoal 2:
+
+Variables: E1 T T5 T4 T3 T1 E'
+H1 : {typeOf E1 (times5 T1 T T3 T4 T5)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (select2 E1)
+
+progress_select2 < search.
+Proof completed.
+
+Abella < Theorem progress_select3 : 
+forall E1 T, {typeOf (select3 E1) T} -> progresses E1 ->
+  progresses (select3 E1).
+
+============================
+ forall E1 T, {typeOf (select3 E1) T} -> progresses E1 ->
+   progresses (select3 E1)
+
+progress_select3 < intros Main E1.
+
+Variables: E1 T
+Main : {typeOf (select3 E1) T}
+E1 : progresses E1
+============================
+ progresses (select3 E1)
+
+progress_select3 < case Main.
+
+Variables: E1 T T5 T4 T2 T1
+E1 : progresses E1
+H1 : {typeOf E1 (times5 T1 T2 T T4 T5)}
+============================
+ progresses (select3 E1)
+
+progress_select3 < case ProgressClause : E1.
+Subgoal 1:
+
+Variables: E1 T T5 T4 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T T4 T5)}
+ProgressClause : {value E1}
+============================
+ progresses (select3 E1)
+
+Subgoal 2 is:
+ progresses (select3 E1)
+
+progress_select3 < assert Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5.
+Subgoal 1.1:
+
+Variables: E1 T T5 T4 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T T4 T5)}
+ProgressClause : {value E1}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 1 is:
+ progresses (select3 E1)
+
+Subgoal 2 is:
+ progresses (select3 E1)
+
+progress_select3 < backchain canonical_form_times5.
+Subgoal 1:
+
+Variables: E1 T T5 T4 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T T4 T5)}
+ProgressClause : {value E1}
+Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 =
+              tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+============================
+ progresses (select3 E1)
+
+Subgoal 2 is:
+ progresses (select3 E1)
+
+progress_select3 < case Canonical.
+Subgoal 1:
+
+Variables: T T5 T4 T2 T1 Arg1 Arg2 Arg3 Arg4 Arg5
+H1 : {typeOf (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5) (times5 T1 T2 T T4 T5)}
+ProgressClause : {value (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5)}
+============================
+ progresses (select3 (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))
+
+Subgoal 2 is:
+ progresses (select3 E1)
+
+progress_select3 < search.
+Subgoal 2:
+
+Variables: E1 T T5 T4 T2 T1 E'
+H1 : {typeOf E1 (times5 T1 T2 T T4 T5)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (select3 E1)
+
+progress_select3 < search.
+Proof completed.
+
+Abella < Theorem progress_select4 : 
+forall E1 T, {typeOf (select4 E1) T} -> progresses E1 ->
+  progresses (select4 E1).
+
+============================
+ forall E1 T, {typeOf (select4 E1) T} -> progresses E1 ->
+   progresses (select4 E1)
+
+progress_select4 < intros Main E1.
+
+Variables: E1 T
+Main : {typeOf (select4 E1) T}
+E1 : progresses E1
+============================
+ progresses (select4 E1)
+
+progress_select4 < case Main.
+
+Variables: E1 T T5 T3 T2 T1
+E1 : progresses E1
+H1 : {typeOf E1 (times5 T1 T2 T3 T T5)}
+============================
+ progresses (select4 E1)
+
+progress_select4 < case ProgressClause : E1.
+Subgoal 1:
+
+Variables: E1 T T5 T3 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T3 T T5)}
+ProgressClause : {value E1}
+============================
+ progresses (select4 E1)
+
+Subgoal 2 is:
+ progresses (select4 E1)
+
+progress_select4 < assert Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5.
+Subgoal 1.1:
+
+Variables: E1 T T5 T3 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T3 T T5)}
+ProgressClause : {value E1}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 1 is:
+ progresses (select4 E1)
+
+Subgoal 2 is:
+ progresses (select4 E1)
+
+progress_select4 < backchain canonical_form_times5.
+Subgoal 1:
+
+Variables: E1 T T5 T3 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T3 T T5)}
+ProgressClause : {value E1}
+Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 =
+              tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+============================
+ progresses (select4 E1)
+
+Subgoal 2 is:
+ progresses (select4 E1)
+
+progress_select4 < case Canonical.
+Subgoal 1:
+
+Variables: T T5 T3 T2 T1 Arg1 Arg2 Arg3 Arg4 Arg5
+H1 : {typeOf (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5) (times5 T1 T2 T3 T T5)}
+ProgressClause : {value (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5)}
+============================
+ progresses (select4 (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))
+
+Subgoal 2 is:
+ progresses (select4 E1)
+
+progress_select4 < search.
+Subgoal 2:
+
+Variables: E1 T T5 T3 T2 T1 E'
+H1 : {typeOf E1 (times5 T1 T2 T3 T T5)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (select4 E1)
+
+progress_select4 < search.
+Proof completed.
+
+Abella < Theorem progress_select5 : 
+forall E1 T, {typeOf (select5 E1) T} -> progresses E1 ->
+  progresses (select5 E1).
+
+============================
+ forall E1 T, {typeOf (select5 E1) T} -> progresses E1 ->
+   progresses (select5 E1)
+
+progress_select5 < intros Main E1.
+
+Variables: E1 T
+Main : {typeOf (select5 E1) T}
+E1 : progresses E1
+============================
+ progresses (select5 E1)
+
+progress_select5 < case Main.
+
+Variables: E1 T T4 T3 T2 T1
+E1 : progresses E1
+H1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}
+============================
+ progresses (select5 E1)
+
+progress_select5 < case ProgressClause : E1.
+Subgoal 1:
+
+Variables: E1 T T4 T3 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}
+ProgressClause : {value E1}
+============================
+ progresses (select5 E1)
+
+Subgoal 2 is:
+ progresses (select5 E1)
+
+progress_select5 < assert Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5.
+Subgoal 1.1:
+
+Variables: E1 T T4 T3 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}
+ProgressClause : {value E1}
+============================
+ exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+
+Subgoal 1 is:
+ progresses (select5 E1)
+
+Subgoal 2 is:
+ progresses (select5 E1)
+
+progress_select5 < backchain canonical_form_times5.
+Subgoal 1:
+
+Variables: E1 T T4 T3 T2 T1
+H1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}
+ProgressClause : {value E1}
+Canonical : exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 =
+              tuple5 Arg1 Arg2 Arg3 Arg4 Arg5
+============================
+ progresses (select5 E1)
+
+Subgoal 2 is:
+ progresses (select5 E1)
+
+progress_select5 < case Canonical.
+Subgoal 1:
+
+Variables: T T4 T3 T2 T1 Arg1 Arg2 Arg3 Arg4 Arg5
+H1 : {typeOf (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5) (times5 T1 T2 T3 T4 T)}
+ProgressClause : {value (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5)}
+============================
+ progresses (select5 (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))
+
+Subgoal 2 is:
+ progresses (select5 E1)
+
+progress_select5 < search.
+Subgoal 2:
+
+Variables: E1 T T4 T3 T2 T1 E'
+H1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (select5 E1)
+
+progress_select5 < search.
+Proof completed.
+
+Abella < Theorem progress : 
+forall E T, {typeOf E T} -> progresses E.
+
+============================
+ forall E T, {typeOf E T} -> progresses E
+
+progress < induction on 1.
+
+IH : forall E T, {typeOf E T}* -> progresses E
+============================
+ forall E T, {typeOf E T}@ -> progresses E
+
+progress < intros Main.
+
+Variables: E T
+IH : forall E T, {typeOf E T}* -> progresses E
+Main : {typeOf E T}@
+============================
+ progresses E
+
+progress < case E1 : Main.
+Subgoal 1:
+
+Variables: T5 E5 T4 E4 T3 E3 T2 E2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 T1}*
+E2 : {typeOf E2 T2}*
+E3 : {typeOf E3 T3}*
+E4 : {typeOf E4 T4}*
+E5 : {typeOf E5 T5}*
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+Subgoal 3 is:
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E1.
+Subgoal 1:
+
+Variables: T5 E5 T4 E4 T3 E3 T2 E2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 T1}*
+E2 : {typeOf E2 T2}*
+E3 : {typeOf E3 T3}*
+E4 : {typeOf E4 T4}*
+E5 : {typeOf E5 T5}*
+H1 : progresses E1
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+Subgoal 3 is:
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E2.
+Subgoal 1:
+
+Variables: T5 E5 T4 E4 T3 E3 T2 E2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 T1}*
+E2 : {typeOf E2 T2}*
+E3 : {typeOf E3 T3}*
+E4 : {typeOf E4 T4}*
+E5 : {typeOf E5 T5}*
+H1 : progresses E1
+H2 : progresses E2
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+Subgoal 3 is:
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E3.
+Subgoal 1:
+
+Variables: T5 E5 T4 E4 T3 E3 T2 E2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 T1}*
+E2 : {typeOf E2 T2}*
+E3 : {typeOf E3 T3}*
+E4 : {typeOf E4 T4}*
+E5 : {typeOf E5 T5}*
+H1 : progresses E1
+H2 : progresses E2
+H3 : progresses E3
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+Subgoal 3 is:
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E4.
+Subgoal 1:
+
+Variables: T5 E5 T4 E4 T3 E3 T2 E2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 T1}*
+E2 : {typeOf E2 T2}*
+E3 : {typeOf E3 T3}*
+E4 : {typeOf E4 T4}*
+E5 : {typeOf E5 T5}*
+H1 : progresses E1
+H2 : progresses E2
+H3 : progresses E3
+H4 : progresses E4
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+Subgoal 3 is:
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E5.
+Subgoal 1:
+
+Variables: T5 E5 T4 E4 T3 E3 T2 E2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 T1}*
+E2 : {typeOf E2 T2}*
+E3 : {typeOf E3 T3}*
+E4 : {typeOf E4 T4}*
+E5 : {typeOf E5 T5}*
+H1 : progresses E1
+H2 : progresses E2
+H3 : progresses E3
+H4 : progresses E4
+H5 : progresses E5
+============================
+ progresses (tuple5 E1 E2 E3 E4 E5)
+
+Subgoal 2 is:
+ progresses (select1 E1)
+
+Subgoal 3 is:
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < backchain progress_tuple5.
+Subgoal 2:
+
+Variables: T T5 T4 T3 T2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T T2 T3 T4 T5)}*
+============================
+ progresses (select1 E1)
+
+Subgoal 3 is:
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E1.
+Subgoal 2:
+
+Variables: T T5 T4 T3 T2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T T2 T3 T4 T5)}*
+H1 : progresses E1
+============================
+ progresses (select1 E1)
+
+Subgoal 3 is:
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < backchain progress_select1.
+Subgoal 3:
+
+Variables: T T5 T4 T3 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T1 T T3 T4 T5)}*
+============================
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E1.
+Subgoal 3:
+
+Variables: T T5 T4 T3 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T1 T T3 T4 T5)}*
+H1 : progresses E1
+============================
+ progresses (select2 E1)
+
+Subgoal 4 is:
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < backchain progress_select2.
+Subgoal 4:
+
+Variables: T T5 T4 T2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T1 T2 T T4 T5)}*
+============================
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E1.
+Subgoal 4:
+
+Variables: T T5 T4 T2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T1 T2 T T4 T5)}*
+H1 : progresses E1
+============================
+ progresses (select3 E1)
+
+Subgoal 5 is:
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < backchain progress_select3.
+Subgoal 5:
+
+Variables: T T5 T3 T2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T1 T2 T3 T T5)}*
+============================
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < apply IH to E1.
+Subgoal 5:
+
+Variables: T T5 T3 T2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T1 T2 T3 T T5)}*
+H1 : progresses E1
+============================
+ progresses (select4 E1)
+
+Subgoal 6 is:
+ progresses (select5 E1)
+
+progress < backchain progress_select4.
+Subgoal 6:
+
+Variables: T T4 T3 T2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}*
+============================
+ progresses (select5 E1)
+
+progress < apply IH to E1.
+Subgoal 6:
+
+Variables: T T4 T3 T2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+E1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}*
+H1 : progresses E1
+============================
+ progresses (select5 E1)
+
+progress < backchain progress_select5.
+Proof completed.
+
+Abella < Theorem preservation : 
+forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
+
+============================
+ forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}
+
+preservation < induction on 1.
+
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+============================
+ forall E E' T, {step E E'}@ -> {typeOf E T} -> {typeOf E' T}
+
+preservation < intros Main TypeOf.
+
+Variables: E E' T
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Main : {step E E'}@
+TypeOf : {typeOf E T}
+============================
+ {typeOf E' T}
+
+preservation < case Step : Main.
+Subgoal 1:
+
+Variables: E' T E5 E4 E3 E2
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select1 (tuple5 E' E2 E3 E4 E5)) T}
+============================
+ {typeOf E' T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 1:
+
+Variables: E' T E5 E4 E3 E2 T5 T4 T3 T2
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select1 (tuple5 E' E2 E3 E4 E5)) T}
+Arg1_1 : {typeOf (tuple5 E' E2 E3 E4 E5) (times5 T T2 T3 T4 T5)}
+============================
+ {typeOf E' T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 1:
+
+Variables: E' T E5 E4 E3 E2 T5 T4 T3 T2
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select1 (tuple5 E' E2 E3 E4 E5)) T}
+Arg1_1 : {typeOf (tuple5 E' E2 E3 E4 E5) (times5 T T2 T3 T4 T5)}
+Arg2_1 : {typeOf E' T}
+Arg2_2 : {typeOf E2 T2}
+Arg2_3 : {typeOf E3 T3}
+Arg2_4 : {typeOf E4 T4}
+Arg2_5 : {typeOf E5 T5}
+============================
+ {typeOf E' T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 2:
+
+Variables: E' T E5 E4 E3 E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select2 (tuple5 E1 E' E3 E4 E5)) T}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 2:
+
+Variables: E' T E5 E4 E3 E1 T5 T4 T3 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select2 (tuple5 E1 E' E3 E4 E5)) T}
+Arg1_1 : {typeOf (tuple5 E1 E' E3 E4 E5) (times5 T1 T T3 T4 T5)}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 2:
+
+Variables: E' T E5 E4 E3 E1 T5 T4 T3 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select2 (tuple5 E1 E' E3 E4 E5)) T}
+Arg1_1 : {typeOf (tuple5 E1 E' E3 E4 E5) (times5 T1 T T3 T4 T5)}
+Arg2_1 : {typeOf E1 T1}
+Arg2_2 : {typeOf E' T}
+Arg2_3 : {typeOf E3 T3}
+Arg2_4 : {typeOf E4 T4}
+Arg2_5 : {typeOf E5 T5}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 3:
+
+Variables: E' T E5 E4 E2 E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select3 (tuple5 E1 E2 E' E4 E5)) T}
+============================
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 3:
+
+Variables: E' T E5 E4 E2 E1 T5 T4 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select3 (tuple5 E1 E2 E' E4 E5)) T}
+Arg1_1 : {typeOf (tuple5 E1 E2 E' E4 E5) (times5 T1 T2 T T4 T5)}
+============================
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 3:
+
+Variables: E' T E5 E4 E2 E1 T5 T4 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select3 (tuple5 E1 E2 E' E4 E5)) T}
+Arg1_1 : {typeOf (tuple5 E1 E2 E' E4 E5) (times5 T1 T2 T T4 T5)}
+Arg2_1 : {typeOf E1 T1}
+Arg2_2 : {typeOf E2 T2}
+Arg2_3 : {typeOf E' T}
+Arg2_4 : {typeOf E4 T4}
+Arg2_5 : {typeOf E5 T5}
+============================
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 4:
+
+Variables: E' T E5 E3 E2 E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select4 (tuple5 E1 E2 E3 E' E5)) T}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 4:
+
+Variables: E' T E5 E3 E2 E1 T5 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select4 (tuple5 E1 E2 E3 E' E5)) T}
+Arg1_1 : {typeOf (tuple5 E1 E2 E3 E' E5) (times5 T1 T2 T3 T T5)}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 4:
+
+Variables: E' T E5 E3 E2 E1 T5 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select4 (tuple5 E1 E2 E3 E' E5)) T}
+Arg1_1 : {typeOf (tuple5 E1 E2 E3 E' E5) (times5 T1 T2 T3 T T5)}
+Arg2_1 : {typeOf E1 T1}
+Arg2_2 : {typeOf E2 T2}
+Arg2_3 : {typeOf E3 T3}
+Arg2_4 : {typeOf E' T}
+Arg2_5 : {typeOf E5 T5}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 5:
+
+Variables: E' T E4 E3 E2 E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select5 (tuple5 E1 E2 E3 E4 E')) T}
+============================
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 5:
+
+Variables: E' T E4 E3 E2 E1 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select5 (tuple5 E1 E2 E3 E4 E')) T}
+Arg1_1 : {typeOf (tuple5 E1 E2 E3 E4 E') (times5 T1 T2 T3 T4 T)}
+============================
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 5:
+
+Variables: E' T E4 E3 E2 E1 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select5 (tuple5 E1 E2 E3 E4 E')) T}
+Arg1_1 : {typeOf (tuple5 E1 E2 E3 E4 E') (times5 T1 T2 T3 T4 T)}
+Arg2_1 : {typeOf E1 T1}
+Arg2_2 : {typeOf E2 T2}
+Arg2_3 : {typeOf E3 T3}
+Arg2_4 : {typeOf E4 T4}
+Arg2_5 : {typeOf E' T}
+============================
+ {typeOf E' T}
+
+Subgoal 6 is:
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 6:
+
+Variables: T E1' E1 E5 E4 E3 E2
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (tuple5 E1 E2 E3 E4 E5) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (tuple5 E1' E2 E3 E4 E5) T}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 6:
+
+Variables: E1' E1 E5 E4 E3 E2 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+============================
+ {typeOf (tuple5 E1' E2 E3 E4 E5) (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf1.
+Subgoal 6:
+
+Variables: E1' E1 E5 E4 E3 E2 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+H1 : {typeOf E1' T1}
+============================
+ {typeOf (tuple5 E1' E2 E3 E4 E5) (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 7 is:
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 7:
+
+Variables: T E1 E2' E2 E5 E4 E3
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (tuple5 E1 E2 E3 E4 E5) T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+============================
+ {typeOf (tuple5 E1 E2' E3 E4 E5) T}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 7:
+
+Variables: E1 E2' E2 E5 E4 E3 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+============================
+ {typeOf (tuple5 E1 E2' E3 E4 E5) (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf2.
+Subgoal 7:
+
+Variables: E1 E2' E2 E5 E4 E3 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+H1 : {typeOf E2' T2}
+============================
+ {typeOf (tuple5 E1 E2' E3 E4 E5) (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 8 is:
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 8:
+
+Variables: T E2 E1 E3' E3 E5 E4
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (tuple5 E1 E2 E3 E4 E5) T}
+Step : {step E3 E3'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+============================
+ {typeOf (tuple5 E1 E2 E3' E4 E5) T}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 8:
+
+Variables: E2 E1 E3' E3 E5 E4 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E3 E3'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+============================
+ {typeOf (tuple5 E1 E2 E3' E4 E5) (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf3.
+Subgoal 8:
+
+Variables: E2 E1 E3' E3 E5 E4 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E3 E3'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+H1 : {typeOf E3' T3}
+============================
+ {typeOf (tuple5 E1 E2 E3' E4 E5) (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 9 is:
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 9:
+
+Variables: T E3 E2 E1 E4' E4 E5
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (tuple5 E1 E2 E3 E4 E5) T}
+Step : {step E4 E4'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+Step3 : {value E3}*
+============================
+ {typeOf (tuple5 E1 E2 E3 E4' E5) T}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 9:
+
+Variables: E3 E2 E1 E4' E4 E5 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E4 E4'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+Step3 : {value E3}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+============================
+ {typeOf (tuple5 E1 E2 E3 E4' E5) (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf4.
+Subgoal 9:
+
+Variables: E3 E2 E1 E4' E4 E5 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E4 E4'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+Step3 : {value E3}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+H1 : {typeOf E4' T4}
+============================
+ {typeOf (tuple5 E1 E2 E3 E4' E5) (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 10 is:
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 10:
+
+Variables: T E4 E3 E2 E1 E5' E5
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (tuple5 E1 E2 E3 E4 E5) T}
+Step : {step E5 E5'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+Step3 : {value E3}*
+Step4 : {value E4}*
+============================
+ {typeOf (tuple5 E1 E2 E3 E4 E5') T}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 10:
+
+Variables: E4 E3 E2 E1 E5' E5 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E5 E5'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+Step3 : {value E3}*
+Step4 : {value E4}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+============================
+ {typeOf (tuple5 E1 E2 E3 E4 E5') (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf5.
+Subgoal 10:
+
+Variables: E4 E3 E2 E1 E5' E5 T5 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E5 E5'}*
+Step1 : {value E1}*
+Step2 : {value E2}*
+Step3 : {value E3}*
+Step4 : {value E4}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 T2}
+TypeOf3 : {typeOf E3 T3}
+TypeOf4 : {typeOf E4 T4}
+TypeOf5 : {typeOf E5 T5}
+H1 : {typeOf E5' T5}
+============================
+ {typeOf (tuple5 E1 E2 E3 E4 E5') (times5 T1 T2 T3 T4 T5)}
+
+Subgoal 11 is:
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 11:
+
+Variables: T E1' E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select1 E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 11:
+
+Variables: T E1' E1 T5 T4 T3 T2
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T T2 T3 T4 T5)}
+============================
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf1.
+Subgoal 11:
+
+Variables: T E1' E1 T5 T4 T3 T2
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T T2 T3 T4 T5)}
+H1 : {typeOf E1' (times5 T T2 T3 T4 T5)}
+============================
+ {typeOf (select1 E1') T}
+
+Subgoal 12 is:
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 12:
+
+Variables: T E1' E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select2 E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 12:
+
+Variables: T E1' E1 T5 T4 T3 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T1 T T3 T4 T5)}
+============================
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf1.
+Subgoal 12:
+
+Variables: T E1' E1 T5 T4 T3 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T1 T T3 T4 T5)}
+H1 : {typeOf E1' (times5 T1 T T3 T4 T5)}
+============================
+ {typeOf (select2 E1') T}
+
+Subgoal 13 is:
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 13:
+
+Variables: T E1' E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select3 E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 13:
+
+Variables: T E1' E1 T5 T4 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T1 T2 T T4 T5)}
+============================
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf1.
+Subgoal 13:
+
+Variables: T E1' E1 T5 T4 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T1 T2 T T4 T5)}
+H1 : {typeOf E1' (times5 T1 T2 T T4 T5)}
+============================
+ {typeOf (select3 E1') T}
+
+Subgoal 14 is:
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 14:
+
+Variables: T E1' E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select4 E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 14:
+
+Variables: T E1' E1 T5 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T1 T2 T3 T T5)}
+============================
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf1.
+Subgoal 14:
+
+Variables: T E1' E1 T5 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T1 T2 T3 T T5)}
+H1 : {typeOf E1' (times5 T1 T2 T3 T T5)}
+============================
+ {typeOf (select4 E1') T}
+
+Subgoal 15 is:
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Subgoal 15:
+
+Variables: T E1' E1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+TypeOf : {typeOf (select5 E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (select5 E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 15:
+
+Variables: T E1' E1 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}
+============================
+ {typeOf (select5 E1') T}
+
+preservation < apply IH to Step TypeOf1.
+Subgoal 15:
+
+Variables: T E1' E1 T4 T3 T2 T1
+IH : forall E E' T, {step E E'}* -> {typeOf E T} -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times5 T1 T2 T3 T4 T)}
+H1 : {typeOf E1' (times5 T1 T2 T3 T4 T)}
+============================
+ {typeOf (select5 E1') T}
+
+preservation < search.
+Proof completed.
+
+Abella < Goodbye.
