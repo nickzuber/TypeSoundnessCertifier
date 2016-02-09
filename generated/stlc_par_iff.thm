@@ -1,0 +1,60 @@
+Specification "stlc_par_iff".
+
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (abs Arg1 Arg2)).
+intros Main Value. case Main.
+ search.
+ case Value. case Value.
+ 
+
+
+Theorem  canonical_form_bool : forall E, {typeOf E (bool )} -> {value E} -> E = (tt ) \/ E = (ff ).
+intros Main Value. case Main.
+ search. search.
+ case Value. case Value.
+ 
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((abs R1 T2)).
+ search.
+
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses ((app E1 E2)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1 Arg2, E1 = (abs Arg1 Arg2))). backchain canonical_form_arrow. case Canonical.  search. search.
+
+
+
+Theorem progress_tt : forall  T, {typeOf ((tt )) T} -> progresses ((tt )).
+ search.
+
+
+
+Theorem progress_ff : forall  T, {typeOf ((ff )) T} -> progresses ((ff )).
+ search.
+
+
+
+Theorem progress_if : forall E1 E2 E3 T, {typeOf ((if E1 E2 E3)) T} -> progresses E1 -> progresses ((if E1 E2 E3)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert (E1 = (tt ) \/ E1 = (ff )). backchain canonical_form_bool. case Canonical. search. search. search.
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. E1 : case Main.
+ backchain progress_abs.
+  backchain progress_tt.
+  backchain progress_ff.
+
+ apply IH to E1. backchain progress_app.
+ apply IH to E1. backchain progress_if.
+
+ 
+ 

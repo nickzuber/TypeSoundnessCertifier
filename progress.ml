@@ -1,35 +1,135 @@
-
 open Batteries
+open Option
 open Aux
-open Type_system
+open TypedLanguage
+open SafeTypedLanguage
 open Proof
 
 let dynamicSemantics = "step"
+let combinatoricsOfSearches sensitivePositions errorSpec = 
+	let multiply = if is_none errorSpec then 1 else 2 in 
+		repeat (Tactic(Search)) (((List.length sensitivePositions) * multiply) + 1)
 
-let rec toString term = match term with 
-  | Var(name) -> name
-  | Constructor(name, arguments) -> name ^ " " ^ String.concat " " (List.map toString arguments)
+let combinatoricsWithErrorAnalysis = [Tactic(Search) ; Tactic(Case("ProgressClause")) ; Tactic(Search) ; Tactic(Search)]
 
-let progressDefinition ts = if (ts_containErrors ts) then "Define progresses : term -> prop by\n\t progresses E := {value E} ;\n\t progresses E := {error E} ;\n\t progresses E := exists E', {" ^ dynamicSemantics ^ " E E'}."
+let progressDefinition sl = 
+	if (sl_containErrors sl) 
+	then "Define progresses : term -> prop by\n\t progresses E := {value E} ;\n\t progresses E := {error E} ;\n\t progresses E := exists E', {" ^ dynamicSemantics ^ " E E'}."
 	else "Define progresses : term -> prop by\n\t progresses E := {value E} ;\n\t progresses E := exists E', {" ^ dynamicSemantics ^ " E E'}."
-let appealToCanonicalForm signatureTerms termDecl valuePositions = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
-    let typeBeingDestructed =  info_destructedType info in 
-    let canonicalFormsDecl =  getConstructorsByOp typeBeingDestructed signatureTerms in 
-	let closeWithSearches = if getErrors signatureTerms = [] then repeat (Tactic(Search)) (List.length (List.drop 1 valuePositions)) else repeat (Tactic(Search)) ((List.length (List.drop 1 valuePositions)) * 2) in 
-		  [Tactic(Named("Canonical", Assert(String.concat " \\/ " (List.map (existentiallyClosedEquation "E1") canonicalFormsDecl)))) ; Tactic(Backchain("canonical_form", typeBeingDestructed)) ; Tactic(Case("Canonical")) ; RepeatPlain(List.length canonicalFormsDecl, Tactic(Search))] @ closeWithSearches
 
+let appealToCanonicalForm typeSpec = 
+	let constructors = (specType_getConstructors typeSpec) in 
+	let typeBeingProved = (specType_getTypeName typeSpec) in 
+		  [Tactic(Named("Canonical", Assert(String.concat " \\/ " (List.map (existentiallyClosedEquation "E1") constructors)))) ; Tactic(Backchain("canonical_form", typeBeingProved)) ; Tactic(Case("Canonical")) ; RepeatPlain((List.length constructors) - 1, Tactic(Search))] 
 
-let preambleproof_progress_lemmas isNonValue valuePositions = if isNonValue then Seq([Tactic(Intros("Main" :: valuePositions)) ; Tactic(Case("Main")) ; Tactic(Named("ProgressClause", Case("E1")))] @ (List.map toCase (List.drop 1 valuePositions))) else Seq([Tactic(Intros(["Main"])) ; Tactic(Case("Main"))])
 let toE i = "E" ^ (string_of_int i)
 let progressImplication var = "progresses " ^ var ^ " -> "
 
-let statement_progress_lemmas termDecl valuePositions = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
-	let extraPremise = String.concat "" (List.map progressImplication valuePositions) in 
-	let (canonical, vars) = canonicalForTerm termDecl in 
-	let c = termDelc_getOperator termDecl in 
-	"Theorem progress_" ^ c ^ " : forall" ^ toStringFromList vars ^ " T, {typeOf (" ^ toString canonical ^ ") T} -> " ^ extraPremise ^ "progresses (" ^ toString canonical ^ ")." 
+let preambleproof_progress_lemmas positions_of_values = if positions_of_values = [] then Qed else Seq([Tactic(Intros("Main" :: positions_of_values)) ; Tactic(Case("Main")) ; Tactic(Named("ProgressClause", Case((List.hd positions_of_values))))] @ List.map toCase (List.tl positions_of_values))
 
-let progressLemmas signatureTerms termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
+let statement_progress_lemmas termDecl sensitivePositions = 
+	let extraPremise = String.concat "" (List.map progressImplication sensitivePositions) in 
+	let (canonical, vars) = term_getCanonical termDecl in 
+	"Theorem progress_" ^ (term_getOperator termDecl) ^ " : forall" ^ toStringFromList vars ^ " T, {typeOf (" ^ toString canonical ^ ") T} -> " ^ extraPremise ^ "progresses (" ^ toString canonical ^ ")." 
+
+let progressLemmasByOperators errorSpec typeSpec eliminator =  
+	let termDecl = specTerm_getSig eliminator in 
+	let sensitivePositions = List.map toE (term_getValPositions termDecl) in 
+	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
+	let preamble = preambleproof_progress_lemmas sensitivePositions in 
+	let proof_appealToCanonicalForm = if is_none typeSpec then [] else appealToCanonicalForm (get typeSpec) in 
+	let proof = proof_appealToCanonicalForm @ combinatoricsOfSearches sensitivePositions errorSpec 
+		in Theorem(theorem, Seq([preamble ; Seq(proof)])) 
+
+let progressLemmasByErrorHandler errorHandler = 
+	let termDecl = specTerm_getSig errorHandler in 
+	let sensitivePositions = List.map toE (term_getValPositions termDecl) in 
+	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
+	let preamble = preambleproof_progress_lemmas sensitivePositions in 
+	let proof = combinatoricsWithErrorAnalysis  
+		in Theorem(theorem, Seq([preamble ; Seq(proof)])) 
+			
+let progressLemmasTypes errorSpec typeSpec = 
+	List.map (progressLemmasByOperators errorSpec None) (specType_getConstructors typeSpec)
+		@
+	List.map (progressLemmasByOperators errorSpec (Some typeSpec)) (specType_getEliminators typeSpec)
+
+(* returns progressDef, (theorem, proof) list *)
+
+let generateProgressLemmas sl = match sl with SafeTypedLanguage(types, others, errorSpec) -> 
+	List.concat (List.map (progressLemmasTypes errorSpec) types) @ List.map (progressLemmasByOperators errorSpec None) others @ List.map progressLemmasByErrorHandler (specError_getHandlers errorSpec)
+
+let callCanonicalLemma operator = let termDecl = specTerm_getSig operator in Seq([ForEach(List.map toE (term_getValPositions termDecl), Tactic(Apply("IH", ["x"]))) ; Tactic(Backchain("progress", term_getOperator termDecl))])
+
+let generateProgressTheorem sl = match sl with SafeTypedLanguage(types, others, errorSpec) -> 
+         let theorem = "Theorem progress : forall E T, {typeOf E T} -> progresses E. \ninduction on 1. intros Main. E1 : case Main." in
+		 let proofConstructors = Seq(List.map callCanonicalLemma (List.concat (List.map specType_getConstructors types))) in 
+		 let proofEliminators = Seq(List.map callCanonicalLemma (List.concat (List.map specType_getEliminators types))) in 
+         let proofOthers = Seq(List.map callCanonicalLemma others) in
+		 let proofErrors = if is_none errorSpec then Qed else Seq(List.map callCanonicalLemma (specError_getHandlers errorSpec) @ [Tactic(Search)]) in 
+          Theorem(theorem, Seq([proofConstructors ; proofEliminators ; proofOthers ; proofErrors]))
+
+		  (*			
+		  (*
+			  
+Seq([Tactic(Case("Value"))] @ List.map callCanonicalLemma (specError_getHandlers errorSpec)) 
+			  
+let progressLemmasByOperators errorSpec operator = 
+	let termDecl = specTerm_getSig operator in 
+	let sensitivePositions = List.map toE (term_getValPositions termDecl) in 
+	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
+	let preamble = preambleproof_progress_lemmas sensitivePositions in 
+	let proof = combinatoricsOfSearches sensitivePositions errorSpec 
+		in Theorem(theorem, Seq([preamble ; Seq(proof)])) 	
+
+let progressLemmasEliminators errorSpec typeSpec eliminator =  
+	let termDecl = specTerm_getSig eliminator in 
+	let sensitivePositions = List.sort_uniq (String.compare) ("E1" :: List.map toE (term_getValPositions termDecl)) in 
+	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
+	let preamble = try preambleproof_progress_lemmas sensitivePositions with Failure _ -> raise(Failure("eliminator")) in 
+	let proof = appealToCanonicalForm typeSpec @ [Tactic(Search)] @ combinatoricsOfSearches (List.drop 1 sensitivePositions) errorSpec
+		in Theorem(theorem, Seq([preamble ; Seq(proof)])) 
+
+
+Case(List.hd positions_of_values)
+
+let proofByLemma termSpec = match specTerm_getSig termSpec with DeclTrm(c, ctx, arguments) -> Tactic(Backchain("progress", c))
+
+let proofOrindaryTerm termSpec = match specTerm_getSig termSpec with DeclTrm(c, ctx, arguments) -> 
+	if ctx_emptyContext ctx then Tactic(Search) else proofByLemma termSpec
+
+
+let toE i = "E" ^ (string_of_int i)
+			  
+(*  let rec toString term = match term with 
+    | Var(name) -> name
+    | Constructor(name, arguments) -> name ^ " " ^ String.concat " " (List.map toString arguments)
+*)
+  
+	
+	match summary with (termDecl, firstIsExhaustive) -> 
+	let sensitivePositions = grid_getSensitivePositions grid in 
+	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
+	let preamble = preambleproof_progress_lemmas sensitivePositions in 
+	let proof = 
+		match List.hd grid with 
+			| Free -> combinatoricsOfSearches sensitivePositions errorSpec
+			| Value -> combinatoricsOfSearches sensitivePositions errorSpec
+			| ExhaustiveCases cases -> appealToCanonicalForm cases @ combinatoricsOfSearches sensitivePositions errorSpec
+		in Theorem(theorem, Seq([preamble ; Seq(proof)])) 
+  
+			  
+	let closeWithSearches = if getErrors signatureTerms = [] then repeat (Tactic(Search)) (List.length (List.drop 1 valuePositions)) else repeat (Tactic(Search)) ((List.length (List.drop 1 valuePositions)) * 2) in 
+			  
+	let possibleErrorCase = if is_none errorSpec then [] else if List.mem termDecl (getErrorHandlers signatureTerms) then [Tactic(Case("ProgressClause")) ; Tactic(Search)] else [Tactic(Search)] in 
+		  	Alrogithm for progress lemma for constructors: search.
+		  	Alrogithm for progress lemma for destructors: case E1, appeal to canonical form, and for all canonical forms do search. then do search for the progress case (when E1 progresses)
+
+Seq(repeat (Tactic(Search)) (List.length (getConstructors signatureTerms) - List.length (getValuesWithValues signatureTerms))) in 
+	(List.map (progressLemmasValues (not (getErrors signatureTerms = []))) (getValuesWithValues signatureTerms)) @ (List.map (progressLemmas signatureTerms) (getNonResults signatureTerms)) 
+			  		  *)
+			  
+signatureTerms termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> 
 	let valuePositions = List.map toE (context_getFlattenedInfo ctx) in (* it should be (getArgumentsCheckedForValuehood c rules) *)
 	let theorem = statement_progress_lemmas termDecl valuePositions in 
 	let preamble = preambleproof_progress_lemmas true valuePositions in 
@@ -47,24 +147,12 @@ let progressLemmasValues isThereError termDecl = match termDecl with DeclTrm(c, 
 	let proof = Seq(repeat (Tactic(Search)) (numberOfValuePremises * mult)) in
 		Theorem(theorem, Seq([preamble ; proof])) 
 
-(* returns progressDef, (theorem, proof) list *)
-let generateProgressLemmas ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> 
-	(List.map (progressLemmasValues (not (getErrors signatureTerms = []))) (getValuesWithValues signatureTerms)) @ (List.map (progressLemmas signatureTerms) (getNonResults signatureTerms)) 
-
-		  (* 
-		  	Alrogithm for progress lemma for constructors: search.
-		  	Alrogithm for progress lemma for destructors: case E1, appeal to canonical form, and for all canonical forms do search. then do search for the progress case (when E1 progresses)
-		  *)
-
-let generateProgressTheorem ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
-         let theorem = "Theorem progress : forall E T, {typeOf E T} -> progresses E. \ninduction on 1. intros Main. E1 : case Main." in
-         let proofBycases = (fun termDecl -> let valuePositions = List.map toE (termDelc_getCtxInfo termDecl) in if termDecl_containTerms termDecl then Seq([ForEach(valuePositions, Tactic(Apply("IH", ["x"]))) ; Tactic(Backchain("progress", termDelc_getOperator termDecl))]) else Tactic(Backchain("progress", termDelc_getOperator termDecl))) in
-		 let proofConstructors = Seq(repeat (Tactic(Search)) (List.length (getConstructors signatureTerms) - List.length (getValuesWithValues signatureTerms))) in 
-         let proofNonResults = Seq(List.map proofBycases ((getValuesWithValues signatureTerms) @ (getNonResults signatureTerms))) in
-		 let proofErrors = Seq(repeat (Tactic(Search)) (List.length (getErrors signatureTerms))) in 
-          Theorem(theorem, Seq([proofConstructors ; proofNonResults ; proofErrors]))
-
-		  (*			  
+			  
+			  
+			    
+Seq(List.map proofBycases ((getValuesWithValues signatureTerms) @ (getNonResults signatureTerms))) 
+			           let proofBycases = (fun termDecl -> let valuePositions = List.map toE (termDelc_getCtxInfo termDecl) in if termDecl_containTerms termDecl then Seq([ForEach(valuePositions, Tactic(Apply("IH", ["x"]))) ; Tactic(Backchain("progress", termDelc_getOperator termDecl))]) else Tactic(Backchain("progress", termDelc_getOperator termDecl))) in
+			  
 		  	Alrogithm for main progress:
 			  for all constructors: search.
 			  for all destructors, assume the first n arguments are of kind term, then apply the inductive hypothesis on those arguments and then backchain with the progress lemma.

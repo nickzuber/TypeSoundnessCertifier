@@ -1,0 +1,42 @@
+Specification "sums".
+
+
+
+Theorem  canonical_form_sum : forall E T1 T2, {typeOf E (sum T1 T2)} -> {value E} -> (exists Arg1, E = (inl Arg1)) \/ (exists Arg1, E = (inr Arg1)).
+intros Main Value. case Main.
+ search. search.
+ case Value.
+ 
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_inl : forall E1 T, {typeOf ((inl E1)) T} -> progresses E1 -> progresses ((inl E1)).
+intros Main E1. case Main. ProgressClause : case E1.
+ search. search.
+
+
+
+Theorem progress_inr : forall E1 T, {typeOf ((inr E1)) T} -> progresses E1 -> progresses ((inr E1)).
+intros Main E1. case Main. ProgressClause : case E1.
+ search. search.
+
+
+
+Theorem progress_case : forall E1 R2 R3 T, {typeOf ((case E1 R2 R3)) T} -> progresses E1 -> progresses ((case E1 R2 R3)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1, E1 = (inl Arg1)) \/ (exists Arg1, E1 = (inr Arg1))). backchain canonical_form_sum. case Canonical. search. search. search.
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. E1 : case Main.
+apply IH to E1. backchain progress_inl.
+ apply IH to E1. backchain progress_inr.
+
+ apply IH to E1. backchain progress_case.
+
+ 
+ 

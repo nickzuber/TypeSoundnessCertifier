@@ -23,19 +23,35 @@ Define progresses : term -> prop by
 	 progresses E := {error E} ;
 	 progresses E := exists E', {step E E'}.
 
-Theorem progress_app : forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses E2 -> progresses (app E1 E2).
+Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((abs R1 T2)).
+ search.
+
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((app E1 E2)).
 intros Main E1 E2. case Main. ProgressClause : case E1. case E2.
- Canonical : assert ((exists Arg1 Arg2, E1 = (abs Arg1 Arg2))). backchain canonical_form_arrow. case Canonical. search. search. search. search. search.
+ Canonical : assert ((exists Arg1 Arg2, E1 = (abs Arg1 Arg2))). backchain canonical_form_arrow. case Canonical.  search. search. search. search. search.
 
 
 
-Theorem progress_head : forall E1 T, {typeOf (head E1) T} -> progresses E1 -> progresses (head E1).
+Theorem progress_emptyList : forall  T, {typeOf ((emptyList )) T} -> progresses ((emptyList )).
+ search.
+
+
+
+Theorem progress_cons : forall E1 E2 T, {typeOf ((cons E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((cons E1 E2)).
+intros Main E1 E2. case Main. ProgressClause : case E1. case E2.
+ search. search. search. search. search.
+
+
+
+Theorem progress_head : forall E1 T, {typeOf ((head E1)) T} -> progresses E1 -> progresses ((head E1)).
 intros Main E1. case Main. ProgressClause : case E1.
  Canonical : assert (E1 = (emptyList ) \/ (exists Arg1 Arg2, E1 = (cons Arg1 Arg2))). backchain canonical_form_list. case Canonical. search. search. search. search.
 
 
 
-Theorem progress_tail : forall E1 T, {typeOf (tail E1) T} -> progresses E1 -> progresses (tail E1).
+Theorem progress_tail : forall E1 T, {typeOf ((tail E1)) T} -> progresses E1 -> progresses ((tail E1)).
 intros Main E1. case Main. ProgressClause : case E1.
  Canonical : assert (E1 = (emptyList ) \/ (exists Arg1 Arg2, E1 = (cons Arg1 Arg2))). backchain canonical_form_list. case Canonical. search. search. search. search.
 
@@ -43,46 +59,14 @@ intros Main E1. case Main. ProgressClause : case E1.
 
 Theorem progress : forall E T, {typeOf E T} -> progresses E. 
 induction on 1. intros Main. E1 : case Main.
-search. search. search.
+ backchain progress_abs.
+  backchain progress_emptyList.
+ apply IH to E1. apply IH to E2. backchain progress_cons.
+
  apply IH to E1. apply IH to E2. backchain progress_app.
  apply IH to E1. backchain progress_head.
  apply IH to E1. backchain progress_tail.
 
- search.
-
-
-
-Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
-induction on 1. intros Main TypeOf. Step : case Main.
- Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
-  
- ToCut : inst Arg2_1 with n1 = EE. cut ToCut with Arg1_2. 
- search.
-
- Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
- 
  
  search.
- Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
- 
-  
- search.
-
- Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
- 
- 
- search.
- Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
- 
-  
- search.
-
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- case Step. TypeOf1 : case TypeOf. case TypeOf1. search.
- case Step. TypeOf1 : case TypeOf. case TypeOf2. search.
- case Step. TypeOf1 : case TypeOf. case TypeOf1. search.
- case Step. TypeOf1 : case TypeOf. case TypeOf1. search.
 

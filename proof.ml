@@ -1,5 +1,6 @@
 open Aux
-open Type_system
+open TypedLanguage
+open SafeTypedLanguage
 
 type hypothesis = string
 type lemmaName = string
@@ -50,11 +51,11 @@ let rec substituteXinProof pr hyp = let swapped = fun pr -> substituteXinProof p
 
 let universalQuantification vars = if vars = [] then "" else "forall " ^ String.concat " " vars ^ ", "
 
-let existentiallyClosedEquation var canonicalTermDecl = 
-	let (canonical, vars) = canonicalForTermNoClash canonicalTermDecl in 
+let existentiallyClosedEquation var termSpec = 
+	let (canonical, vars) = term_getCanonicalNoClash (specTerm_getSig termSpec) in 
 	if vars = [] then var ^ " = " ^ (toString canonical) else let existentials = "exists " ^ String.concat " " (List.map toString vars) ^ ", " in 
 	 "(" ^ existentials ^ var ^ " = " ^ (toString canonical) ^ ")"
-
+	 
 	 (*
 let existentiallyClosedEquation var signatureTerms canonicalTermDecl = 
 	let (canonical, vars) = canonicalForTerm canonicalTermDecl in 

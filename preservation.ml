@@ -54,15 +54,14 @@ let subProofContextual termDecl = match termDecl with DeclTrm(c, info, ctx, argu
 	let single_line = fun index -> let hypByArgIndex = "TypeOf" ^ (string_of_int index) in Seq([Tactic(Named("TypeOf1", Case("TypeOf"))) ; Tactic(Apply("IH", ["Step" ; hypByArgIndex])) ; Tactic(Search)]) in 
 	 List.map single_line (context_getFlattenedInfo ctx)		 
 
-let generatePreservationTheorem ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
+let generatePreservationTheorem sl = 
          let theorem = "Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}." in 
 		 let preamble = Seq([Tactic(Induction(1)) ; Tactic(Intros(["Main" ; "TypeOf"])) ; Tactic(Named("Step", Case("Main")))]) in
-         let proofReductionsDestructors = List.map (subProofDestructors signatureTerms rules) (getDestructors signatureTerms) in 
-		 let proofReductionsDerivedNoDestructors = List.map (subProofDerivedNoDestructors signatureTerms rules) (getDerivedNoDestructors signatureTerms) in 
-         let proofReductionsDerivedDestructors = List.map (subProofDerivedDestructors signatureTerms rules) (getDerivedDestructors signatureTerms) in 
+         let proofReductionsDestructors = List.map (subProofEliminators sl) (List.concat (List.map specType_getEliminators types)) in 
+		 let proofReductionsOthers = List.map (subProofDerivedNoDestructors signatureTerms rules) (getDerivedNoDestructors signatureTerms) in 
 		 let proofErrorHandlers = (List.map (subProofErrorHandlers signatureTerms rules) (getErrorHandlers signatureTerms)) in 
          let proofContextual = List.concat (List.map subProofContextual (getContextualTerms signatureTerms)) in
-		 let proofErrorContexts = if (ts_containErrors ts) then List.map (fun tactic -> Seq([Tactic(Case("Step")) ; Tactic(Named("TypeOf1", Case("TypeOf"))) ; tactic ; Tactic(Search)])) (List.map (toCaseTactic "TypeOf") (errorPropagatingContexts signatureTerms)) else [] in 
+		 let proofErrorContexts = if (sl_containErrors sl) then List.map (fun tactic -> Seq([Tactic(Case("Step")) ; Tactic(Named("TypeOf1", Case("TypeOf"))) ; tactic ; Tactic(Search)])) (List.map (toCaseTactic "TypeOf") (errorPropagatingContexts signatureTerms)) else [] in 
             Theorem(theorem, Seq( (preamble::proofReductionsDestructors) @ proofReductionsDerivedNoDestructors @ proofReductionsDerivedDestructors @ proofErrorHandlers @ proofContextual @ proofErrorContexts))
 			
 			

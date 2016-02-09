@@ -26,6 +26,8 @@ let find obj myList =
 	
 let decrement n = n-1
 
+let safeTail myList = if myList = [] then [] else List.tl myList
+
 let callAbella command =
   let lines = ref [] in
   let in_channel = Unix.open_process_in command in
@@ -41,3 +43,10 @@ let callAbella command =
   
 let withSpaces = String.concat " "
 
+let removeDuplicates(list') =
+  let rec removeDuplicatesHelper(list) = match List.rev(list) with
+  |[]->[]
+  |head::tail -> if List.mem head tail then
+                  removeDuplicatesHelper(List.rev(tail))
+                 else [head]@removeDuplicatesHelper(List.rev(tail))
+  in List.rev(removeDuplicatesHelper(list'));;

@@ -1,0 +1,27 @@
+Specification "unitt".
+
+
+
+Theorem  canonical_form_unitType : forall E, {typeOf E (unitType )} -> {value E} -> E = (unit ).
+intros Main Value. case Main.
+ search.
+ 
+ 
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_unit : forall  T, {typeOf ((unit )) T} -> progresses ((unit )).
+ search.
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. E1 : case Main.
+ backchain progress_unit.
+
+ 
+ 
+ 

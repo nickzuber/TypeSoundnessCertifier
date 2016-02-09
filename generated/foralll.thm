@@ -1,0 +1,34 @@
+Specification "foralll".
+
+
+
+Theorem  canonical_form_all : forall E U1, {typeOf E (all U1)} -> {value E} -> (exists Arg1, E = (absT Arg1)).
+intros Main Value. case Main.
+ search.
+ case Value.
+ 
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_absT : forall R1 T, {typeOf ((absT R1)) T} -> progresses ((absT R1)).
+ search.
+
+
+
+Theorem progress_appT : forall E1 T2 T, {typeOf ((appT E1 T2)) T} -> progresses E1 -> progresses ((appT E1 T2)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1, E1 = (absT Arg1))). backchain canonical_form_all. case Canonical.  search. search.
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. E1 : case Main.
+ backchain progress_absT.
+
+ apply IH to E1. backchain progress_appT.
+
+ 
+ 

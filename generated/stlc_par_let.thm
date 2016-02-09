@@ -9,18 +9,22 @@ intros Main Value. case Main.
  
 
 
-
 Define progresses : term -> prop by
 	 progresses E := {value E} ;
 	 progresses E := exists E', {step E E'}.
 
-Theorem progress_app : forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses E2 -> progresses (app E1 E2).
-intros Main E1 E2. case Main. ProgressClause : case E1. case E2.
- Canonical : assert ((exists Arg1 Arg2, E1 = (abs Arg1 Arg2))). backchain canonical_form_arrow. case Canonical. search. search. search.
+Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((abs R1 T2)).
+ search.
 
 
 
-Theorem progress_let : forall E1 R2 T, {typeOf (let E1 R2) T} -> progresses E1 -> progresses (let E1 R2).
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses ((app E1 E2)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1 Arg2, E1 = (abs Arg1 Arg2))). backchain canonical_form_arrow. case Canonical.  search. search.
+
+
+
+Theorem progress_let : forall E1 R2 T, {typeOf ((let E1 R2)) T} -> progresses E1 -> progresses ((let E1 R2)).
 intros Main E1. case Main. ProgressClause : case E1.
  search. search.
 
@@ -28,24 +32,10 @@ intros Main E1. case Main. ProgressClause : case E1.
 
 Theorem progress : forall E T, {typeOf E T} -> progresses E. 
 induction on 1. intros Main. E1 : case Main.
-search.
- apply IH to E1. apply IH to E2. backchain progress_app.
+ backchain progress_abs.
+
+ apply IH to E1. backchain progress_app.
+
  apply IH to E1. backchain progress_let.
 
  
-
-
-
-Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
-induction on 1. intros Main TypeOf. Step : case Main.
- Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep).
-  
- ToCut : inst Arg2_1 with n1 = EE. cut ToCut with Arg1_2. 
- search.
-
- Arg1_1 : case TypeOf(keep).  ToCut : inst Arg1_2 with n1 = V. cut ToCut with Arg1_1.
- search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
-

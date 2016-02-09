@@ -1,0 +1,14 @@
+Specification "lists_lazy".
+
+Define test_headStepEmpty : prop by
+   test_headStepEmpty := forall T, {typeOf (emptyList ) (list T)} -> {typeOf (myError ) T}.
+
+Define test_headStepCons : prop by
+   test_headStepCons := forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E1 T}.
+
+Define test_tailStepEmpty : prop by
+   test_tailStepEmpty := forall T, {typeOf (emptyList ) (list T)} -> {typeOf (myError ) (list T)}.
+
+Define test_tailStepCons : prop by
+   test_tailStepCons := forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E2 (list T)}.
+

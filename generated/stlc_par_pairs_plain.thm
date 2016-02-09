@@ -1,0 +1,62 @@
+Specification "stlc_par_pairs_plain".
+
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (abs Arg1 Arg2)).
+intros Main Value. case Main.
+ search.
+ case Value. case Value. case Value.
+ 
+
+
+Theorem  canonical_form_times : forall E T1 T2, {typeOf E (times T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (pair Arg1 Arg2)).
+intros Main Value. case Main.
+ search.
+ case Value. case Value. case Value.
+ 
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((abs R1 T2)).
+ search.
+
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses ((app E1 E2)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1 Arg2, E1 = (abs Arg1 Arg2))). backchain canonical_form_arrow. case Canonical.  search. search.
+
+
+
+Theorem progress_pair : forall E1 E2 T, {typeOf ((pair E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((pair E1 E2)).
+intros Main E1 E2. case Main. ProgressClause : case E1. case E2.
+ search. search. search.
+
+
+
+Theorem progress_fst : forall E1 T, {typeOf ((fst E1)) T} -> progresses E1 -> progresses ((fst E1)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1 Arg2, E1 = (pair Arg1 Arg2))). backchain canonical_form_times. case Canonical.  search. search.
+
+
+
+Theorem progress_snd : forall E1 T, {typeOf ((snd E1)) T} -> progresses E1 -> progresses ((snd E1)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1 Arg2, E1 = (pair Arg1 Arg2))). backchain canonical_form_times. case Canonical.  search. search.
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. E1 : case Main.
+ backchain progress_abs.
+ apply IH to E1. apply IH to E2. backchain progress_pair.
+
+ apply IH to E1. backchain progress_app.
+ apply IH to E1. backchain progress_fst.
+ apply IH to E1. backchain progress_snd.
+
+ 
+ 

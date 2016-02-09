@@ -7,8 +7,8 @@ type excType typ.
 type abs (term -> term) -> typ -> term.
 type excValue term.
 type app term -> term -> term.
-type try term -> term -> term.
 type raise term -> term.
+type try term -> term -> term.
 
 type value term -> o.
 

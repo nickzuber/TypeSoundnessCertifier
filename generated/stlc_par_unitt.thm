@@ -1,0 +1,47 @@
+Specification "stlc_par_unitt".
+
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (abs Arg1 Arg2)).
+intros Main Value. case Main.
+ search.
+ case Value.
+ 
+
+
+Theorem  canonical_form_unitType : forall E, {typeOf E (unitType )} -> {value E} -> E = (unit ).
+intros Main Value. case Main.
+ search.
+ case Value.
+ 
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((abs R1 T2)).
+ search.
+
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses ((app E1 E2)).
+intros Main E1. case Main. ProgressClause : case E1.
+ Canonical : assert ((exists Arg1 Arg2, E1 = (abs Arg1 Arg2))). backchain canonical_form_arrow. case Canonical.  search. search.
+
+
+
+Theorem progress_unit : forall  T, {typeOf ((unit )) T} -> progresses ((unit )).
+ search.
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. E1 : case Main.
+ backchain progress_abs.
+  backchain progress_unit.
+
+ apply IH to E1. backchain progress_app.
+
+ 
+ 

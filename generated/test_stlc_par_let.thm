@@ -1,0 +1,8 @@
+Specification "stlc_par_let".
+
+Define test_beta : prop by
+   test_beta := forall T T1 R EE T2, {typeOf (abs R T) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
+
+Define test_letStep : prop by
+   test_letStep := forall T1 R V T2, {typeOf V T1} -> {typeOf (R V) T2} -> {typeOf (R V) T2}.
+

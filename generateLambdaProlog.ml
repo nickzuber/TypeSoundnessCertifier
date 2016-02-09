@@ -1,9 +1,9 @@
 
 open Batteries
 open Aux
-open Type_system
+open TypedLanguage
+open SafeTypedLanguage
 open Proof
-open PreservationTests
 
 let generateSigPreamble tsName = "sig " ^ tsName ^ ".\n\nkind typ, term type.\n\n"
 let generateModPreamble tsName = "module " ^ tsName ^ ".\n\n"
@@ -32,7 +32,7 @@ type nonvalue term -> o.\n\n
 type termPred term  -> o.\n
 *)
 
-let generateSignature tsName ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) ->
+let generateSignature tsName ts = match ts with TypedLanguage(signatureTypes,signatureTerms,rules) ->
 generateSigPreamble tsName ^ (String.concat "\n" (List.map generateTypeEntry signatureTypes)) ^ "\n" ^ (String.concat "\n" (List.map generateTermEntry signatureTerms))  ^ "\n\n" ^ extraSigForPredicates
 
 let rec generateTerm term = match term with
@@ -53,19 +53,7 @@ let generateRule rule = match rule with Rule(name,premises,conclusion) ->
          let pr = if prePremises = [] then "" else " :- " ^ (String.concat ", " prePremises) in 
            (generateFormula conclusion) ^ pr ^ ".\n"
 
-let generateModule tsName ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> generateModPreamble tsName ^ (String.concat "\n" (List.map generateRule rules))
-
-let generateTestDefinitions rule = match rule with Rule(name,premises,conclusion) ->
-         let allVariables_ = (rule_getAllVariables rule) in 
-         let forallPreamble = if allVariables_ = [] then "" else "forall " ^ (String.concat " " (List.unique (List.map toString (rule_getAllVariables rule)))) ^ ", " in 
-         let testname = "test_" ^ name in 
-         let displayedPremises = (List.map generateFormula premises) in
-         let wrappedInBrackets = fun formula -> "{" ^ formula ^ "}" in
-          "Define " ^ testname ^ " : prop by\n   " ^ testname ^ " := " ^ forallPreamble ^ String.concat " -> " (List.map wrappedInBrackets displayedPremises) ^ " -> " ^ wrappedInBrackets (generateFormula conclusion) ^ ".\n\n"
-
-let generateTestModule ts = let testRules = rulesForPreservationTests ts in 
-         let generateTestQuery = fun rule -> match rule with Rule(name,premises,conclusion) -> "Query test_" ^ name ^ ".\n\n"in 
-         (String.concat "\n" (List.map generateTestDefinitions testRules)) ^ "\n" ^ (String.concat "\n" (List.map generateTestQuery testRules))
+let generateModule tsName ts = match ts with TypedLanguage(signatureTypes,signatureTerms,rules) -> generateModPreamble tsName ^ (String.concat "\n" (List.map generateRule rules))
 
 let rec generateTactic tactic = match tactic with 
  | Intros(hyps) -> "intros " ^ (String.concat " " hyps) ^ "."
@@ -90,4 +78,15 @@ let rec generateTactic tactic = match tactic with
 
 let rec generateTheorem theorem = match theorem with Theorem(statement, proof) -> statement ^ "\n" ^ generateProof proof
 let rec generateTheoremS theorems = String.concat "\n\n" (List.map generateTheorem theorems)
+
+let generateAbellaQuery rule = 
+	let variablesInConclusion = formula_getAllVariables (rule_getConclusion rule) in 
+	let removedVacuousApplications = List.filter (fun premise -> not(term_isApplication (formula_getFirstInput premise)) || List.for_all (fun x -> List.mem x variablesInConclusion) (term_getVariables (formula_getFirstInput premise))) (rule_getPremises rule) in 
+    let allVariables = variablesInConclusion @ List.concat (List.map formula_getAllVariables removedVacuousApplications) in
+    let forallPreamble = if allVariables = [] then "" else "forall " ^ (String.concat " " (List.unique (List.map toString allVariables))) ^ ", " in 
+	let testname = rule_getRuleName rule in 
+    let displayedPremises = List.map generateFormula removedVacuousApplications in
+    let wrappedInBrackets = fun formula -> "{" ^ formula ^ "}" in
+	let implications = if displayedPremises = [] then "" else String.concat " -> " (List.map wrappedInBrackets displayedPremises) ^ " -> " in 
+        "Define " ^ testname ^ " : prop by\n   " ^ testname ^ " := " ^ forallPreamble ^ implications ^ wrappedInBrackets (generateFormula (rule_getConclusion rule)) ^ ".\n\n"
 
