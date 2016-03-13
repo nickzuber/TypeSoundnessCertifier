@@ -4,9 +4,12 @@ Specification "unitt".
 
 Theorem  canonical_form_unitType : forall E, {typeOf E (unitType )} -> {value E} -> E = (unit ).
 intros Main Value. case Main.
- search.
+ case Value. search.
+
  
  
+
+
 
 
 Define progresses : term -> prop by
@@ -18,8 +21,10 @@ Theorem progress_unit : forall  T, {typeOf ((unit )) T} -> progresses ((unit )).
 
 
 
+
+
 Theorem progress : forall E T, {typeOf E T} -> progresses E. 
-induction on 1. intros Main. E1 : case Main.
+induction on 1. intros Main. TypeOfE1 : case Main.
  backchain progress_unit.
 
  
@@ -27,6 +32,15 @@ induction on 1. intros Main. E1 : case Main.
  
 
 
-Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
-induction on 1. intros Main TypeOf. Step : case Main.
+Theorem preservation : forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}.
+induction on 2. intros TypeOf Main. Step : case Main.
 
+
+
+Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'. 
+
+induction on 2. intros Main NStep. Step1 : case NStep. 
+
+backchain progress. 
+
+TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.

@@ -5,6 +5,15 @@ open TypedLanguage
 open SafeTypedLanguage
 open Aux
 open Proof
+open GenerateLambdaProlog
+
+let universalQuantification vars = if vars = [] then "" else "forall " ^ String.concat " " vars ^ ", "
+
+let existentiallyClosedEquation var termSpec = 
+	let (canonical, vars) = term_getCanonicalNoClash (specTerm_getSig termSpec) in 
+	if vars = [] then var ^ " = " ^ (toString canonical) else let existentials = "exists " ^ String.concat " " (List.map toString vars) ^ ", " in 
+	let valueTests = String.concat "" (List.map addAnd (List.map wrappedInBrackets (List.map generateFormula (List.map toValuePremise  (List.map (nthMinusOne vars) (term_getValPositions (specTerm_getSig termSpec))))))) in 
+	 "(" ^ existentials ^ var ^ " = " ^ (toString canonical) ^ valueTests ^ ")"
 
 let eachCanonicalForm nonResults errorSpec typeSpec = 
 	let typeOperator = type_getOperator (specType_getSig typeSpec) in 
@@ -12,7 +21,7 @@ let eachCanonicalForm nonResults errorSpec typeSpec =
 	let newVarsInString = List.map toString newVars in
 	let theorem = "Theorem " ^ " canonical_form_" ^ typeOperator ^ " : " ^ universalQuantification ("E"::newVarsInString) ^ "{typeOf E " ^ (toString canonical) ^ "} -> {value E} -> " ^ String.concat " \\/ " (List.map (existentiallyClosedEquation "E") (specType_getConstructors typeSpec) ) ^ "." in
 	let preamble = createSeq([Intros(["Main" ; "Value"]) ; Case("Main")]) in
-	let proofConstructors = Seq(repeat (Tactic(Search)) (List.length (specType_getConstructors typeSpec))) in 
+	let proofConstructors = Seq(repeat (Seq([Tactic(Case("Value")) ; Tactic(Search)])) (List.length (specType_getConstructors typeSpec))) in 
 	let unifiableNonResults = List.length (List.filter (unifiableWithConstructor typeOperator) (specTerms_getAllTypingRules nonResults)) in
 	let proofUnifiableNonResults = Seq(repeat (Tactic(Case("Value"))) unifiableNonResults) in 
 	let proofErrors = if is_none errorSpec then Qed else 

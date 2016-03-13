@@ -1,4 +1,4 @@
-ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservation.ml preservationTests.ml stlc.ml itlc.ml pairs.ml iff.ml lists.ml listsIsNil.ml fix.ml let.ml letrec.ml letrecWithType.ml sums.ml unitt.ml exception.ml listsWithExc.ml tuples.ml forall.ml fullFledged.ml fullFledgedWithType.ml test.ml
+ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservation.ml preservationTests.ml stlc.ml itlc.ml pairs.ml iff.ml lists.ml listsIsNil.ml fix.ml let.ml letrec.ml letrecWithType.ml letrecFix.ml sums.ml unitt.ml exception.ml listsWithExc.ml tuples.ml forall.ml recursive.ml lambdaFull.ml fullFledged.ml fullFledgedWithType.ml soundnessCertifier.ml
 
 #use "topfind";;
 #require "batteries";;
@@ -30,15 +30,18 @@ open Batteries;;
 #load  "let.cmo";;
 #load  "letrec.cmo";;
 #load  "letrecWithType.cmo";;
+#load  "letrecFix.cmo";;
 #load  "sums.cmo";;
 #load  "unitt.cmo";;
 #load  "exception.cmo";;
 #load  "listsWithExc.cmo";;
 #load  "tuples.cmo";;
 #load  "forall.cmo";;
+#load  "recursive.cmo";;
 #load  "fullFledged.cmo";;
+#load  "lambdaFull.cmo";;
 #load  "fullFledgedWithType.cmo";;
-#load  "test.cmo";;
+#load  "soundnessCertifier.cmo";;
 
 open Aux;;
 open TypedLanguage;;
@@ -65,15 +68,18 @@ open Fix;;
 open Let;;
 open Letrec;;
 open LetrecWithType;;
+open LetrecFix;;
 open Sums;;
 open Unitt;;
 open Exception;;
 open ListsWithExc;;
 open Tuples;;
 open Forall;;
+open Recursive;;
+open LambdaFull
 open FullFledged;;
 open FullFledgedWithType;;
-open Test;;
+open SoundnessCertifier;;
 
 
 let ts = generateNonValues (generateTermPred (generateValues systemF_CBV));;

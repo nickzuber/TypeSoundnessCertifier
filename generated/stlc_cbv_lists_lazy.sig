@@ -20,3 +20,5 @@ type error term -> o.
 type typeOf term -> typ -> o.
 
 type step term -> term -> o.
+
+type nstep term -> term -> o.

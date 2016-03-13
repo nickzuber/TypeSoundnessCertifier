@@ -68,8 +68,9 @@ let entry_toKindProduced entry = match entry with Simple(kind) -> kind | Abstrac
 let term_isConstructor term = match term with Constructor(c, args) -> true  | otherwise -> false
 let term_isVar term = match term with Var(name) -> true | otherwise -> false
 let term_isApplication term = match term with Application(term1,term2) -> true | otherwise -> false
-let term_getConstructor term = match term with Constructor(c, args) -> c (* | otherwise -> raise(Failure (toString term)) *)
-let term_getArguments term = match term with Constructor(c, args) -> args
+let term_getConstructor term = match term with Constructor(c, args) -> c | otherwise -> raise(Failure ("term_getConstructor: " ^ toString term)) 
+let term_getArguments term = match term with Constructor(c, args) -> args | otherwise -> raise(Failure ("term_getArguments: " ^ toString term))
+let term_getNestedFirstArgument term = term_getConstructor (List.hd (term_getArguments term))
 let type_getOperator typeDecl = match typeDecl with DeclType(c,arguments) -> c
 let term_getOperator termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> c
 let term_getValPositions termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> valpos
@@ -113,6 +114,10 @@ let formula_getFirstInput premise = match premise with
 	| Hypothetical(term1, term2, term3) -> term2
 	| Generic(term1, term2) -> term1
 
+let formula_getHypotheticalPart premise = match premise with 
+	| Hypothetical(term1, term2, term3) -> term1
+	| _ -> raise(Failure "formula_getHypotheticalPart : the premise is not hypothetical")
+
 let formula_getFirstInputUpToApp premise = let term = (formula_getFirstInput premise) in if term_isApplication term then match term with Application(term1, term2) -> term1 else term
 
 let formula_getFirstOutput premise = match premise with 
@@ -143,18 +148,18 @@ let rule_outputBecomesInput formula = match formula with Formula(pred, inputs, o
 let rec term_retrieveApplications term = match term with 
 | Var(name) -> []
 | Constructor(name, arguments) -> List.concat (List.map term_retrieveApplications arguments)
-| Application(term1, term2) -> if term_isVar term1 && term_isVar term1 then [(term1, term2)] else raise(Failure ("term_retrieveApplications: error in Application(term1, term2), the terms that are not variables"))
+| Application(term1, term2) -> if term_isVar term1 then [(term1, term2)] else raise(Failure ("term_retrieveApplications: error in Application(term1, term2), term1 is not a variable"))
 
 let term_toPosition term (abs, applied) = 
 	try 
-	if term_isConstructor term then 
-		( (let absindex = List.index_of abs (term_getArguments term) in if is_none absindex then (2, get (List.index_of abs (term_getArguments (List.hd (term_getArguments term))))) else (1, get absindex)),   
-		  (let appindex = List.index_of applied (term_getArguments term) in if is_none appindex then (2, get (List.index_of applied (term_getArguments (List.hd (term_getArguments term))))) else (1, get appindex)), 
-		  toString applied
-	  	)
-	else raise(Failure "term_toPosition : top level term is not a constructor.")
-	with Failure _ -> raise(Failure("term_toPosition :" ^ toString term))
+	let retrieve var = (let index = List.index_of var (term_getArguments term) in if is_none index then (2, get (List.index_of var (term_getArguments (List.hd (term_getArguments term))))) else (1, get index)) in
+	let coordinatesAbs = retrieve abs in 
+	let ccordinatesApplied = if term_isVar applied then retrieve applied else (0, 0) in
+	if term_isConstructor term then (coordinatesAbs, ccordinatesApplied, applied) else raise(Failure "term_toPosition : top level term is not a constructor.")
+	with _ -> raise(Failure("term_toPosition :" ^ toString term))
 	
+let toValuePremise term = Formula("value", [term], [])
+
 	(*
 ((1,1),(2,2), "asd") 	 no, applied can be of the toplevel or nested term, and you need to grab that typing rule. 
 	Moreover the variable used in the reduction rule has nothing to do with the one in the typing rule 

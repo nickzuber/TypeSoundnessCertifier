@@ -1,0 +1,9755 @@
+Welcome to Abella 2.0.2
+Abella < Specification "lambdafull_cbv".
+Reading specification "lambdafull_cbv"
+
+Abella < Theorem canonical_form_arrow : 
+forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} ->
+  (exists Arg1, E = abs Arg1).
+
+============================
+ forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} ->
+   (exists Arg1, E = abs Arg1)
+
+canonical_form_arrow < intros Main Value.
+
+Variables: E T1 T2
+Main : {typeOf E (arrow T1 T2)}
+Value : {value E}
+============================
+ exists Arg1, E = abs Arg1
+
+canonical_form_arrow < case Main.
+Subgoal 1:
+
+Variables: T1 T2 R
+Value : {value (abs R)}
+H1 : {typeOf n1 T1 |- typeOf (R n1) T2}
+============================
+ exists Arg1, abs R = abs Arg1
+
+Subgoal 2 is:
+ exists Arg1, app E1 E2 = abs Arg1
+
+Subgoal 3 is:
+ exists Arg1, unfold E1 = abs Arg1
+
+Subgoal 4 is:
+ exists Arg1, head E1 = abs Arg1
+
+Subgoal 5 is:
+ exists Arg1, if E1 E2 E3 = abs Arg1
+
+Subgoal 6 is:
+ exists Arg1, fix E1 = abs Arg1
+
+Subgoal 7 is:
+ exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 8 is:
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 1:
+
+Variables: T1 T2 R
+H1 : {typeOf n1 T1 |- typeOf (R n1) T2}
+============================
+ exists Arg1, abs R = abs Arg1
+
+Subgoal 2 is:
+ exists Arg1, app E1 E2 = abs Arg1
+
+Subgoal 3 is:
+ exists Arg1, unfold E1 = abs Arg1
+
+Subgoal 4 is:
+ exists Arg1, head E1 = abs Arg1
+
+Subgoal 5 is:
+ exists Arg1, if E1 E2 E3 = abs Arg1
+
+Subgoal 6 is:
+ exists Arg1, fix E1 = abs Arg1
+
+Subgoal 7 is:
+ exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 8 is:
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < search.
+Subgoal 2:
+
+Variables: T1 T2 T3 E2 E1
+Value : {value (app E1 E2)}
+H1 : {typeOf E1 (arrow T3 (arrow T1 T2))}
+H2 : {typeOf E2 T3}
+============================
+ exists Arg1, app E1 E2 = abs Arg1
+
+Subgoal 3 is:
+ exists Arg1, unfold E1 = abs Arg1
+
+Subgoal 4 is:
+ exists Arg1, head E1 = abs Arg1
+
+Subgoal 5 is:
+ exists Arg1, if E1 E2 E3 = abs Arg1
+
+Subgoal 6 is:
+ exists Arg1, fix E1 = abs Arg1
+
+Subgoal 7 is:
+ exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 8 is:
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 3:
+
+Variables: T1 T2 R E1
+Value : {value (unfold E1)}
+H1 : R (mu R) = arrow T1 T2
+H2 : {typeOf E1 (mu R)}
+============================
+ exists Arg1, unfold E1 = abs Arg1
+
+Subgoal 4 is:
+ exists Arg1, head E1 = abs Arg1
+
+Subgoal 5 is:
+ exists Arg1, if E1 E2 E3 = abs Arg1
+
+Subgoal 6 is:
+ exists Arg1, fix E1 = abs Arg1
+
+Subgoal 7 is:
+ exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 8 is:
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 4:
+
+Variables: T1 T2 E1
+Value : {value (head E1)}
+H1 : {typeOf E1 (list (arrow T1 T2))}
+============================
+ exists Arg1, head E1 = abs Arg1
+
+Subgoal 5 is:
+ exists Arg1, if E1 E2 E3 = abs Arg1
+
+Subgoal 6 is:
+ exists Arg1, fix E1 = abs Arg1
+
+Subgoal 7 is:
+ exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 8 is:
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 5:
+
+Variables: T1 T2 E3 E2 E1
+Value : {value (if E1 E2 E3)}
+H1 : {typeOf E1 bool}
+H2 : {typeOf E2 (arrow T1 T2)}
+H3 : {typeOf E3 (arrow T1 T2)}
+============================
+ exists Arg1, if E1 E2 E3 = abs Arg1
+
+Subgoal 6 is:
+ exists Arg1, fix E1 = abs Arg1
+
+Subgoal 7 is:
+ exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 8 is:
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 6:
+
+Variables: T1 T2 E1
+Value : {value (fix E1)}
+H1 : {typeOf E1 (arrow (arrow T1 T2) (arrow T1 T2))}
+============================
+ exists Arg1, fix E1 = abs Arg1
+
+Subgoal 7 is:
+ exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 8 is:
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 7:
+
+Variables: T1 T2 R2 T3 R1
+Value : {value (letrec R1 R2)}
+H1 : {typeOf n1 T3 |- typeOf (R1 n1) T3}
+H2 : {typeOf n1 T3 |- typeOf (R2 n1) (arrow T1 T2)}
+============================
+ exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 8 is:
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 8:
+
+Variables: T1 T2 E2 E1
+Value : {value (try E1 E2)}
+H1 : {typeOf E1 (arrow T1 T2)}
+H2 : {typeOf E2 (arrow excType (arrow T1 T2))}
+============================
+ exists Arg1, try E1 E2 = abs Arg1
+
+Subgoal 9 is:
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 9:
+
+Variables: T1 T2 E1
+Value : {value (raise E1)}
+H1 : {typeOf E1 excType}
+============================
+ exists Arg1, raise E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Proof completed.
+
+Abella < Theorem canonical_form_mu : 
+forall E U1, {typeOf E (mu U1)} -> {value E} ->
+  (exists Arg1 Arg2, E = fold Arg1 Arg2 /\ {value Arg1}).
+
+============================
+ forall E U1, {typeOf E (mu U1)} -> {value E} ->
+   (exists Arg1 Arg2, E = fold Arg1 Arg2 /\ {value Arg1})
+
+canonical_form_mu < intros Main Value.
+
+Variables: E U1
+Main : {typeOf E (mu U1)}
+Value : {value E}
+============================
+ exists Arg1 Arg2, E = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Main.
+Subgoal 1:
+
+Variables: U1 E1
+Value : {value (fold E1 U1)}
+H1 : {typeOf E1 (U1 (mu U1))}
+============================
+ exists Arg1 Arg2, fold E1 U1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 2 is:
+ exists Arg1 Arg2, app E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 3 is:
+ exists Arg1 Arg2, unfold E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 4 is:
+ exists Arg1 Arg2, head E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 5 is:
+ exists Arg1 Arg2, if E1 E2 E3 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 6 is:
+ exists Arg1 Arg2, fix E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 7 is:
+ exists Arg1 Arg2, letrec R1 R2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 8 is:
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Subgoal 1:
+
+Variables: U1 E1
+H1 : {typeOf E1 (U1 (mu U1))}
+H2 : {value E1}
+============================
+ exists Arg1 Arg2, fold E1 U1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 2 is:
+ exists Arg1 Arg2, app E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 3 is:
+ exists Arg1 Arg2, unfold E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 4 is:
+ exists Arg1 Arg2, head E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 5 is:
+ exists Arg1 Arg2, if E1 E2 E3 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 6 is:
+ exists Arg1 Arg2, fix E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 7 is:
+ exists Arg1 Arg2, letrec R1 R2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 8 is:
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < search.
+Subgoal 2:
+
+Variables: U1 T1 E2 E1
+Value : {value (app E1 E2)}
+H1 : {typeOf E1 (arrow T1 (mu U1))}
+H2 : {typeOf E2 T1}
+============================
+ exists Arg1 Arg2, app E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 3 is:
+ exists Arg1 Arg2, unfold E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 4 is:
+ exists Arg1 Arg2, head E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 5 is:
+ exists Arg1 Arg2, if E1 E2 E3 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 6 is:
+ exists Arg1 Arg2, fix E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 7 is:
+ exists Arg1 Arg2, letrec R1 R2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 8 is:
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Subgoal 3:
+
+Variables: U1 R E1
+Value : {value (unfold E1)}
+H1 : R (mu R) = mu U1
+H2 : {typeOf E1 (mu R)}
+============================
+ exists Arg1 Arg2, unfold E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 4 is:
+ exists Arg1 Arg2, head E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 5 is:
+ exists Arg1 Arg2, if E1 E2 E3 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 6 is:
+ exists Arg1 Arg2, fix E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 7 is:
+ exists Arg1 Arg2, letrec R1 R2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 8 is:
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Subgoal 4:
+
+Variables: U1 E1
+Value : {value (head E1)}
+H1 : {typeOf E1 (list (mu U1))}
+============================
+ exists Arg1 Arg2, head E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 5 is:
+ exists Arg1 Arg2, if E1 E2 E3 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 6 is:
+ exists Arg1 Arg2, fix E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 7 is:
+ exists Arg1 Arg2, letrec R1 R2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 8 is:
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Subgoal 5:
+
+Variables: U1 E3 E2 E1
+Value : {value (if E1 E2 E3)}
+H1 : {typeOf E1 bool}
+H2 : {typeOf E2 (mu U1)}
+H3 : {typeOf E3 (mu U1)}
+============================
+ exists Arg1 Arg2, if E1 E2 E3 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 6 is:
+ exists Arg1 Arg2, fix E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 7 is:
+ exists Arg1 Arg2, letrec R1 R2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 8 is:
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Subgoal 6:
+
+Variables: U1 E1
+Value : {value (fix E1)}
+H1 : {typeOf E1 (arrow (mu U1) (mu U1))}
+============================
+ exists Arg1 Arg2, fix E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 7 is:
+ exists Arg1 Arg2, letrec R1 R2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 8 is:
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Subgoal 7:
+
+Variables: U1 R2 T1 R1
+Value : {value (letrec R1 R2)}
+H1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
+H2 : {typeOf n1 T1 |- typeOf (R2 n1) (mu U1)}
+============================
+ exists Arg1 Arg2, letrec R1 R2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 8 is:
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Subgoal 8:
+
+Variables: U1 E2 E1
+Value : {value (try E1 E2)}
+H1 : {typeOf E1 (mu U1)}
+H2 : {typeOf E2 (arrow excType (mu U1))}
+============================
+ exists Arg1 Arg2, try E1 E2 = fold Arg1 Arg2 /\ {value Arg1}
+
+Subgoal 9 is:
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Subgoal 9:
+
+Variables: U1 E1
+Value : {value (raise E1)}
+H1 : {typeOf E1 excType}
+============================
+ exists Arg1 Arg2, raise E1 = fold Arg1 Arg2 /\ {value Arg1}
+
+canonical_form_mu < case Value.
+Proof completed.
+
+Abella < Theorem canonical_form_list : 
+forall E T1, {typeOf E (list T1)} -> {value E} -> E = emptyList \/
+  (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}).
+
+============================
+ forall E T1, {typeOf E (list T1)} -> {value E} -> E = emptyList \/
+   (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2})
+
+canonical_form_list < intros Main Value.
+
+Variables: E T1
+Main : {typeOf E (list T1)}
+Value : {value E}
+============================
+ E = emptyList \/
+   (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2})
+
+canonical_form_list < case Main.
+Subgoal 1:
+
+Variables: T1
+Value : {value emptyList}
+============================
+ emptyList = emptyList \/
+   (exists Arg1 Arg2, emptyList = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 2 is:
+ cons E1 E2 = emptyList \/
+   (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 3 is:
+ app E1 E2 = emptyList \/
+   (exists Arg1 Arg2, app E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 4 is:
+ unfold E1 = emptyList \/
+   (exists Arg1 Arg2, unfold E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 5 is:
+ head E1 = emptyList \/
+   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 6 is:
+ tail E1 = emptyList \/
+   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 7 is:
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 1:
+
+Variables: T1
+============================
+ emptyList = emptyList \/
+   (exists Arg1 Arg2, emptyList = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 2 is:
+ cons E1 E2 = emptyList \/
+   (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 3 is:
+ app E1 E2 = emptyList \/
+   (exists Arg1 Arg2, app E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 4 is:
+ unfold E1 = emptyList \/
+   (exists Arg1 Arg2, unfold E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 5 is:
+ head E1 = emptyList \/
+   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 6 is:
+ tail E1 = emptyList \/
+   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 7 is:
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < search.
+Subgoal 2:
+
+Variables: T1 E2 E1
+Value : {value (cons E1 E2)}
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 (list T1)}
+============================
+ cons E1 E2 = emptyList \/
+   (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 3 is:
+ app E1 E2 = emptyList \/
+   (exists Arg1 Arg2, app E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 4 is:
+ unfold E1 = emptyList \/
+   (exists Arg1 Arg2, unfold E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 5 is:
+ head E1 = emptyList \/
+   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 6 is:
+ tail E1 = emptyList \/
+   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 7 is:
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 2:
+
+Variables: T1 E2 E1
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 (list T1)}
+H3 : {value E1}
+H4 : {value E2}
+============================
+ cons E1 E2 = emptyList \/
+   (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 3 is:
+ app E1 E2 = emptyList \/
+   (exists Arg1 Arg2, app E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 4 is:
+ unfold E1 = emptyList \/
+   (exists Arg1 Arg2, unfold E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 5 is:
+ head E1 = emptyList \/
+   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 6 is:
+ tail E1 = emptyList \/
+   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 7 is:
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < search.
+Subgoal 3:
+
+Variables: T1 T2 E2 E1
+Value : {value (app E1 E2)}
+H1 : {typeOf E1 (arrow T2 (list T1))}
+H2 : {typeOf E2 T2}
+============================
+ app E1 E2 = emptyList \/
+   (exists Arg1 Arg2, app E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 4 is:
+ unfold E1 = emptyList \/
+   (exists Arg1 Arg2, unfold E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 5 is:
+ head E1 = emptyList \/
+   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 6 is:
+ tail E1 = emptyList \/
+   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 7 is:
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 4:
+
+Variables: T1 R E1
+Value : {value (unfold E1)}
+H1 : R (mu R) = list T1
+H2 : {typeOf E1 (mu R)}
+============================
+ unfold E1 = emptyList \/
+   (exists Arg1 Arg2, unfold E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 5 is:
+ head E1 = emptyList \/
+   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 6 is:
+ tail E1 = emptyList \/
+   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 7 is:
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 5:
+
+Variables: T1 E1
+Value : {value (head E1)}
+H1 : {typeOf E1 (list (list T1))}
+============================
+ head E1 = emptyList \/
+   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 6 is:
+ tail E1 = emptyList \/
+   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 7 is:
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 6:
+
+Variables: T1 E1
+Value : {value (tail E1)}
+H1 : {typeOf E1 (list T1)}
+============================
+ tail E1 = emptyList \/
+   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 7 is:
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 7:
+
+Variables: T1 E3 E2 E1
+Value : {value (if E1 E2 E3)}
+H1 : {typeOf E1 bool}
+H2 : {typeOf E2 (list T1)}
+H3 : {typeOf E3 (list T1)}
+============================
+ if E1 E2 E3 = emptyList \/
+   (exists Arg1 Arg2, if E1 E2 E3 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 8 is:
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 8:
+
+Variables: T1 E1
+Value : {value (fix E1)}
+H1 : {typeOf E1 (arrow (list T1) (list T1))}
+============================
+ fix E1 = emptyList \/
+   (exists Arg1 Arg2, fix E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 9 is:
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 9:
+
+Variables: T1 R2 T2 R1
+Value : {value (letrec R1 R2)}
+H1 : {typeOf n1 T2 |- typeOf (R1 n1) T2}
+H2 : {typeOf n1 T2 |- typeOf (R2 n1) (list T1)}
+============================
+ letrec R1 R2 = emptyList \/
+   (exists Arg1 Arg2, letrec R1 R2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 10 is:
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 10:
+
+Variables: T1 E2 E1
+Value : {value (try E1 E2)}
+H1 : {typeOf E1 (list T1)}
+H2 : {typeOf E2 (arrow excType (list T1))}
+============================
+ try E1 E2 = emptyList \/
+   (exists Arg1 Arg2, try E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+Subgoal 11 is:
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Subgoal 11:
+
+Variables: T1 E1
+Value : {value (raise E1)}
+H1 : {typeOf E1 excType}
+============================
+ raise E1 = emptyList \/
+   (exists Arg1 Arg2, raise E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+      {value Arg2})
+
+canonical_form_list < case Value.
+Proof completed.
+
+Abella < Theorem canonical_form_excType : 
+forall E, {typeOf E excType} -> {value E} -> E = excValue.
+
+============================
+ forall E, {typeOf E excType} -> {value E} -> E = excValue
+
+canonical_form_excType < intros Main Value.
+
+Variables: E
+Main : {typeOf E excType}
+Value : {value E}
+============================
+ E = excValue
+
+canonical_form_excType < case Main.
+Subgoal 1:
+
+Value : {value excValue}
+============================
+ excValue = excValue
+
+Subgoal 2 is:
+ app E1 E2 = excValue
+
+Subgoal 3 is:
+ unfold E1 = excValue
+
+Subgoal 4 is:
+ head E1 = excValue
+
+Subgoal 5 is:
+ if E1 E2 E3 = excValue
+
+Subgoal 6 is:
+ fix E1 = excValue
+
+Subgoal 7 is:
+ letrec R1 R2 = excValue
+
+Subgoal 8 is:
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Subgoal 1:
+
+============================
+ excValue = excValue
+
+Subgoal 2 is:
+ app E1 E2 = excValue
+
+Subgoal 3 is:
+ unfold E1 = excValue
+
+Subgoal 4 is:
+ head E1 = excValue
+
+Subgoal 5 is:
+ if E1 E2 E3 = excValue
+
+Subgoal 6 is:
+ fix E1 = excValue
+
+Subgoal 7 is:
+ letrec R1 R2 = excValue
+
+Subgoal 8 is:
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < search.
+Subgoal 2:
+
+Variables: T1 E2 E1
+Value : {value (app E1 E2)}
+H1 : {typeOf E1 (arrow T1 excType)}
+H2 : {typeOf E2 T1}
+============================
+ app E1 E2 = excValue
+
+Subgoal 3 is:
+ unfold E1 = excValue
+
+Subgoal 4 is:
+ head E1 = excValue
+
+Subgoal 5 is:
+ if E1 E2 E3 = excValue
+
+Subgoal 6 is:
+ fix E1 = excValue
+
+Subgoal 7 is:
+ letrec R1 R2 = excValue
+
+Subgoal 8 is:
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Subgoal 3:
+
+Variables: R E1
+Value : {value (unfold E1)}
+H1 : R (mu R) = excType
+H2 : {typeOf E1 (mu R)}
+============================
+ unfold E1 = excValue
+
+Subgoal 4 is:
+ head E1 = excValue
+
+Subgoal 5 is:
+ if E1 E2 E3 = excValue
+
+Subgoal 6 is:
+ fix E1 = excValue
+
+Subgoal 7 is:
+ letrec R1 R2 = excValue
+
+Subgoal 8 is:
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Subgoal 4:
+
+Variables: E1
+Value : {value (head E1)}
+H1 : {typeOf E1 (list excType)}
+============================
+ head E1 = excValue
+
+Subgoal 5 is:
+ if E1 E2 E3 = excValue
+
+Subgoal 6 is:
+ fix E1 = excValue
+
+Subgoal 7 is:
+ letrec R1 R2 = excValue
+
+Subgoal 8 is:
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Subgoal 5:
+
+Variables: E3 E2 E1
+Value : {value (if E1 E2 E3)}
+H1 : {typeOf E1 bool}
+H2 : {typeOf E2 excType}
+H3 : {typeOf E3 excType}
+============================
+ if E1 E2 E3 = excValue
+
+Subgoal 6 is:
+ fix E1 = excValue
+
+Subgoal 7 is:
+ letrec R1 R2 = excValue
+
+Subgoal 8 is:
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Subgoal 6:
+
+Variables: E1
+Value : {value (fix E1)}
+H1 : {typeOf E1 (arrow excType excType)}
+============================
+ fix E1 = excValue
+
+Subgoal 7 is:
+ letrec R1 R2 = excValue
+
+Subgoal 8 is:
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Subgoal 7:
+
+Variables: R2 T1 R1
+Value : {value (letrec R1 R2)}
+H1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
+H2 : {typeOf n1 T1 |- typeOf (R2 n1) excType}
+============================
+ letrec R1 R2 = excValue
+
+Subgoal 8 is:
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Subgoal 8:
+
+Variables: E2 E1
+Value : {value (try E1 E2)}
+H1 : {typeOf E1 excType}
+H2 : {typeOf E2 (arrow excType excType)}
+============================
+ try E1 E2 = excValue
+
+Subgoal 9 is:
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Subgoal 9:
+
+Variables: E1
+Value : {value (raise E1)}
+H1 : {typeOf E1 excType}
+============================
+ raise E1 = excValue
+
+canonical_form_excType < case Value.
+Proof completed.
+
+Abella < Theorem canonical_form_bool : 
+forall E, {typeOf E bool} -> {value E} -> E = tt \/ E = ff.
+
+============================
+ forall E, {typeOf E bool} -> {value E} -> E = tt \/ E = ff
+
+canonical_form_bool < intros Main Value.
+
+Variables: E
+Main : {typeOf E bool}
+Value : {value E}
+============================
+ E = tt \/ E = ff
+
+canonical_form_bool < case Main.
+Subgoal 1:
+
+Value : {value tt}
+============================
+ tt = tt \/ tt = ff
+
+Subgoal 2 is:
+ ff = tt \/ ff = ff
+
+Subgoal 3 is:
+ app E1 E2 = tt \/ app E1 E2 = ff
+
+Subgoal 4 is:
+ unfold E1 = tt \/ unfold E1 = ff
+
+Subgoal 5 is:
+ head E1 = tt \/ head E1 = ff
+
+Subgoal 6 is:
+ if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+
+Subgoal 7 is:
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 1:
+
+============================
+ tt = tt \/ tt = ff
+
+Subgoal 2 is:
+ ff = tt \/ ff = ff
+
+Subgoal 3 is:
+ app E1 E2 = tt \/ app E1 E2 = ff
+
+Subgoal 4 is:
+ unfold E1 = tt \/ unfold E1 = ff
+
+Subgoal 5 is:
+ head E1 = tt \/ head E1 = ff
+
+Subgoal 6 is:
+ if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+
+Subgoal 7 is:
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < search.
+Subgoal 2:
+
+Value : {value ff}
+============================
+ ff = tt \/ ff = ff
+
+Subgoal 3 is:
+ app E1 E2 = tt \/ app E1 E2 = ff
+
+Subgoal 4 is:
+ unfold E1 = tt \/ unfold E1 = ff
+
+Subgoal 5 is:
+ head E1 = tt \/ head E1 = ff
+
+Subgoal 6 is:
+ if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+
+Subgoal 7 is:
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 2:
+
+============================
+ ff = tt \/ ff = ff
+
+Subgoal 3 is:
+ app E1 E2 = tt \/ app E1 E2 = ff
+
+Subgoal 4 is:
+ unfold E1 = tt \/ unfold E1 = ff
+
+Subgoal 5 is:
+ head E1 = tt \/ head E1 = ff
+
+Subgoal 6 is:
+ if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+
+Subgoal 7 is:
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < search.
+Subgoal 3:
+
+Variables: T1 E2 E1
+Value : {value (app E1 E2)}
+H1 : {typeOf E1 (arrow T1 bool)}
+H2 : {typeOf E2 T1}
+============================
+ app E1 E2 = tt \/ app E1 E2 = ff
+
+Subgoal 4 is:
+ unfold E1 = tt \/ unfold E1 = ff
+
+Subgoal 5 is:
+ head E1 = tt \/ head E1 = ff
+
+Subgoal 6 is:
+ if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+
+Subgoal 7 is:
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 4:
+
+Variables: R E1
+Value : {value (unfold E1)}
+H1 : R (mu R) = bool
+H2 : {typeOf E1 (mu R)}
+============================
+ unfold E1 = tt \/ unfold E1 = ff
+
+Subgoal 5 is:
+ head E1 = tt \/ head E1 = ff
+
+Subgoal 6 is:
+ if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+
+Subgoal 7 is:
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 5:
+
+Variables: E1
+Value : {value (head E1)}
+H1 : {typeOf E1 (list bool)}
+============================
+ head E1 = tt \/ head E1 = ff
+
+Subgoal 6 is:
+ if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+
+Subgoal 7 is:
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 6:
+
+Variables: E3 E2 E1
+Value : {value (if E1 E2 E3)}
+H1 : {typeOf E1 bool}
+H2 : {typeOf E2 bool}
+H3 : {typeOf E3 bool}
+============================
+ if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+
+Subgoal 7 is:
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 7:
+
+Variables: E1
+Value : {value (fix E1)}
+H1 : {typeOf E1 (arrow bool bool)}
+============================
+ fix E1 = tt \/ fix E1 = ff
+
+Subgoal 8 is:
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 8:
+
+Variables: R2 T1 R1
+Value : {value (letrec R1 R2)}
+H1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
+H2 : {typeOf n1 T1 |- typeOf (R2 n1) bool}
+============================
+ letrec R1 R2 = tt \/ letrec R1 R2 = ff
+
+Subgoal 9 is:
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 9:
+
+Variables: E2 E1
+Value : {value (try E1 E2)}
+H1 : {typeOf E1 bool}
+H2 : {typeOf E2 (arrow excType bool)}
+============================
+ try E1 E2 = tt \/ try E1 E2 = ff
+
+Subgoal 10 is:
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Subgoal 10:
+
+Variables: E1
+Value : {value (raise E1)}
+H1 : {typeOf E1 excType}
+============================
+ raise E1 = tt \/ raise E1 = ff
+
+canonical_form_bool < case Value.
+Proof completed.
+
+Abella < Define progresses : term -> prop by 
+progresses E := {value E};
+progresses E := {error E};
+progresses E := exists E', {step E E'}.
+
+Abella < Theorem progress_abs : 
+forall R1 T, {typeOf (abs R1) T} -> progresses (abs R1).
+
+============================
+ forall R1 T, {typeOf (abs R1) T} -> progresses (abs R1)
+
+progress_abs < search.
+Proof completed.
+
+Abella < Theorem progress_app : 
+forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 ->
+  progresses (app E1 E2).
+
+============================
+ forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 ->
+   progresses (app E1 E2)
+
+progress_app < intros Main PrgsE1.
+
+Variables: E1 E2 T
+Main : {typeOf (app E1 E2) T}
+PrgsE1 : progresses E1
+============================
+ progresses (app E1 E2)
+
+progress_app < case TypeOfE1 : Main.
+
+Variables: E1 E2 T T1
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+============================
+ progresses (app E1 E2)
+
+progress_app < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 E2 T T1
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {value E1}
+============================
+ progresses (app E1 E2)
+
+Subgoal 2 is:
+ progresses (app E1 E2)
+
+Subgoal 3 is:
+ progresses (app E1 E2)
+
+progress_app < apply Canonical : canonical_form_arrow to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: E2 T T1 Arg1
+TypeOfE1 : {typeOf (abs Arg1) (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {value (abs Arg1)}
+============================
+ progresses (app (abs Arg1) E2)
+
+Subgoal 2 is:
+ progresses (app E1 E2)
+
+Subgoal 3 is:
+ progresses (app E1 E2)
+
+progress_app < search.
+Subgoal 2:
+
+Variables: E1 E2 T T1
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {error E1}
+============================
+ progresses (app E1 E2)
+
+Subgoal 3 is:
+ progresses (app E1 E2)
+
+progress_app < search.
+Subgoal 3:
+
+Variables: E1 E2 T T1 E'
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {step E1 E'}
+============================
+ progresses (app E1 E2)
+
+progress_app < search.
+Proof completed.
+
+Abella < Theorem progress_fold : 
+forall E1 U2 T, {typeOf (fold E1 U2) T} -> progresses E1 ->
+  progresses (fold E1 U2).
+
+============================
+ forall E1 U2 T, {typeOf (fold E1 U2) T} -> progresses E1 ->
+   progresses (fold E1 U2)
+
+progress_fold < intros Main PrgsE1.
+
+Variables: E1 U2 T
+Main : {typeOf (fold E1 U2) T}
+PrgsE1 : progresses E1
+============================
+ progresses (fold E1 U2)
+
+progress_fold < case TypeOfE1 : Main.
+
+Variables: E1 U2
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (U2 (mu U2))}
+============================
+ progresses (fold E1 U2)
+
+progress_fold < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 U2
+TypeOfE1 : {typeOf E1 (U2 (mu U2))}
+ProgressClause : {value E1}
+============================
+ progresses (fold E1 U2)
+
+Subgoal 2 is:
+ progresses (fold E1 U2)
+
+Subgoal 3 is:
+ progresses (fold E1 U2)
+
+progress_fold < search.
+Subgoal 2:
+
+Variables: E1 U2
+TypeOfE1 : {typeOf E1 (U2 (mu U2))}
+ProgressClause : {error E1}
+============================
+ progresses (fold E1 U2)
+
+Subgoal 3 is:
+ progresses (fold E1 U2)
+
+progress_fold < search.
+Subgoal 3:
+
+Variables: E1 U2 E'
+TypeOfE1 : {typeOf E1 (U2 (mu U2))}
+ProgressClause : {step E1 E'}
+============================
+ progresses (fold E1 U2)
+
+progress_fold < search.
+Proof completed.
+
+Abella < Theorem progress_unfold : 
+forall E1 T, {typeOf (unfold E1) T} -> progresses E1 ->
+  progresses (unfold E1).
+
+============================
+ forall E1 T, {typeOf (unfold E1) T} -> progresses E1 ->
+   progresses (unfold E1)
+
+progress_unfold < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (unfold E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (unfold E1)
+
+progress_unfold < case TypeOfE1 : Main.
+
+Variables: E1 R
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (mu R)}
+============================
+ progresses (unfold E1)
+
+progress_unfold < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 R
+TypeOfE1 : {typeOf E1 (mu R)}
+ProgressClause : {value E1}
+============================
+ progresses (unfold E1)
+
+Subgoal 2 is:
+ progresses (unfold E1)
+
+Subgoal 3 is:
+ progresses (unfold E1)
+
+progress_unfold < apply Canonical : canonical_form_mu to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: R Arg1 Arg2
+TypeOfE1 : {typeOf (fold Arg1 Arg2) (mu R)}
+ProgressClause : {value (fold Arg1 Arg2)}
+Canonical : {value Arg1}
+============================
+ progresses (unfold (fold Arg1 Arg2))
+
+Subgoal 2 is:
+ progresses (unfold E1)
+
+Subgoal 3 is:
+ progresses (unfold E1)
+
+progress_unfold < search.
+Subgoal 2:
+
+Variables: E1 R
+TypeOfE1 : {typeOf E1 (mu R)}
+ProgressClause : {error E1}
+============================
+ progresses (unfold E1)
+
+Subgoal 3 is:
+ progresses (unfold E1)
+
+progress_unfold < search.
+Subgoal 3:
+
+Variables: E1 R E'
+TypeOfE1 : {typeOf E1 (mu R)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (unfold E1)
+
+progress_unfold < search.
+Proof completed.
+
+Abella < Theorem progress_emptyList : 
+forall T, {typeOf emptyList T} -> progresses emptyList.
+
+============================
+ forall T, {typeOf emptyList T} -> progresses emptyList
+
+progress_emptyList < search.
+Proof completed.
+
+Abella < Theorem progress_cons : 
+forall E1 E2 T, {typeOf (cons E1 E2) T} -> progresses E1 -> progresses E2 ->
+  progresses (cons E1 E2).
+
+============================
+ forall E1 E2 T, {typeOf (cons E1 E2) T} -> progresses E1 -> progresses E2 ->
+   progresses (cons E1 E2)
+
+progress_cons < intros Main PrgsE1 PrgsE2.
+
+Variables: E1 E2 T
+Main : {typeOf (cons E1 E2) T}
+PrgsE1 : progresses E1
+PrgsE2 : progresses E2
+============================
+ progresses (cons E1 E2)
+
+progress_cons < case TypeOfE1 : Main.
+
+Variables: E1 E2 T1
+PrgsE1 : progresses E1
+PrgsE2 : progresses E2
+TypeOfE1 : {typeOf E1 T1}
+TypeOfE2 : {typeOf E2 (list T1)}
+============================
+ progresses (cons E1 E2)
+
+progress_cons < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 E2 T1
+PrgsE2 : progresses E2
+TypeOfE1 : {typeOf E1 T1}
+TypeOfE2 : {typeOf E2 (list T1)}
+ProgressClause : {value E1}
+============================
+ progresses (cons E1 E2)
+
+Subgoal 2 is:
+ progresses (cons E1 E2)
+
+Subgoal 3 is:
+ progresses (cons E1 E2)
+
+progress_cons < case PrgsE2.
+Subgoal 1.1:
+
+Variables: E1 E2 T1
+TypeOfE1 : {typeOf E1 T1}
+TypeOfE2 : {typeOf E2 (list T1)}
+ProgressClause : {value E1}
+H1 : {value E2}
+============================
+ progresses (cons E1 E2)
+
+Subgoal 1.2 is:
+ progresses (cons E1 E2)
+
+Subgoal 1.3 is:
+ progresses (cons E1 E2)
+
+Subgoal 2 is:
+ progresses (cons E1 E2)
+
+Subgoal 3 is:
+ progresses (cons E1 E2)
+
+progress_cons < search.
+Subgoal 1.2:
+
+Variables: E1 E2 T1
+TypeOfE1 : {typeOf E1 T1}
+TypeOfE2 : {typeOf E2 (list T1)}
+ProgressClause : {value E1}
+H1 : {error E2}
+============================
+ progresses (cons E1 E2)
+
+Subgoal 1.3 is:
+ progresses (cons E1 E2)
+
+Subgoal 2 is:
+ progresses (cons E1 E2)
+
+Subgoal 3 is:
+ progresses (cons E1 E2)
+
+progress_cons < search.
+Subgoal 1.3:
+
+Variables: E1 E2 T1 E'
+TypeOfE1 : {typeOf E1 T1}
+TypeOfE2 : {typeOf E2 (list T1)}
+ProgressClause : {value E1}
+H1 : {step E2 E'}
+============================
+ progresses (cons E1 E2)
+
+Subgoal 2 is:
+ progresses (cons E1 E2)
+
+Subgoal 3 is:
+ progresses (cons E1 E2)
+
+progress_cons < search.
+Subgoal 2:
+
+Variables: E1 E2 T1
+PrgsE2 : progresses E2
+TypeOfE1 : {typeOf E1 T1}
+TypeOfE2 : {typeOf E2 (list T1)}
+ProgressClause : {error E1}
+============================
+ progresses (cons E1 E2)
+
+Subgoal 3 is:
+ progresses (cons E1 E2)
+
+progress_cons < search.
+Subgoal 3:
+
+Variables: E1 E2 T1 E'
+PrgsE2 : progresses E2
+TypeOfE1 : {typeOf E1 T1}
+TypeOfE2 : {typeOf E2 (list T1)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (cons E1 E2)
+
+progress_cons < search.
+Proof completed.
+
+Abella < Theorem progress_head : 
+forall E1 T, {typeOf (head E1) T} -> progresses E1 -> progresses (head E1).
+
+============================
+ forall E1 T, {typeOf (head E1) T} -> progresses E1 -> progresses (head E1)
+
+progress_head < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (head E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (head E1)
+
+progress_head < case TypeOfE1 : Main.
+
+Variables: E1 T
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (list T)}
+============================
+ progresses (head E1)
+
+progress_head < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (list T)}
+ProgressClause : {value E1}
+============================
+ progresses (head E1)
+
+Subgoal 2 is:
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < apply Canonical : canonical_form_list to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (list T)}
+ProgressClause : {value E1}
+Canonical : E1 = emptyList \/
+              (exists Arg1 Arg2, E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+                 {value Arg2})
+============================
+ progresses (head E1)
+
+Subgoal 2 is:
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < case Canonical.
+Subgoal 1.1:
+
+Variables: T
+TypeOfE1 : {typeOf emptyList (list T)}
+ProgressClause : {value emptyList}
+============================
+ progresses (head emptyList)
+
+Subgoal 1.2 is:
+ progresses (head (cons Arg1 Arg2))
+
+Subgoal 2 is:
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < search.
+Subgoal 1.2:
+
+Variables: T Arg1 Arg2
+TypeOfE1 : {typeOf (cons Arg1 Arg2) (list T)}
+ProgressClause : {value (cons Arg1 Arg2)}
+H1 : {value Arg1}
+H2 : {value Arg2}
+============================
+ progresses (head (cons Arg1 Arg2))
+
+Subgoal 2 is:
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < search.
+Subgoal 2:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (list T)}
+ProgressClause : {error E1}
+============================
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < search.
+Subgoal 3:
+
+Variables: E1 T E'
+TypeOfE1 : {typeOf E1 (list T)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (head E1)
+
+progress_head < search.
+Proof completed.
+
+Abella < Theorem progress_tail : 
+forall E1 T, {typeOf (tail E1) T} -> progresses E1 -> progresses (tail E1).
+
+============================
+ forall E1 T, {typeOf (tail E1) T} -> progresses E1 -> progresses (tail E1)
+
+progress_tail < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (tail E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (tail E1)
+
+progress_tail < case TypeOfE1 : Main.
+
+Variables: E1 T1
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (list T1)}
+============================
+ progresses (tail E1)
+
+progress_tail < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T1
+TypeOfE1 : {typeOf E1 (list T1)}
+ProgressClause : {value E1}
+============================
+ progresses (tail E1)
+
+Subgoal 2 is:
+ progresses (tail E1)
+
+Subgoal 3 is:
+ progresses (tail E1)
+
+progress_tail < apply Canonical : canonical_form_list to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: E1 T1
+TypeOfE1 : {typeOf E1 (list T1)}
+ProgressClause : {value E1}
+Canonical : E1 = emptyList \/
+              (exists Arg1 Arg2, E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+                 {value Arg2})
+============================
+ progresses (tail E1)
+
+Subgoal 2 is:
+ progresses (tail E1)
+
+Subgoal 3 is:
+ progresses (tail E1)
+
+progress_tail < case Canonical.
+Subgoal 1.1:
+
+Variables: T1
+TypeOfE1 : {typeOf emptyList (list T1)}
+ProgressClause : {value emptyList}
+============================
+ progresses (tail emptyList)
+
+Subgoal 1.2 is:
+ progresses (tail (cons Arg1 Arg2))
+
+Subgoal 2 is:
+ progresses (tail E1)
+
+Subgoal 3 is:
+ progresses (tail E1)
+
+progress_tail < search.
+Subgoal 1.2:
+
+Variables: T1 Arg1 Arg2
+TypeOfE1 : {typeOf (cons Arg1 Arg2) (list T1)}
+ProgressClause : {value (cons Arg1 Arg2)}
+H1 : {value Arg1}
+H2 : {value Arg2}
+============================
+ progresses (tail (cons Arg1 Arg2))
+
+Subgoal 2 is:
+ progresses (tail E1)
+
+Subgoal 3 is:
+ progresses (tail E1)
+
+progress_tail < search.
+Subgoal 2:
+
+Variables: E1 T1
+TypeOfE1 : {typeOf E1 (list T1)}
+ProgressClause : {error E1}
+============================
+ progresses (tail E1)
+
+Subgoal 3 is:
+ progresses (tail E1)
+
+progress_tail < search.
+Subgoal 3:
+
+Variables: E1 T1 E'
+TypeOfE1 : {typeOf E1 (list T1)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (tail E1)
+
+progress_tail < search.
+Proof completed.
+
+Abella < Theorem progress_excValue : 
+forall T, {typeOf excValue T} -> progresses excValue.
+
+============================
+ forall T, {typeOf excValue T} -> progresses excValue
+
+progress_excValue < search.
+Proof completed.
+
+Abella < Theorem progress_tt : 
+forall T, {typeOf tt T} -> progresses tt.
+
+============================
+ forall T, {typeOf tt T} -> progresses tt
+
+progress_tt < search.
+Proof completed.
+
+Abella < Theorem progress_ff : 
+forall T, {typeOf ff T} -> progresses ff.
+
+============================
+ forall T, {typeOf ff T} -> progresses ff
+
+progress_ff < search.
+Proof completed.
+
+Abella < Theorem progress_if : 
+forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 ->
+  progresses (if E1 E2 E3).
+
+============================
+ forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 ->
+   progresses (if E1 E2 E3)
+
+progress_if < intros Main PrgsE1.
+
+Variables: E1 E2 E3 T
+Main : {typeOf (if E1 E2 E3) T}
+PrgsE1 : progresses E1
+============================
+ progresses (if E1 E2 E3)
+
+progress_if < case TypeOfE1 : Main.
+
+Variables: E1 E2 E3 T
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+============================
+ progresses (if E1 E2 E3)
+
+progress_if < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 E2 E3 T
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {value E1}
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 2 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 3 is:
+ progresses (if E1 E2 E3)
+
+progress_if < apply Canonical : canonical_form_bool to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: E1 E2 E3 T
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {value E1}
+Canonical : E1 = tt \/ E1 = ff
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 2 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 3 is:
+ progresses (if E1 E2 E3)
+
+progress_if < case Canonical.
+Subgoal 1.1:
+
+Variables: E2 E3 T
+TypeOfE1 : {typeOf tt bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {value tt}
+============================
+ progresses (if tt E2 E3)
+
+Subgoal 1.2 is:
+ progresses (if ff E2 E3)
+
+Subgoal 2 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 3 is:
+ progresses (if E1 E2 E3)
+
+progress_if < search.
+Subgoal 1.2:
+
+Variables: E2 E3 T
+TypeOfE1 : {typeOf ff bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {value ff}
+============================
+ progresses (if ff E2 E3)
+
+Subgoal 2 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 3 is:
+ progresses (if E1 E2 E3)
+
+progress_if < search.
+Subgoal 2:
+
+Variables: E1 E2 E3 T
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {error E1}
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 3 is:
+ progresses (if E1 E2 E3)
+
+progress_if < search.
+Subgoal 3:
+
+Variables: E1 E2 E3 T E'
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {step E1 E'}
+============================
+ progresses (if E1 E2 E3)
+
+progress_if < search.
+Proof completed.
+
+Abella < Theorem progress_fix : 
+forall E1 T, {typeOf (fix E1) T} -> progresses E1 -> progresses (fix E1).
+
+============================
+ forall E1 T, {typeOf (fix E1) T} -> progresses E1 -> progresses (fix E1)
+
+progress_fix < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (fix E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (fix E1)
+
+progress_fix < case TypeOfE1 : Main.
+
+Variables: E1 T
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (arrow T T)}
+============================
+ progresses (fix E1)
+
+progress_fix < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (arrow T T)}
+ProgressClause : {value E1}
+============================
+ progresses (fix E1)
+
+Subgoal 2 is:
+ progresses (fix E1)
+
+Subgoal 3 is:
+ progresses (fix E1)
+
+progress_fix < search.
+Subgoal 2:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (arrow T T)}
+ProgressClause : {error E1}
+============================
+ progresses (fix E1)
+
+Subgoal 3 is:
+ progresses (fix E1)
+
+progress_fix < search.
+Subgoal 3:
+
+Variables: E1 T E'
+TypeOfE1 : {typeOf E1 (arrow T T)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (fix E1)
+
+progress_fix < search.
+Proof completed.
+
+Abella < Theorem progress_letrec : 
+forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2).
+
+============================
+ forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2)
+
+progress_letrec < search.
+Proof completed.
+
+Abella < Theorem progress_try : 
+forall E1 E2 T, {typeOf (try E1 E2) T} -> progresses E1 ->
+  progresses (try E1 E2).
+
+============================
+ forall E1 E2 T, {typeOf (try E1 E2) T} -> progresses E1 ->
+   progresses (try E1 E2)
+
+progress_try < intros Main PrgsE1.
+
+Variables: E1 E2 T
+Main : {typeOf (try E1 E2) T}
+PrgsE1 : progresses E1
+============================
+ progresses (try E1 E2)
+
+progress_try < case TypeOfE1 : Main.
+
+Variables: E1 E2 T
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 T}
+TypeOfE2 : {typeOf E2 (arrow excType T)}
+============================
+ progresses (try E1 E2)
+
+progress_try < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 E2 T
+TypeOfE1 : {typeOf E1 T}
+TypeOfE2 : {typeOf E2 (arrow excType T)}
+ProgressClause : {value E1}
+============================
+ progresses (try E1 E2)
+
+Subgoal 2 is:
+ progresses (try E1 E2)
+
+Subgoal 3 is:
+ progresses (try E1 E2)
+
+progress_try < search.
+Subgoal 2:
+
+Variables: E1 E2 T
+TypeOfE1 : {typeOf E1 T}
+TypeOfE2 : {typeOf E2 (arrow excType T)}
+ProgressClause : {error E1}
+============================
+ progresses (try E1 E2)
+
+Subgoal 3 is:
+ progresses (try E1 E2)
+
+progress_try < case ProgressClause.
+Subgoal 2:
+
+Variables: E2 T E3
+TypeOfE1 : {typeOf (raise E3) T}
+TypeOfE2 : {typeOf E2 (arrow excType T)}
+H1 : {value E3}
+============================
+ progresses (try (raise E3) E2)
+
+Subgoal 3 is:
+ progresses (try E1 E2)
+
+progress_try < search.
+Subgoal 3:
+
+Variables: E1 E2 T E'
+TypeOfE1 : {typeOf E1 T}
+TypeOfE2 : {typeOf E2 (arrow excType T)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (try E1 E2)
+
+progress_try < search.
+Proof completed.
+
+Abella < Theorem progress_raise : 
+forall E1 T, {typeOf (raise E1) T} -> progresses E1 -> progresses (raise E1).
+
+============================
+ forall E1 T, {typeOf (raise E1) T} -> progresses E1 -> progresses (raise E1)
+
+progress_raise < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (raise E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (raise E1)
+
+progress_raise < case TypeOfE1 : Main.
+
+Variables: E1 T
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 excType}
+============================
+ progresses (raise E1)
+
+progress_raise < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 excType}
+ProgressClause : {value E1}
+============================
+ progresses (raise E1)
+
+Subgoal 2 is:
+ progresses (raise E1)
+
+Subgoal 3 is:
+ progresses (raise E1)
+
+progress_raise < search.
+Subgoal 2:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 excType}
+ProgressClause : {error E1}
+============================
+ progresses (raise E1)
+
+Subgoal 3 is:
+ progresses (raise E1)
+
+progress_raise < search.
+Subgoal 3:
+
+Variables: E1 T E'
+TypeOfE1 : {typeOf E1 excType}
+ProgressClause : {step E1 E'}
+============================
+ progresses (raise E1)
+
+progress_raise < search.
+Proof completed.
+
+Abella < Theorem progress : 
+forall E T, {typeOf E T} -> progresses E.
+
+============================
+ forall E T, {typeOf E T} -> progresses E
+
+progress < induction on 1.
+
+IH : forall E T, {typeOf E T}* -> progresses E
+============================
+ forall E T, {typeOf E T}@ -> progresses E
+
+progress < intros Main.
+
+Variables: E T
+IH : forall E T, {typeOf E T}* -> progresses E
+Main : {typeOf E T}@
+============================
+ progresses E
+
+progress < case TypeOfE1 : Main.
+Subgoal 1:
+
+Variables: T2 R T1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf n1 T1 |- typeOf (R n1) T2}*
+============================
+ progresses (abs R)
+
+Subgoal 2 is:
+ progresses (fold E1 R)
+
+Subgoal 3 is:
+ progresses emptyList
+
+Subgoal 4 is:
+ progresses (cons E1 E2)
+
+Subgoal 5 is:
+ progresses excValue
+
+Subgoal 6 is:
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_abs.
+Subgoal 2:
+
+Variables: R E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (R (mu R))}*
+============================
+ progresses (fold E1 R)
+
+Subgoal 3 is:
+ progresses emptyList
+
+Subgoal 4 is:
+ progresses (cons E1 E2)
+
+Subgoal 5 is:
+ progresses excValue
+
+Subgoal 6 is:
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 2:
+
+Variables: R E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (R (mu R))}*
+H1 : progresses E1
+============================
+ progresses (fold E1 R)
+
+Subgoal 3 is:
+ progresses emptyList
+
+Subgoal 4 is:
+ progresses (cons E1 E2)
+
+Subgoal 5 is:
+ progresses excValue
+
+Subgoal 6 is:
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_fold.
+Subgoal 3:
+
+Variables: T1
+IH : forall E T, {typeOf E T}* -> progresses E
+============================
+ progresses emptyList
+
+Subgoal 4 is:
+ progresses (cons E1 E2)
+
+Subgoal 5 is:
+ progresses excValue
+
+Subgoal 6 is:
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_emptyList.
+Subgoal 4:
+
+Variables: T1 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 T1}*
+TypeOfE2 : {typeOf E2 (list T1)}*
+============================
+ progresses (cons E1 E2)
+
+Subgoal 5 is:
+ progresses excValue
+
+Subgoal 6 is:
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 4:
+
+Variables: T1 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 T1}*
+TypeOfE2 : {typeOf E2 (list T1)}*
+H1 : progresses E1
+============================
+ progresses (cons E1 E2)
+
+Subgoal 5 is:
+ progresses excValue
+
+Subgoal 6 is:
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE2.
+Subgoal 4:
+
+Variables: T1 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 T1}*
+TypeOfE2 : {typeOf E2 (list T1)}*
+H1 : progresses E1
+H2 : progresses E2
+============================
+ progresses (cons E1 E2)
+
+Subgoal 5 is:
+ progresses excValue
+
+Subgoal 6 is:
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_cons.
+Subgoal 5:
+
+IH : forall E T, {typeOf E T}* -> progresses E
+============================
+ progresses excValue
+
+Subgoal 6 is:
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_excValue.
+Subgoal 6:
+
+IH : forall E T, {typeOf E T}* -> progresses E
+============================
+ progresses tt
+
+Subgoal 7 is:
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_tt.
+Subgoal 7:
+
+IH : forall E T, {typeOf E T}* -> progresses E
+============================
+ progresses ff
+
+Subgoal 8 is:
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_ff.
+Subgoal 8:
+
+Variables: T T1 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T1 T)}*
+TypeOfE2 : {typeOf E2 T1}*
+============================
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 8:
+
+Variables: T T1 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T1 T)}*
+TypeOfE2 : {typeOf E2 T1}*
+H1 : progresses E1
+============================
+ progresses (app E1 E2)
+
+Subgoal 9 is:
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_app.
+Subgoal 9:
+
+Variables: R E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (mu R)}*
+============================
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 9:
+
+Variables: R E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (mu R)}*
+H1 : progresses E1
+============================
+ progresses (unfold E1)
+
+Subgoal 10 is:
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_unfold.
+Subgoal 10:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (list T)}*
+============================
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 10:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (list T)}*
+H1 : progresses E1
+============================
+ progresses (head E1)
+
+Subgoal 11 is:
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_head.
+Subgoal 11:
+
+Variables: T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (list T1)}*
+============================
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 11:
+
+Variables: T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (list T1)}*
+H1 : progresses E1
+============================
+ progresses (tail E1)
+
+Subgoal 12 is:
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_tail.
+Subgoal 12:
+
+Variables: T E3 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 bool}*
+TypeOfE2 : {typeOf E2 T}*
+TypeOfE3 : {typeOf E3 T}*
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 12:
+
+Variables: T E3 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 bool}*
+TypeOfE2 : {typeOf E2 T}*
+TypeOfE3 : {typeOf E3 T}*
+H1 : progresses E1
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 13 is:
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_if.
+Subgoal 13:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T T)}*
+============================
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 13:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T T)}*
+H1 : progresses E1
+============================
+ progresses (fix E1)
+
+Subgoal 14 is:
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_fix.
+Subgoal 14:
+
+Variables: T R2 T1 R1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}*
+TypeOfE2 : {typeOf n1 T1 |- typeOf (R2 n1) T}*
+============================
+ progresses (letrec R1 R2)
+
+Subgoal 15 is:
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_letrec.
+Subgoal 15:
+
+Variables: T E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 T}*
+TypeOfE2 : {typeOf E2 (arrow excType T)}*
+============================
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 15:
+
+Variables: T E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 T}*
+TypeOfE2 : {typeOf E2 (arrow excType T)}*
+H1 : progresses E1
+============================
+ progresses (try E1 E2)
+
+Subgoal 16 is:
+ progresses (raise E1)
+
+progress < backchain progress_try.
+Subgoal 16:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 excType}*
+============================
+ progresses (raise E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 16:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 excType}*
+H1 : progresses E1
+============================
+ progresses (raise E1)
+
+progress < backchain progress_raise.
+Proof completed.
+
+Abella < Theorem preservation : 
+forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}.
+
+============================
+ forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}
+
+preservation < induction on 2.
+
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+============================
+ forall E E' T, {typeOf E T} -> {step E E'}@ -> {typeOf E' T}
+
+preservation < intros TypeOf Main.
+
+Variables: E E' T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf E T}
+Main : {step E E'}@
+============================
+ {typeOf E' T}
+
+preservation < case Step : Main.
+Subgoal 1:
+
+Variables: T EE R
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R) EE) T}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 1:
+
+Variables: T EE R T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R) EE) T}
+Arg1_1 : {typeOf (abs R) (arrow T1 T)}
+Arg1_2 : {typeOf EE T1}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 1:
+
+Variables: T EE R T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R) EE) T}
+Arg1_1 : {typeOf (abs R) (arrow T1 T)}
+Arg1_2 : {typeOf EE T1}
+Arg2_1 : {typeOf n1 T1 |- typeOf (R n1) T}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < inst ToCut : Arg2_1 with n1 = EE.
+Subgoal 1:
+
+Variables: T EE R T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R) EE) T}
+Arg1_1 : {typeOf (abs R) (arrow T1 T)}
+Arg1_2 : {typeOf EE T1}
+Arg2_1 : {typeOf n1 T1 |- typeOf (R n1) T}
+ToCut : {typeOf EE T1 |- typeOf (R EE) T}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < cut ToCut with Arg1_2.
+Subgoal 1:
+
+Variables: T EE R T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R) EE) T}
+Arg1_1 : {typeOf (abs R) (arrow T1 T)}
+Arg1_2 : {typeOf EE T1}
+Arg2_1 : {typeOf n1 T1 |- typeOf (R n1) T}
+ToCut : {typeOf EE T1 |- typeOf (R EE) T}
+H1 : {typeOf (R EE) T}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 2:
+
+Variables: E' T R
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (unfold (fold E' R)) T}
+Step : {value E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 2:
+
+Variables: E' R R1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (unfold (fold E' R)) (R1 (mu R1))}
+Step : {value E'}*
+Arg1_1 : {typeOf (fold E' R) (mu R1)}
+============================
+ {typeOf E' (R1 (mu R1))}
+
+Subgoal 3 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 2:
+
+Variables: E' R1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (unfold (fold E' R1)) (R1 (mu R1))}
+Step : {value E'}*
+Arg1_1 : {typeOf (fold E' R1) (mu R1)}
+Arg2_1 : {typeOf E' (R1 (mu R1))}
+============================
+ {typeOf E' (R1 (mu R1))}
+
+Subgoal 3 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 3:
+
+Variables: T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head emptyList) T}
+============================
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 3:
+
+Variables: T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head emptyList) T}
+Arg1_1 : {typeOf emptyList (list T)}
+============================
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 3:
+
+Variables: T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head emptyList) T}
+Arg1_1 : {typeOf emptyList (list T)}
+============================
+ {typeOf (raise excValue) T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 4:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head (cons E' E2)) T}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 4:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head (cons E' E2)) T}
+Arg1_1 : {typeOf (cons E' E2) (list T)}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 4:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head (cons E' E2)) T}
+Arg1_1 : {typeOf (cons E' E2) (list T)}
+Arg2_1 : {typeOf E' T}
+Arg2_2 : {typeOf E2 (list T)}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 5:
+
+Variables: T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail emptyList) T}
+============================
+ {typeOf (raise excValue) T}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 5:
+
+Variables: T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail emptyList) (list T1)}
+Arg1_1 : {typeOf emptyList (list T1)}
+============================
+ {typeOf (raise excValue) (list T1)}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 5:
+
+Variables: T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail emptyList) (list T1)}
+Arg1_1 : {typeOf emptyList (list T1)}
+============================
+ {typeOf (raise excValue) (list T1)}
+
+Subgoal 6 is:
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 6:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail (cons E1 E')) T}
+============================
+ {typeOf E' T}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 6:
+
+Variables: E' E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail (cons E1 E')) (list T1)}
+Arg1_1 : {typeOf (cons E1 E') (list T1)}
+============================
+ {typeOf E' (list T1)}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 6:
+
+Variables: E' E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail (cons E1 E')) (list T1)}
+Arg1_1 : {typeOf (cons E1 E') (list T1)}
+Arg2_1 : {typeOf E1 T1}
+Arg2_2 : {typeOf E' (list T1)}
+============================
+ {typeOf E' (list T1)}
+
+Subgoal 7 is:
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 7:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if tt E' E2) T}
+============================
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 7:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if tt E' E2) T}
+Arg1_1 : {typeOf tt bool}
+Arg1_2 : {typeOf E' T}
+Arg1_3 : {typeOf E2 T}
+============================
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 7:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if tt E' E2) T}
+Arg1_1 : {typeOf tt bool}
+Arg1_2 : {typeOf E' T}
+Arg1_3 : {typeOf E2 T}
+============================
+ {typeOf E' T}
+
+Subgoal 8 is:
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 8:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if ff E1 E') T}
+============================
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 8:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if ff E1 E') T}
+Arg1_1 : {typeOf ff bool}
+Arg1_2 : {typeOf E1 T}
+Arg1_3 : {typeOf E' T}
+============================
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 8:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if ff E1 E') T}
+Arg1_1 : {typeOf ff bool}
+Arg1_2 : {typeOf E1 T}
+Arg1_3 : {typeOf E' T}
+============================
+ {typeOf E' T}
+
+Subgoal 9 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 9:
+
+Variables: T V
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fix V) T}
+Step : {value V}*
+============================
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 9:
+
+Variables: T V
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fix V) T}
+Step : {value V}*
+Arg1_1 : {typeOf V (arrow T T)}
+============================
+ {typeOf (app V (fix V)) T}
+
+Subgoal 10 is:
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 10:
+
+Variables: T R1 R2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (letrec R1 R2) T}
+============================
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 10:
+
+Variables: T R1 R2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (letrec R1 R2) T}
+Arg1_1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
+Arg1_2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
+============================
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < assert Cutting : {typeOf (fix (abs R1)) T1}.
+Subgoal 10:
+
+Variables: T R1 R2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (letrec R1 R2) T}
+Arg1_1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
+Arg1_2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
+Cutting : {typeOf (fix (abs R1)) T1}
+============================
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < inst ToCut : Arg1_2 with n1 = fix (abs R1).
+Subgoal 10:
+
+Variables: T R1 R2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (letrec R1 R2) T}
+Arg1_1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
+Arg1_2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
+Cutting : {typeOf (fix (abs R1)) T1}
+ToCut : {typeOf (fix (abs R1)) T1 |- typeOf (R2 (fix (abs R1))) T}
+============================
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < cut ToCut with Cutting.
+Subgoal 10:
+
+Variables: T R1 R2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (letrec R1 R2) T}
+Arg1_1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
+Arg1_2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
+Cutting : {typeOf (fix (abs R1)) T1}
+ToCut : {typeOf (fix (abs R1)) T1 |- typeOf (R2 (fix (abs R1))) T}
+H1 : {typeOf (R2 (fix (abs R1))) T}
+============================
+ {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 11:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (try E' E2) T}
+Step : {value E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 11:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (try E' E2) T}
+Step : {value E'}*
+Arg1_1 : {typeOf E' T}
+Arg1_2 : {typeOf E2 (arrow excType T)}
+============================
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 12:
+
+Variables: T E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (try (raise E1) E2) T}
+============================
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 12:
+
+Variables: T E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (try (raise E1) E2) T}
+Arg1_1 : {typeOf (raise E1) T}
+Arg1_2 : {typeOf E2 (arrow excType T)}
+============================
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 12:
+
+Variables: T E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (try (raise E1) E2) T}
+Arg1_1 : {typeOf (raise E1) T}
+Arg1_2 : {typeOf E2 (arrow excType T)}
+Arg2_1 : {typeOf E1 excType}
+============================
+ {typeOf (app E2 E1) T}
+
+Subgoal 13 is:
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 13:
+
+Variables: T E1' E1 U2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fold E1 U2) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (fold E1' U2) T}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 13:
+
+Variables: E1' E1 U2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (U2 (mu U2))}
+============================
+ {typeOf (fold E1' U2) (mu U2)}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 13:
+
+Variables: E1' E1 U2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (U2 (mu U2))}
+H1 : {typeOf E1' (U2 (mu U2))}
+============================
+ {typeOf (fold E1' U2) (mu U2)}
+
+Subgoal 14 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 14:
+
+Variables: T E1' E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (cons E1 E2) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (cons E1' E2) T}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 14:
+
+Variables: E1' E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 (list T1)}
+============================
+ {typeOf (cons E1' E2) (list T1)}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 14:
+
+Variables: E1' E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 (list T1)}
+H1 : {typeOf E1' T1}
+============================
+ {typeOf (cons E1' E2) (list T1)}
+
+Subgoal 15 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 15:
+
+Variables: T E1 E2' E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (cons E1 E2) T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+============================
+ {typeOf (cons E1 E2') T}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 15:
+
+Variables: E1 E2' E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 (list T1)}
+============================
+ {typeOf (cons E1 E2') (list T1)}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf2 Step.
+Subgoal 15:
+
+Variables: E1 E2' E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf E2 (list T1)}
+H1 : {typeOf E2' (list T1)}
+============================
+ {typeOf (cons E1 E2') (list T1)}
+
+Subgoal 16 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 16:
+
+Variables: T E1' E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app E1 E2) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 16:
+
+Variables: T E1' E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 16:
+
+Variables: T E1' E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+H1 : {typeOf E1' (arrow T1 T)}
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 17 is:
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 17:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (unfold E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (unfold E1') T}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 17:
+
+Variables: E1' E1 R
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (mu R)}
+============================
+ {typeOf (unfold E1') (R (mu R))}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 17:
+
+Variables: E1' E1 R
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (mu R)}
+H1 : {typeOf E1' (mu R)}
+============================
+ {typeOf (unfold E1') (R (mu R))}
+
+Subgoal 18 is:
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 18:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 18:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (list T)}
+============================
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 18:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (list T)}
+H1 : {typeOf E1' (list T)}
+============================
+ {typeOf (head E1') T}
+
+Subgoal 19 is:
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 19:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (tail E1') T}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 19:
+
+Variables: E1' E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (list T1)}
+============================
+ {typeOf (tail E1') (list T1)}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 19:
+
+Variables: E1' E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (list T1)}
+H1 : {typeOf E1' (list T1)}
+============================
+ {typeOf (tail E1') (list T1)}
+
+Subgoal 20 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 20:
+
+Variables: T E1' E1 E3 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if E1 E2 E3) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 20:
+
+Variables: T E1' E1 E3 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 bool}
+TypeOf2 : {typeOf E2 T}
+TypeOf3 : {typeOf E3 T}
+============================
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 20:
+
+Variables: T E1' E1 E3 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 bool}
+TypeOf2 : {typeOf E2 T}
+TypeOf3 : {typeOf E3 T}
+H1 : {typeOf E1' bool}
+============================
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 21 is:
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 21:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fix E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 21:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T T)}
+============================
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 21:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T T)}
+H1 : {typeOf E1' (arrow T T)}
+============================
+ {typeOf (fix E1') T}
+
+Subgoal 22 is:
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 22:
+
+Variables: T E1' E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (try E1 E2) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 22:
+
+Variables: T E1' E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 T}
+TypeOf2 : {typeOf E2 (arrow excType T)}
+============================
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 22:
+
+Variables: T E1' E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 T}
+TypeOf2 : {typeOf E2 (arrow excType T)}
+H1 : {typeOf E1' T}
+============================
+ {typeOf (try E1' E2) T}
+
+Subgoal 23 is:
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 23:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (raise E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 23:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 23:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 excType}
+H1 : {typeOf E1' excType}
+============================
+ {typeOf (raise E1') T}
+
+Subgoal 24 is:
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 24:
+
+Variables: E' T U2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fold E' U2) T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 24:
+
+Variables: T U2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fold (raise E1) U2) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 24:
+
+Variables: U2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) (U2 (mu U2))}
+============================
+ {typeOf (raise E1) (mu U2)}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1.
+Subgoal 24:
+
+Variables: U2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) (mu U2)}
+
+Subgoal 25 is:
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 25:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (cons E' E2) T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 25:
+
+Variables: T E2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (cons (raise E1) E2) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 25:
+
+Variables: E2 E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) T1}
+TypeOf2 : {typeOf E2 (list T1)}
+============================
+ {typeOf (raise E1) (list T1)}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1.
+Subgoal 25:
+
+Variables: E2 E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf2 : {typeOf E2 (list T1)}
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) (list T1)}
+
+Subgoal 26 is:
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 26:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (cons E1 E') T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 26:
+
+Variables: T E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (cons E1 (raise E2)) T}
+H1 : {value E2}*
+============================
+ {typeOf (raise E2) T}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 26:
+
+Variables: E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E2}*
+TypeOf1 : {typeOf E1 T1}
+TypeOf2 : {typeOf (raise E2) (list T1)}
+============================
+ {typeOf (raise E2) (list T1)}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf2.
+Subgoal 26:
+
+Variables: E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E2}*
+TypeOf1 : {typeOf E1 T1}
+H2 : {typeOf E2 excType}
+============================
+ {typeOf (raise E2) (list T1)}
+
+Subgoal 27 is:
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 27:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app E' E2) T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 27:
+
+Variables: T E2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (raise E1) E2) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 27:
+
+Variables: T E2 E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1.
+Subgoal 27:
+
+Variables: T E2 E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf2 : {typeOf E2 T1}
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 28 is:
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 28:
+
+Variables: E' T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (unfold E') T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 28:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (unfold (raise E1)) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 28:
+
+Variables: E1 R
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) (mu R)}
+============================
+ {typeOf (raise E1) (R (mu R))}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1.
+Subgoal 28:
+
+Variables: E1 R
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) (R (mu R))}
+
+Subgoal 29 is:
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 29:
+
+Variables: E' T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head E') T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 29:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head (raise E1)) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 29:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) (list T)}
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1.
+Subgoal 29:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 30 is:
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 30:
+
+Variables: E' T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail E') T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 30:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (tail (raise E1)) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 30:
+
+Variables: E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) (list T1)}
+============================
+ {typeOf (raise E1) (list T1)}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1.
+Subgoal 30:
+
+Variables: E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) (list T1)}
+
+Subgoal 31 is:
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 31:
+
+Variables: E' T E3 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if E' E2 E3) T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 31:
+
+Variables: T E3 E2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if (raise E1) E2 E3) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 31:
+
+Variables: T E3 E2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) bool}
+TypeOf2 : {typeOf E2 T}
+TypeOf3 : {typeOf E3 T}
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1.
+Subgoal 31:
+
+Variables: T E3 E2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf2 : {typeOf E2 T}
+TypeOf3 : {typeOf E3 T}
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 32 is:
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 32:
+
+Variables: E' T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fix E') T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 32:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fix (raise E1)) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 32:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) (arrow T T)}
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1.
+Subgoal 32:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) T}
+
+Subgoal 33 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 33:
+
+Variables: E' T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (raise E') T}
+Step : {error E'}*
+============================
+ {typeOf E' T}
+
+preservation < case Step.
+Subgoal 33:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (raise (raise E1)) T}
+H1 : {value E1}*
+============================
+ {typeOf (raise E1) T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 33:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+TypeOf1 : {typeOf (raise E1) excType}
+============================
+ {typeOf (raise E1) T}
+
+preservation < case TypeOf1.
+Subgoal 33:
+
+Variables: T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+H1 : {value E1}*
+H2 : {typeOf E1 excType}
+============================
+ {typeOf (raise E1) T}
+
+preservation < search.
+Proof completed.
+
+Abella < Theorem type_soundness : 
+forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'.
+
+============================
+ forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'
+
+type_soundness < induction on 2.
+
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+============================
+ forall E E' T, {typeOf E T} -> {nstep E E'}@ -> progresses E'
+
+type_soundness < intros Main NStep.
+
+Variables: E E' T
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+Main : {typeOf E T}
+NStep : {nstep E E'}@
+============================
+ progresses E'
+
+type_soundness < case Step1 : NStep.
+Subgoal 1:
+
+Variables: E' T
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+Main : {typeOf E' T}
+============================
+ progresses E'
+
+Subgoal 2 is:
+ progresses E'
+
+type_soundness < backchain progress.
+Subgoal 2:
+
+Variables: E E' T E2
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+Main : {typeOf E T}
+Step1 : {step E E2}*
+Step2 : {nstep E2 E'}*
+============================
+ progresses E'
+
+type_soundness < apply TypeOfE2 : preservation to Main Step1.
+Subgoal 2:
+
+Variables: E E' T E2
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+Main : {typeOf E T}
+Step1 : {step E E2}*
+Step2 : {nstep E2 E'}*
+TypeOfE2 : {typeOf E2 T}
+============================
+ progresses E'
+
+type_soundness < backchain IH with E = E2.
+Proof completed.
+
+Abella < Goodbye.

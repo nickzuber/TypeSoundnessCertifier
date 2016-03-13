@@ -6,6 +6,7 @@ open TypedLanguage
 open SafeTypedLanguage
 open SafeToTyped
 open Proof
+open GenerateLambdaProlog
 
 let rule_hypothetical sl rule abs_index = 
 	let term = rule_getInputTerm rule in 
@@ -18,14 +19,22 @@ let getSignaturesForContextualMovers sl butOnlyErrorContexts =
 	let signatureConstructors = List.map specTerm_getSig (List.concat (List.map specType_getConstructors (sl_getTypes sl))) in 
 	let signatureEliminators = List.map specTerm_getSig (List.concat (List.map specType_getEliminators (sl_getTypes sl))) in 
 	let signatureOthers = (List.map specTerm_getSig (sl_getOthers sl)) in 
-	let signatureErrors = if sl_containErrors sl then [specTerm_getSig (specError_getError (sl_getError sl))] else [] in 
+	let signatureError = if sl_containErrors sl then [specTerm_getSig (specError_getError (sl_getError sl))] else [] in 
 	let signatureErrorHandlers = if sl_containErrors sl then (List.map specTerm_getSig (specError_getHandlers (sl_getError sl))) else [] in 
-	let alsoThoseForErrorsIfNeeded = if butOnlyErrorContexts then [] else signatureErrors @ signatureErrorHandlers in  
-	 signatureConstructors @ signatureEliminators  @ signatureOthers  @ alsoThoseForErrorsIfNeeded
+	let alsoThoseForErrorsIfNeeded = if butOnlyErrorContexts then [] else signatureErrorHandlers in  
+	 signatureConstructors @ signatureEliminators  @ signatureOthers  @ alsoThoseForErrorsIfNeeded @ signatureError
 
 let substitutionLemma sl rule = 
 	let toArg (index1, index2) = "Arg" ^ (string_of_int index1) ^ "_" ^ (string_of_int (1 + index2)) in 
-	let instAndCut (abs_index, app_index, applied) = if rule_hypothetical sl rule abs_index then Tactic(InstAndCut(toArg abs_index, applied, toArg app_index)) else Tactic(Inst(toArg abs_index, applied)) in 
+	let instAndCut (abs_index, app_index, applied) = 
+		(if rule_hypothetical sl rule abs_index then 
+			if term_isVar applied 
+				then Tactic(InstAndCut(toArg abs_index, toString applied, toArg app_index)) 
+				else 	let op = if fst abs_index == 1 then term_getConstructor (rule_getInputTerm rule) else term_getNestedFirstArgument (rule_getInputTerm rule) in 
+						let typingruleOp = List.hd (List.filter (rule_isPredicateAndName typing op) (sl_getAllRules sl)) in 
+						let typOfApplied = formula_getHypotheticalPart (List.nth (rule_getPremises typingruleOp) (snd abs_index)) in 
+						 Seq([Tactic(Named("Cutting", Assert("{" ^ generateFormula (toTypeOfPremise  applied typOfApplied) ^ "}"))) ; Tactic(InstAndCut(toArg abs_index, toString applied, "Cutting"))]) 
+		else Tactic(Inst(toArg abs_index, toString applied))) in 
 	List.map instAndCut (List.map (term_toPosition (rule_getInputTerm rule)) (term_retrieveApplications (rule_getOutputTerm rule)))
 
 let singleDestruction = [Tactic(Named("Arg1_1", CaseKeep("TypeOf")))]
@@ -38,13 +47,13 @@ let subProofErrorHandler sl rule =
 	if rule_checkEliminatesSome rule then subProof sl doubleDestruction rule else subProof sl singleDestruction rule
 
 let subProofContextual termDecl = 
-	let single_line = fun index -> let hypByArgIndex = "TypeOf" ^ (string_of_int index) in Seq([Tactic(Named("TypeOf1", Case("TypeOf"))) ; Tactic(Apply("IH", ["Step" ; hypByArgIndex])) ; Tactic(Search)]) in 
+	let single_line = fun index -> let hypByArgIndex = "TypeOf" ^ (string_of_int index) in Seq([Tactic(Named("TypeOf1", Case("TypeOf"))) ; Tactic(Apply("IH", [hypByArgIndex ; "Step"])) ; Tactic(Search)]) in 
 	 List.map single_line (term_getContextualPositions termDecl)		 
 
 let generatePreservationTheorem sl = 
-         let theorem = "Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}." in 
-		 let preamble = Seq([Tactic(Induction(1)) ; Tactic(Intros(["Main" ; "TypeOf"])) ; Tactic(Named("Step", Case("Main")))]) in
-		 let proofEliminators = List.map (subProof sl doubleDestruction) (List.filter rule_isReductionRule (sl_getReductionRulesOfEliminators (sl_getTypes sl))) in 
+         let theorem = "Theorem preservation : forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}." in 
+		 let preamble = Seq([Tactic(Induction(2)) ; Tactic(Intros(["TypeOf" ; "Main"])) ; Tactic(Named("Step", Case("Main")))]) in
+		 let proofEliminators = List.map (subProof sl doubleDestruction) (List.filter rule_isReductionRule (sl_getRulesOfEliminators (sl_getTypes sl))) in 
 		 let proofOthers = List.map (subProof sl singleDestruction) (List.filter rule_isReductionRule (List.concat (List.map specTerm_getRules (sl_getOthers sl)))) in 
 		 let proofErrorHandlers = if sl_containErrors sl then List.map (subProofErrorHandler sl) (List.filter rule_isReductionRule (List.concat (List.map specTerm_getRules (specError_getHandlers (sl_getError sl))))) else [] in 
          let allSignaturesForContextualMovers = getSignaturesForContextualMovers sl false in 

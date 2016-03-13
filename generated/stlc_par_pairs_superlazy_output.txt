@@ -1,0 +1,1088 @@
+Welcome to Abella 2.0.2
+Abella < Specification "stlc_par_pairs_superlazy".
+Reading specification "stlc_par_pairs_superlazy"
+
+Abella < Theorem canonical_form_arrow : 
+forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} ->
+  (exists Arg1 Arg2, E = abs Arg1 Arg2).
+
+============================
+ forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} ->
+   (exists Arg1 Arg2, E = abs Arg1 Arg2)
+
+canonical_form_arrow < intros Main Value.
+
+Variables: E T1 T2
+Main : {typeOf E (arrow T1 T2)}
+Value : {value E}
+============================
+ exists Arg1 Arg2, E = abs Arg1 Arg2
+
+canonical_form_arrow < case Main.
+Subgoal 1:
+
+Variables: T1 T2 R
+Value : {value (abs R T1)}
+H1 : {typeOf n1 T1 |- typeOf (R n1) T2}
+============================
+ exists Arg1 Arg2, abs R T1 = abs Arg1 Arg2
+
+Subgoal 2 is:
+ exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
+
+Subgoal 3 is:
+ exists Arg1 Arg2, fst E1 = abs Arg1 Arg2
+
+Subgoal 4 is:
+ exists Arg1 Arg2, snd E1 = abs Arg1 Arg2
+
+canonical_form_arrow < case Value.
+Subgoal 1:
+
+Variables: T1 T2 R
+H1 : {typeOf n1 T1 |- typeOf (R n1) T2}
+============================
+ exists Arg1 Arg2, abs R T1 = abs Arg1 Arg2
+
+Subgoal 2 is:
+ exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
+
+Subgoal 3 is:
+ exists Arg1 Arg2, fst E1 = abs Arg1 Arg2
+
+Subgoal 4 is:
+ exists Arg1 Arg2, snd E1 = abs Arg1 Arg2
+
+canonical_form_arrow < search.
+Subgoal 2:
+
+Variables: T1 T2 T3 E2 E1
+Value : {value (app E1 E2)}
+H1 : {typeOf E1 (arrow T3 (arrow T1 T2))}
+H2 : {typeOf E2 T3}
+============================
+ exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
+
+Subgoal 3 is:
+ exists Arg1 Arg2, fst E1 = abs Arg1 Arg2
+
+Subgoal 4 is:
+ exists Arg1 Arg2, snd E1 = abs Arg1 Arg2
+
+canonical_form_arrow < case Value.
+Subgoal 3:
+
+Variables: T1 T2 T3 E1
+Value : {value (fst E1)}
+H1 : {typeOf E1 (times (arrow T1 T2) T3)}
+============================
+ exists Arg1 Arg2, fst E1 = abs Arg1 Arg2
+
+Subgoal 4 is:
+ exists Arg1 Arg2, snd E1 = abs Arg1 Arg2
+
+canonical_form_arrow < case Value.
+Subgoal 4:
+
+Variables: T1 T2 T3 E1
+Value : {value (snd E1)}
+H1 : {typeOf E1 (times T3 (arrow T1 T2))}
+============================
+ exists Arg1 Arg2, snd E1 = abs Arg1 Arg2
+
+canonical_form_arrow < case Value.
+Proof completed.
+
+Abella < Theorem canonical_form_times : 
+forall E T1 T2, {typeOf E (times T1 T2)} -> {value E} ->
+  (exists Arg1 Arg2, E = pair Arg1 Arg2).
+
+============================
+ forall E T1 T2, {typeOf E (times T1 T2)} -> {value E} ->
+   (exists Arg1 Arg2, E = pair Arg1 Arg2)
+
+canonical_form_times < intros Main Value.
+
+Variables: E T1 T2
+Main : {typeOf E (times T1 T2)}
+Value : {value E}
+============================
+ exists Arg1 Arg2, E = pair Arg1 Arg2
+
+canonical_form_times < case Main.
+Subgoal 1:
+
+Variables: T1 T2 E2 E1
+Value : {value (pair E1 E2)}
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+============================
+ exists Arg1 Arg2, pair E1 E2 = pair Arg1 Arg2
+
+Subgoal 2 is:
+ exists Arg1 Arg2, app E1 E2 = pair Arg1 Arg2
+
+Subgoal 3 is:
+ exists Arg1 Arg2, fst E1 = pair Arg1 Arg2
+
+Subgoal 4 is:
+ exists Arg1 Arg2, snd E1 = pair Arg1 Arg2
+
+canonical_form_times < case Value.
+Subgoal 1:
+
+Variables: T1 T2 E2 E1
+H1 : {typeOf E1 T1}
+H2 : {typeOf E2 T2}
+============================
+ exists Arg1 Arg2, pair E1 E2 = pair Arg1 Arg2
+
+Subgoal 2 is:
+ exists Arg1 Arg2, app E1 E2 = pair Arg1 Arg2
+
+Subgoal 3 is:
+ exists Arg1 Arg2, fst E1 = pair Arg1 Arg2
+
+Subgoal 4 is:
+ exists Arg1 Arg2, snd E1 = pair Arg1 Arg2
+
+canonical_form_times < search.
+Subgoal 2:
+
+Variables: T1 T2 T3 E2 E1
+Value : {value (app E1 E2)}
+H1 : {typeOf E1 (arrow T3 (times T1 T2))}
+H2 : {typeOf E2 T3}
+============================
+ exists Arg1 Arg2, app E1 E2 = pair Arg1 Arg2
+
+Subgoal 3 is:
+ exists Arg1 Arg2, fst E1 = pair Arg1 Arg2
+
+Subgoal 4 is:
+ exists Arg1 Arg2, snd E1 = pair Arg1 Arg2
+
+canonical_form_times < case Value.
+Subgoal 3:
+
+Variables: T1 T2 T3 E1
+Value : {value (fst E1)}
+H1 : {typeOf E1 (times (times T1 T2) T3)}
+============================
+ exists Arg1 Arg2, fst E1 = pair Arg1 Arg2
+
+Subgoal 4 is:
+ exists Arg1 Arg2, snd E1 = pair Arg1 Arg2
+
+canonical_form_times < case Value.
+Subgoal 4:
+
+Variables: T1 T2 T3 E1
+Value : {value (snd E1)}
+H1 : {typeOf E1 (times T3 (times T1 T2))}
+============================
+ exists Arg1 Arg2, snd E1 = pair Arg1 Arg2
+
+canonical_form_times < case Value.
+Proof completed.
+
+Abella < Define progresses : term -> prop by 
+progresses E := {value E};
+progresses E := exists E', {step E E'}.
+
+Abella < Theorem progress_abs : 
+forall R1 T2 T, {typeOf (abs R1 T2) T} -> progresses (abs R1 T2).
+
+============================
+ forall R1 T2 T, {typeOf (abs R1 T2) T} -> progresses (abs R1 T2)
+
+progress_abs < search.
+Proof completed.
+
+Abella < Theorem progress_app : 
+forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 ->
+  progresses (app E1 E2).
+
+============================
+ forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 ->
+   progresses (app E1 E2)
+
+progress_app < intros Main PrgsE1.
+
+Variables: E1 E2 T
+Main : {typeOf (app E1 E2) T}
+PrgsE1 : progresses E1
+============================
+ progresses (app E1 E2)
+
+progress_app < case TypeOfE1 : Main.
+
+Variables: E1 E2 T T1
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+============================
+ progresses (app E1 E2)
+
+progress_app < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 E2 T T1
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {value E1}
+============================
+ progresses (app E1 E2)
+
+Subgoal 2 is:
+ progresses (app E1 E2)
+
+progress_app < apply Canonical : canonical_form_arrow to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: E2 T T1 Arg1 Arg2
+TypeOfE1 : {typeOf (abs Arg1 Arg2) (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {value (abs Arg1 Arg2)}
+============================
+ progresses (app (abs Arg1 Arg2) E2)
+
+Subgoal 2 is:
+ progresses (app E1 E2)
+
+progress_app < search.
+Subgoal 2:
+
+Variables: E1 E2 T T1 E'
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {step E1 E'}
+============================
+ progresses (app E1 E2)
+
+progress_app < search.
+Proof completed.
+
+Abella < Theorem progress_pair : 
+forall E1 E2 T, {typeOf (pair E1 E2) T} -> progresses (pair E1 E2).
+
+============================
+ forall E1 E2 T, {typeOf (pair E1 E2) T} -> progresses (pair E1 E2)
+
+progress_pair < search.
+Proof completed.
+
+Abella < Theorem progress_fst : 
+forall E1 T, {typeOf (fst E1) T} -> progresses E1 -> progresses (fst E1).
+
+============================
+ forall E1 T, {typeOf (fst E1) T} -> progresses E1 -> progresses (fst E1)
+
+progress_fst < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (fst E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (fst E1)
+
+progress_fst < case TypeOfE1 : Main.
+
+Variables: E1 T T2
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (times T T2)}
+============================
+ progresses (fst E1)
+
+progress_fst < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T T2
+TypeOfE1 : {typeOf E1 (times T T2)}
+ProgressClause : {value E1}
+============================
+ progresses (fst E1)
+
+Subgoal 2 is:
+ progresses (fst E1)
+
+progress_fst < apply Canonical : canonical_form_times to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: T T2 Arg1 Arg2
+TypeOfE1 : {typeOf (pair Arg1 Arg2) (times T T2)}
+ProgressClause : {value (pair Arg1 Arg2)}
+============================
+ progresses (fst (pair Arg1 Arg2))
+
+Subgoal 2 is:
+ progresses (fst E1)
+
+progress_fst < search.
+Subgoal 2:
+
+Variables: E1 T T2 E'
+TypeOfE1 : {typeOf E1 (times T T2)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (fst E1)
+
+progress_fst < search.
+Proof completed.
+
+Abella < Theorem progress_snd : 
+forall E1 T, {typeOf (snd E1) T} -> progresses E1 -> progresses (snd E1).
+
+============================
+ forall E1 T, {typeOf (snd E1) T} -> progresses E1 -> progresses (snd E1)
+
+progress_snd < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (snd E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (snd E1)
+
+progress_snd < case TypeOfE1 : Main.
+
+Variables: E1 T T1
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (times T1 T)}
+============================
+ progresses (snd E1)
+
+progress_snd < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T T1
+TypeOfE1 : {typeOf E1 (times T1 T)}
+ProgressClause : {value E1}
+============================
+ progresses (snd E1)
+
+Subgoal 2 is:
+ progresses (snd E1)
+
+progress_snd < apply Canonical : canonical_form_times to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: T T1 Arg1 Arg2
+TypeOfE1 : {typeOf (pair Arg1 Arg2) (times T1 T)}
+ProgressClause : {value (pair Arg1 Arg2)}
+============================
+ progresses (snd (pair Arg1 Arg2))
+
+Subgoal 2 is:
+ progresses (snd E1)
+
+progress_snd < search.
+Subgoal 2:
+
+Variables: E1 T T1 E'
+TypeOfE1 : {typeOf E1 (times T1 T)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (snd E1)
+
+progress_snd < search.
+Proof completed.
+
+Abella < Theorem progress : 
+forall E T, {typeOf E T} -> progresses E.
+
+============================
+ forall E T, {typeOf E T} -> progresses E
+
+progress < induction on 1.
+
+IH : forall E T, {typeOf E T}* -> progresses E
+============================
+ forall E T, {typeOf E T}@ -> progresses E
+
+progress < intros Main.
+
+Variables: E T
+IH : forall E T, {typeOf E T}* -> progresses E
+Main : {typeOf E T}@
+============================
+ progresses E
+
+progress < case TypeOfE1 : Main.
+Subgoal 1:
+
+Variables: T2 R T1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf n1 T1 |- typeOf (R n1) T2}*
+============================
+ progresses (abs R T1)
+
+Subgoal 2 is:
+ progresses (pair E1 E2)
+
+Subgoal 3 is:
+ progresses (app E1 E2)
+
+Subgoal 4 is:
+ progresses (fst E1)
+
+Subgoal 5 is:
+ progresses (snd E1)
+
+progress < backchain progress_abs.
+Subgoal 2:
+
+Variables: T2 E2 T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 T1}*
+TypeOfE2 : {typeOf E2 T2}*
+============================
+ progresses (pair E1 E2)
+
+Subgoal 3 is:
+ progresses (app E1 E2)
+
+Subgoal 4 is:
+ progresses (fst E1)
+
+Subgoal 5 is:
+ progresses (snd E1)
+
+progress < backchain progress_pair.
+Subgoal 3:
+
+Variables: T T1 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T1 T)}*
+TypeOfE2 : {typeOf E2 T1}*
+============================
+ progresses (app E1 E2)
+
+Subgoal 4 is:
+ progresses (fst E1)
+
+Subgoal 5 is:
+ progresses (snd E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 3:
+
+Variables: T T1 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T1 T)}*
+TypeOfE2 : {typeOf E2 T1}*
+H1 : progresses E1
+============================
+ progresses (app E1 E2)
+
+Subgoal 4 is:
+ progresses (fst E1)
+
+Subgoal 5 is:
+ progresses (snd E1)
+
+progress < backchain progress_app.
+Subgoal 4:
+
+Variables: T T2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (times T T2)}*
+============================
+ progresses (fst E1)
+
+Subgoal 5 is:
+ progresses (snd E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 4:
+
+Variables: T T2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (times T T2)}*
+H1 : progresses E1
+============================
+ progresses (fst E1)
+
+Subgoal 5 is:
+ progresses (snd E1)
+
+progress < backchain progress_fst.
+Subgoal 5:
+
+Variables: T T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (times T1 T)}*
+============================
+ progresses (snd E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 5:
+
+Variables: T T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (times T1 T)}*
+H1 : progresses E1
+============================
+ progresses (snd E1)
+
+progress < backchain progress_snd.
+Proof completed.
+
+Abella < Theorem preservation : 
+forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}.
+
+============================
+ forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}
+
+preservation < induction on 2.
+
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+============================
+ forall E E' T, {typeOf E T} -> {step E E'}@ -> {typeOf E' T}
+
+preservation < intros TypeOf Main.
+
+Variables: E E' T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf E T}
+Main : {step E E'}@
+============================
+ {typeOf E' T}
+
+preservation < case Step : Main.
+Subgoal 1:
+
+Variables: T EE R T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R T1) EE) T}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 1:
+
+Variables: T EE R T1 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R T1) EE) T}
+Arg1_1 : {typeOf (abs R T1) (arrow T2 T)}
+Arg1_2 : {typeOf EE T2}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 1:
+
+Variables: T EE R T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R T2) EE) T}
+Arg1_1 : {typeOf (abs R T2) (arrow T2 T)}
+Arg1_2 : {typeOf EE T2}
+Arg2_1 : {typeOf n1 T2 |- typeOf (R n1) T}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < inst ToCut : Arg2_1 with n1 = EE.
+Subgoal 1:
+
+Variables: T EE R T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R T2) EE) T}
+Arg1_1 : {typeOf (abs R T2) (arrow T2 T)}
+Arg1_2 : {typeOf EE T2}
+Arg2_1 : {typeOf n1 T2 |- typeOf (R n1) T}
+ToCut : {typeOf EE T2 |- typeOf (R EE) T}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < cut ToCut with Arg1_2.
+Subgoal 1:
+
+Variables: T EE R T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app (abs R T2) EE) T}
+Arg1_1 : {typeOf (abs R T2) (arrow T2 T)}
+Arg1_2 : {typeOf EE T2}
+Arg2_1 : {typeOf n1 T2 |- typeOf (R n1) T}
+ToCut : {typeOf EE T2 |- typeOf (R EE) T}
+H1 : {typeOf (R EE) T}
+============================
+ {typeOf (R EE) T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < search.
+Subgoal 2:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fst (pair E' E2)) T}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 2:
+
+Variables: E' T E2 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fst (pair E' E2)) T}
+Arg1_1 : {typeOf (pair E' E2) (times T T2)}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 2:
+
+Variables: E' T E2 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fst (pair E' E2)) T}
+Arg1_1 : {typeOf (pair E' E2) (times T T2)}
+Arg2_1 : {typeOf E' T}
+Arg2_2 : {typeOf E2 T2}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < search.
+Subgoal 3:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (snd (pair E1 E')) T}
+============================
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 3:
+
+Variables: E' T E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (snd (pair E1 E')) T}
+Arg1_1 : {typeOf (pair E1 E') (times T1 T)}
+============================
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 3:
+
+Variables: E' T E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (snd (pair E1 E')) T}
+Arg1_1 : {typeOf (pair E1 E') (times T1 T)}
+Arg2_1 : {typeOf E1 T1}
+Arg2_2 : {typeOf E' T}
+============================
+ {typeOf E' T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < search.
+Subgoal 4:
+
+Variables: T E1' E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app E1 E2) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 4:
+
+Variables: T E1' E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 4:
+
+Variables: T E1' E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+H1 : {typeOf E1' (arrow T1 T)}
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < search.
+Subgoal 5:
+
+Variables: T E2' E2 E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app E1 E2) T}
+Step : {step E2 E2'}*
+============================
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 5:
+
+Variables: T E2' E2 E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E2 E2'}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+============================
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < apply IH to TypeOf2 Step.
+Subgoal 5:
+
+Variables: T E2' E2 E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E2 E2'}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+H1 : {typeOf E2' T1}
+============================
+ {typeOf (app E1 E2') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < search.
+Subgoal 6:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fst E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 6:
+
+Variables: T E1' E1 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times T T2)}
+============================
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 6:
+
+Variables: T E1' E1 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times T T2)}
+H1 : {typeOf E1' (times T T2)}
+============================
+ {typeOf (fst E1') T}
+
+Subgoal 7 is:
+ {typeOf (snd E1') T}
+
+preservation < search.
+Subgoal 7:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (snd E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (snd E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 7:
+
+Variables: T E1' E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times T1 T)}
+============================
+ {typeOf (snd E1') T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 7:
+
+Variables: T E1' E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times T1 T)}
+H1 : {typeOf E1' (times T1 T)}
+============================
+ {typeOf (snd E1') T}
+
+preservation < search.
+Proof completed.
+
+Abella < Theorem type_soundness : 
+forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'.
+
+============================
+ forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'
+
+type_soundness < induction on 2.
+
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+============================
+ forall E E' T, {typeOf E T} -> {nstep E E'}@ -> progresses E'
+
+type_soundness < intros Main NStep.
+
+Variables: E E' T
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+Main : {typeOf E T}
+NStep : {nstep E E'}@
+============================
+ progresses E'
+
+type_soundness < case Step1 : NStep.
+Subgoal 1:
+
+Variables: E' T
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+Main : {typeOf E' T}
+============================
+ progresses E'
+
+Subgoal 2 is:
+ progresses E'
+
+type_soundness < backchain progress.
+Subgoal 2:
+
+Variables: E E' T E2
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+Main : {typeOf E T}
+Step1 : {step E E2}*
+Step2 : {nstep E2 E'}*
+============================
+ progresses E'
+
+type_soundness < apply TypeOfE2 : preservation to Main Step1.
+Subgoal 2:
+
+Variables: E E' T E2
+IH : forall E E' T, {typeOf E T} -> {nstep E E'}* -> progresses E'
+Main : {typeOf E T}
+Step1 : {step E E2}*
+Step2 : {nstep E2 E'}*
+TypeOfE2 : {typeOf E2 T}
+============================
+ progresses E'
+
+type_soundness < backchain IH with E = E2.
+Proof completed.
+
+Abella < Goodbye.

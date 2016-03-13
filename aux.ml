@@ -50,3 +50,5 @@ let removeDuplicates(list') =
                   removeDuplicatesHelper(List.rev(tail))
                  else [head]@removeDuplicatesHelper(List.rev(tail))
   in List.rev(removeDuplicatesHelper(list'));;
+  
+let addAnd str = " /\\ " ^ str

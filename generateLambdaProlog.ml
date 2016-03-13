@@ -9,6 +9,8 @@ let generateSigPreamble tsName = "sig " ^ tsName ^ ".\n\nkind typ, term type.\n\
 let generateModPreamble tsName = "module " ^ tsName ^ ".\n\n"
 let generateThmPreamble tsName = "Specification \"" ^ tsName ^ "\".\n\n"
 
+let wrappedInBrackets = fun formula -> "{" ^ formula ^ "}" 
+
 let generateTypeExpr te = match te with 
          | Simple(typ) -> typ 
          | Abstraction(typ1,typ2) -> "(" ^ typ1 ^ " -> " ^ typ2 ^ ")"
@@ -25,12 +27,8 @@ let extraSigForPredicates =
 "type value term -> o.\n
 type error term -> o.\n\n
 type typeOf term -> typ -> o.\n
-type step term -> term -> o.\n"
-
-(*
-type nonvalue term -> o.\n\n
-type termPred term  -> o.\n
-*)
+type step term -> term -> o.\n
+type nstep term -> term -> o.\n"
 
 let generateSignature tsName ts = match ts with TypedLanguage(signatureTypes,signatureTerms,rules) ->
 generateSigPreamble tsName ^ (String.concat "\n" (List.map generateTypeEntry signatureTypes)) ^ "\n" ^ (String.concat "\n" (List.map generateTermEntry signatureTerms))  ^ "\n\n" ^ extraSigForPredicates
@@ -53,7 +51,19 @@ let generateRule rule = match rule with Rule(name,premises,conclusion) ->
          let pr = if prePremises = [] then "" else " :- " ^ (String.concat ", " prePremises) in 
            (generateFormula conclusion) ^ pr ^ ".\n"
 
-let generateModule tsName ts = match ts with TypedLanguage(signatureTypes,signatureTerms,rules) -> generateModPreamble tsName ^ (String.concat "\n" (List.map generateRule rules))
+let nstepDefinition = 		
+	[Rule("nstepZERO",
+		[],
+		 Formula("nstep", [Var("E")], [Var("E")])) ;
+	 Rule("nstepN",
+	 	[Formula("step", [Var("E1")], [Var("E2")]) ;
+		 Formula("nstep", [Var("E2")], [Var("E3")]) ;
+		],
+	 	 Formula("nstep", [Var("E1")], [Var("E3")])) ;
+	]
+
+
+let generateModule tsName ts = match ts with TypedLanguage(signatureTypes,signatureTerms,rules) -> generateModPreamble tsName ^ (String.concat "\n" (List.map generateRule (rules @ nstepDefinition)))
 
 let rec generateTactic tactic = match tactic with 
  | Intros(hyps) -> "intros " ^ (String.concat " " hyps) ^ "."
@@ -76,8 +86,14 @@ let rec generateTactic tactic = match tactic with
 | ForEach(hyps, pr) -> String.concat " " (List.map generateProof (List.map (substituteXinProof pr) hyps))
 | RepeatPlain(n, pr) ->   String.concat " " (Array.to_list (Array.make n (generateProof pr)))
 
+let typesoundnessProof = 
+"Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'. \n
+induction on 2. intros Main NStep. Step1 : case NStep. \n
+backchain progress. \n
+TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.\n"
+
 let rec generateTheorem theorem = match theorem with Theorem(statement, proof) -> statement ^ "\n" ^ generateProof proof
-let rec generateTheoremS theorems = String.concat "\n\n" (List.map generateTheorem theorems)
+let rec generateTheoremS theorems = String.concat "\n\n" (List.map generateTheorem theorems) ^ "\n\n" 
 
 let generateAbellaQuery rule = 
 	let variablesInConclusion = formula_getAllVariables (rule_getConclusion rule) in 
@@ -86,7 +102,13 @@ let generateAbellaQuery rule =
     let forallPreamble = if allVariables = [] then "" else "forall " ^ (String.concat " " (List.unique (List.map toString allVariables))) ^ ", " in 
 	let testname = rule_getRuleName rule in 
     let displayedPremises = List.map generateFormula removedVacuousApplications in
-    let wrappedInBrackets = fun formula -> "{" ^ formula ^ "}" in
 	let implications = if displayedPremises = [] then "" else String.concat " -> " (List.map wrappedInBrackets displayedPremises) ^ " -> " in 
         "Define " ^ testname ^ " : prop by\n   " ^ testname ^ " := " ^ forallPreamble ^ implications ^ wrappedInBrackets (generateFormula (rule_getConclusion rule)) ^ ".\n\n"
 
+
+		(*		   Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'. 
+		   induction on 2. intros Main NStep. Step1 : case NStep. 
+		   backchain progress. 
+		   TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.
+
+*)

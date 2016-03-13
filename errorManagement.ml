@@ -9,7 +9,8 @@ let toErrorPremise term = Formula("error", [term], [])
 
 let generateError termDecl = 
 	 	let (canonical, vars) = term_getCanonical termDecl in
-	 	 Rule("error", [], toErrorPremise canonical)
+		let valuePremises = List.map toValuePremise (List.map (nthMinusOne vars) (term_getValPositions termDecl)) in 
+	 	 Rule("error", valuePremises, toErrorPremise canonical)
 
 let toErrorContextsByCTX termDecl position = 
 	 	let (canonical, vars) = term_getCanonical termDecl in
@@ -19,10 +20,10 @@ let toErrorContextsByCTX termDecl position =
 
 let toErrorContextsByOp termDecl = List.map (toErrorContextsByCTX termDecl) (List.map fst (term_getContextInfo termDecl))
 
-let generateErrorManagement errorSpec signatureOfAllButErrors = if is_none errorSpec then [] else
+let generateErrorManagement errorSpec signatureOfAllButErrorHandlers = if is_none errorSpec then [] else
 	let errorDefinition = generateError (specTerm_getSig (specError_getError errorSpec)) in 
 	let errorTypingRule = List.hd (specTerm_getRules (specError_getError errorSpec)) in 
-	let errorContextualRules = List.concat (List.map toErrorContextsByOp signatureOfAllButErrors) in 
+	let errorContextualRules = List.concat (List.map toErrorContextsByOp signatureOfAllButErrorHandlers) in 
 	 errorDefinition :: errorTypingRule :: errorContextualRules
 
 (*

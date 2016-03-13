@@ -4,16 +4,20 @@ Specification "stlc_cbv_tuples_parallel".
 
 Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (abs Arg1 Arg2)).
 intros Main Value. case Main.
- search.
+ case Value. search.
+
  case Value. case Value. case Value. case Value. case Value. case Value.
  
 
 
-Theorem  canonical_form_times5 : forall E T1 T2 T3 T4 T5, {typeOf E (times5 T1 T2 T3 T4 T5)} -> {value E} -> (exists Arg1 Arg2 Arg3 Arg4 Arg5, E = (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5)).
+Theorem  canonical_form_times5 : forall E T1 T2 T3 T4 T5, {typeOf E (times5 T1 T2 T3 T4 T5)} -> {value E} -> (exists Arg1 Arg2 Arg3 Arg4 Arg5, E = (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5) /\ {value Arg1} /\ {value Arg2} /\ {value Arg3} /\ {value Arg4} /\ {value Arg5}).
 intros Main Value. case Main.
- search.
+ case Value. search.
+
  case Value. case Value. case Value. case Value. case Value. case Value.
  
+
+
 
 
 Define progresses : term -> prop by
@@ -26,81 +30,92 @@ Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((
 
 
 Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((app E1 E2)).
-intros Main E1 E2. case Main. ProgressClause : case E1. case E2.
- Canonical : assert ((exists Arg1 Arg2, E1 = (abs Arg1 Arg2))). backchain canonical_form_arrow. case Canonical.  search. search. search.
+intros Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. case PrgsE2.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search. search.
 
 
 
 Theorem progress_tuple5 : forall E1 E2 E3 E4 E5 T, {typeOf ((tuple5 E1 E2 E3 E4 E5)) T} -> progresses E1 -> progresses E2 -> progresses E3 -> progresses E4 -> progresses E5 -> progresses ((tuple5 E1 E2 E3 E4 E5)).
-intros Main E1 E2 E3 E4 E5. case Main. ProgressClause : case E1. case E2. case E3. case E4. case E5.
+intros Main PrgsE1 PrgsE2 PrgsE3 PrgsE4 PrgsE5. TypeOfE1 : case Main. ProgressClause : case PrgsE1. case PrgsE2. case PrgsE3. case PrgsE4. case PrgsE5.
  search. search. search. search. search. search.
 
 
 
 Theorem progress_select1 : forall E1 T, {typeOf ((select1 E1)) T} -> progresses E1 -> progresses ((select1 E1)).
-intros Main E1. case Main. ProgressClause : case E1.
- Canonical : assert ((exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))). backchain canonical_form_times5. case Canonical.  search. search.
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
 
 
 
 Theorem progress_select2 : forall E1 T, {typeOf ((select2 E1)) T} -> progresses E1 -> progresses ((select2 E1)).
-intros Main E1. case Main. ProgressClause : case E1.
- Canonical : assert ((exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))). backchain canonical_form_times5. case Canonical.  search. search.
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
 
 
 
 Theorem progress_select3 : forall E1 T, {typeOf ((select3 E1)) T} -> progresses E1 -> progresses ((select3 E1)).
-intros Main E1. case Main. ProgressClause : case E1.
- Canonical : assert ((exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))). backchain canonical_form_times5. case Canonical.  search. search.
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
 
 
 
 Theorem progress_select4 : forall E1 T, {typeOf ((select4 E1)) T} -> progresses E1 -> progresses ((select4 E1)).
-intros Main E1. case Main. ProgressClause : case E1.
- Canonical : assert ((exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))). backchain canonical_form_times5. case Canonical.  search. search.
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
 
 
 
 Theorem progress_select5 : forall E1 T, {typeOf ((select5 E1)) T} -> progresses E1 -> progresses ((select5 E1)).
-intros Main E1. case Main. ProgressClause : case E1.
- Canonical : assert ((exists Arg1 Arg2 Arg3 Arg4 Arg5, E1 = (tuple5 Arg1 Arg2 Arg3 Arg4 Arg5))). backchain canonical_form_times5. case Canonical.  search. search.
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
+
+
 
 
 
 Theorem progress : forall E T, {typeOf E T} -> progresses E. 
-induction on 1. intros Main. E1 : case Main.
+induction on 1. intros Main. TypeOfE1 : case Main.
  backchain progress_abs.
- apply IH to E1. apply IH to E2. apply IH to E3. apply IH to E4. apply IH to E5. backchain progress_tuple5.
+ apply IH to TypeOfE1. apply IH to TypeOfE2. apply IH to TypeOfE3. apply IH to TypeOfE4. apply IH to TypeOfE5. backchain progress_tuple5.
 
- apply IH to E1. apply IH to E2. backchain progress_app.
- apply IH to E1. backchain progress_select1.
- apply IH to E1. backchain progress_select2.
- apply IH to E1. backchain progress_select3.
- apply IH to E1. backchain progress_select4.
- apply IH to E1. backchain progress_select5.
+ apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_app.
+ apply IH to TypeOfE1. backchain progress_select1.
+ apply IH to TypeOfE1. backchain progress_select2.
+ apply IH to TypeOfE1. backchain progress_select3.
+ apply IH to TypeOfE1. backchain progress_select4.
+ apply IH to TypeOfE1. backchain progress_select5.
 
  
  
 
 
-Theorem preservation : forall E E' T, {step E E'} -> {typeOf E T} -> {typeOf E' T}.
-induction on 1. intros Main TypeOf. Step : case Main.
+Theorem preservation : forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}.
+induction on 2. intros TypeOf Main. Step : case Main.
  Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). ToCut : inst Arg2_1 with n1 = EE. cut ToCut with Arg1_2. search.
  Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). search.
  Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). search.
  Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). search.
  Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). search.
  Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf3. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf4. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf5. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf2. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
- TypeOf1 : case TypeOf. apply IH to Step TypeOf1. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf1 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf2 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf3 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf4 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf5 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf1 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf2 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf1 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf1 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf1 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf1 Step. search.
+ TypeOf1 : case TypeOf. apply IH to TypeOf1 Step. search.
 
+
+
+Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'. 
+
+induction on 2. intros Main NStep. Step1 : case NStep. 
+
+backchain progress. 
+
+TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.

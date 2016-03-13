@@ -55,3 +55,7 @@ step (select3 E1) (select3 E1') :- step E1 E1'.
 step (select4 E1) (select4 E1') :- step E1 E1'.
 
 step (select5 E1) (select5 E1') :- step E1 E1'.
+
+nstep E E.
+
+nstep E1 E3 :- step E1 E2, nstep E2 E3.

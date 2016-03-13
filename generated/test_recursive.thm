@@ -1,0 +1,5 @@
+Specification "recursive".
+
+Define test_unfoldStep : prop by
+   test_unfoldStep := forall V R RX, {typeOf (fold V R) (mu R)} -> {typeOf V (R RX)} -> {typeOf V (R (mu R))}.
+

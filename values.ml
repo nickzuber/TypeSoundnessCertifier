@@ -4,8 +4,6 @@ open Aux
 open TypedLanguage
 open SafeTypedLanguage
 
-let toValuePremise term = Formula("value", [term], [])
-
 let generateValues termDecl = 
 	let (canonical, vars) = term_getCanonical termDecl in
 	let rulename = "value_"^ (term_getOperator termDecl) in

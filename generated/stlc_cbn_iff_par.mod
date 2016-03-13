@@ -29,3 +29,7 @@ step (if E1 E2 E3) (if E1' E2 E3) :- step E1 E1'.
 step (if E1 E2 E3) (if E1 E2' E3) :- step E2 E2'.
 
 step (if E1 E2 E3) (if E1 E2 E3') :- step E3 E3'.
+
+nstep E E.
+
+nstep E1 E3 :- step E1 E2, nstep E2 E3.

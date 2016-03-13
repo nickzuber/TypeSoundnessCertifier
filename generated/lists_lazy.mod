@@ -31,3 +31,7 @@ typeOf (myError ) T.
 step (head E1) E1 :- error E1.
 
 step (tail E1) E1 :- error E1.
+
+nstep E E.
+
+nstep E1 E3 :- step E1 E2, nstep E2 E3.

@@ -100,8 +100,11 @@ let sl_withDerived sl term rule reductionRules = let derived = SpecTerm(term, ru
 let sl_compose sl1 sl2 = SafeTypedLanguage((sl_getTypes sl1) @ (sl_getTypes sl2), 
 										sl_getOthers sl1 @ sl_getOthers sl2, 
 										specError_compose (sl_getError sl1) (sl_getError sl2))
-let sl_getReductionRulesOfEliminators typeSpec = List.concat (List.map specTerm_getRules (List.concat (List.map specType_getEliminators typeSpec)))
-let sl_getReductionRulesOfConstructors typeSpec = List.concat (List.map specTerm_getRules (List.concat (List.map specType_getConstructors typeSpec)))
+let sl_getRulesOfEliminators typeSpec = List.concat (List.map specTerm_getRules (List.concat (List.map specType_getEliminators typeSpec)))
+let sl_getRulesOfConstructors typeSpec = List.concat (List.map specTerm_getRules (List.concat (List.map specType_getConstructors typeSpec)))
+
+let sl_getAllRules sl = let ruleForErrors = if is_none (sl_getError sl) then [] else List.concat (List.map specTerm_getRules (specError_getHandlers (sl_getError sl))) @ [List.hd (specTerm_getRules (specError_getError (sl_getError sl)))] in 
+	sl_getRulesOfConstructors (sl_getTypes sl) @ sl_getRulesOfEliminators (sl_getTypes sl) @  List.concat (List.map specTerm_getRules (sl_getOthers sl)) @ ruleForErrors 
 
 let rule_checkEliminatesSome rule = 
 	if term_isConstructor (rule_getInputTerm rule) then 

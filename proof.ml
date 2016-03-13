@@ -48,13 +48,6 @@ let rec substituteXinProof pr hyp = let swapped = fun pr -> substituteXinProof p
 | Seq(proofs) -> Seq(List.map swapped proofs)
 | other -> other
 
-
-let universalQuantification vars = if vars = [] then "" else "forall " ^ String.concat " " vars ^ ", "
-
-let existentiallyClosedEquation var termSpec = 
-	let (canonical, vars) = term_getCanonicalNoClash (specTerm_getSig termSpec) in 
-	if vars = [] then var ^ " = " ^ (toString canonical) else let existentials = "exists " ^ String.concat " " (List.map toString vars) ^ ", " in 
-	 "(" ^ existentials ^ var ^ " = " ^ (toString canonical) ^ ")"
 	 
 	 (*
 let existentiallyClosedEquation var signatureTerms canonicalTermDecl = 

@@ -4,8 +4,14 @@ open Aux
 open TypedLanguage
 open SafeTypedLanguage
 open Proof
+open CanonicalForms
 
 let dynamicSemantics = "step"
+let toE i = "E" ^ (string_of_int i)
+let toPrgsE i = "PrgsE" ^ (string_of_int i)
+let toTypeOfE i = "TypeOfE" ^ (string_of_int i)
+let progressImplication var = "progresses " ^ var ^ " -> "
+
 let combinatoricsOfSearches sensitivePositions errorSpec = 
 	let multiply = if is_none errorSpec then 1 else 2 in 
 		repeat (Tactic(Search)) (((List.length sensitivePositions) * multiply) + 1)
@@ -20,21 +26,19 @@ let progressDefinition sl =
 let appealToCanonicalForm typeSpec = 
 	let constructors = (specType_getConstructors typeSpec) in 
 	let typeBeingProved = (specType_getTypeName typeSpec) in 
-		  [Tactic(Named("Canonical", Assert(String.concat " \\/ " (List.map (existentiallyClosedEquation "E1") constructors)))) ; Tactic(Backchain("canonical_form", typeBeingProved)) ; Tactic(Case("Canonical")) ; RepeatPlain((List.length constructors) - 1, Tactic(Search))] 
+	let caseCanonicalIfNecessary = if List.length constructors = 1 then Qed else Tactic(Case("Canonical")) in 
+  [Tactic(Named("Canonical", Apply("canonical_form_" ^ typeBeingProved, [(toTypeOfE 1) ; "ProgressClause"]))) ; caseCanonicalIfNecessary ; RepeatPlain((List.length constructors) - 1, Tactic(Search))] 
 
-let toE i = "E" ^ (string_of_int i)
-let progressImplication var = "progresses " ^ var ^ " -> "
-
-let preambleproof_progress_lemmas positions_of_values = if positions_of_values = [] then Qed else Seq([Tactic(Intros("Main" :: positions_of_values)) ; Tactic(Case("Main")) ; Tactic(Named("ProgressClause", Case((List.hd positions_of_values))))] @ List.map toCase (List.tl positions_of_values))
+let preambleproof_progress_lemmas sensitivePositionsRaw = let sensitivePositions = List.map toPrgsE sensitivePositionsRaw in if sensitivePositions = [] then Qed else Seq([Tactic(Intros("Main" :: sensitivePositions)) ; Tactic(Named((toTypeOfE 1), Case("Main"))) ; Tactic(Named("ProgressClause", Case((List.hd sensitivePositions))))] @ List.map toCase (List.tl sensitivePositions))
 
 let statement_progress_lemmas termDecl sensitivePositions = 
-	let extraPremise = String.concat "" (List.map progressImplication sensitivePositions) in 
+	let extraPremise = String.concat "" (List.map progressImplication (List.map toE sensitivePositions)) in 
 	let (canonical, vars) = term_getCanonical termDecl in 
 	"Theorem progress_" ^ (term_getOperator termDecl) ^ " : forall" ^ toStringFromList vars ^ " T, {typeOf (" ^ toString canonical ^ ") T} -> " ^ extraPremise ^ "progresses (" ^ toString canonical ^ ")." 
 
 let progressLemmasByOperators errorSpec typeSpec eliminator =  
 	let termDecl = specTerm_getSig eliminator in 
-	let sensitivePositions = List.map toE (term_getValPositions termDecl) in 
+	let sensitivePositions = (term_getValPositions termDecl) in 
 	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
 	let preamble = preambleproof_progress_lemmas sensitivePositions in 
 	let proof_appealToCanonicalForm = if is_none typeSpec then [] else appealToCanonicalForm (get typeSpec) in 
@@ -43,7 +47,7 @@ let progressLemmasByOperators errorSpec typeSpec eliminator =
 
 let progressLemmasByErrorHandler errorHandler = 
 	let termDecl = specTerm_getSig errorHandler in 
-	let sensitivePositions = List.map toE (term_getValPositions termDecl) in 
+	let sensitivePositions = term_getValPositions termDecl in 
 	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
 	let preamble = preambleproof_progress_lemmas sensitivePositions in 
 	let proof = combinatoricsWithErrorAnalysis  
@@ -57,21 +61,26 @@ let progressLemmasTypes errorSpec typeSpec =
 (* returns progressDef, (theorem, proof) list *)
 
 let generateProgressLemmas sl = match sl with SafeTypedLanguage(types, others, errorSpec) -> 
-	List.concat (List.map (progressLemmasTypes errorSpec) types) @ List.map (progressLemmasByOperators errorSpec None) others @ List.map progressLemmasByErrorHandler (specError_getHandlers errorSpec)
+	let progressLemmasForErrorRelated = if is_none errorSpec then [] else List.map progressLemmasByErrorHandler (specError_getHandlers errorSpec) @ [(progressLemmasByOperators errorSpec None) (specError_getError errorSpec)] in 
+ 	   List.concat (List.map (progressLemmasTypes errorSpec) types) @ List.map (progressLemmasByOperators errorSpec None) others @ progressLemmasForErrorRelated
 
-let callCanonicalLemma operator = let termDecl = specTerm_getSig operator in Seq([ForEach(List.map toE (term_getValPositions termDecl), Tactic(Apply("IH", ["x"]))) ; Tactic(Backchain("progress", term_getOperator termDecl))])
+let callProgressLemma operator = let termDecl = specTerm_getSig operator in Seq([ForEach(List.map toTypeOfE (term_getValPositions termDecl), Tactic(Apply("IH", ["x"]))) ; Tactic(Backchain("progress", term_getOperator termDecl))])
 
 let generateProgressTheorem sl = match sl with SafeTypedLanguage(types, others, errorSpec) -> 
-         let theorem = "Theorem progress : forall E T, {typeOf E T} -> progresses E. \ninduction on 1. intros Main. E1 : case Main." in
-		 let proofConstructors = Seq(List.map callCanonicalLemma (List.concat (List.map specType_getConstructors types))) in 
-		 let proofEliminators = Seq(List.map callCanonicalLemma (List.concat (List.map specType_getEliminators types))) in 
-         let proofOthers = Seq(List.map callCanonicalLemma others) in
-		 let proofErrors = if is_none errorSpec then Qed else Seq(List.map callCanonicalLemma (specError_getHandlers errorSpec) @ [Tactic(Search)]) in 
+         let theorem = "Theorem progress : forall E T, {typeOf E T} -> progresses E. \ninduction on 1. intros Main. TypeOfE1 : case Main." in
+		 let proofConstructors = Seq(List.map callProgressLemma (List.concat (List.map specType_getConstructors types))) in 
+		 let proofEliminators = Seq(List.map callProgressLemma (List.concat (List.map specType_getEliminators types))) in 
+         let proofOthers = Seq(List.map callProgressLemma others) in
+		 let proofErrors = if is_none errorSpec then Qed else Seq(List.map callProgressLemma ((specError_getHandlers errorSpec) @ [specError_getError errorSpec])) in 
           Theorem(theorem, Seq([proofConstructors ; proofEliminators ; proofOthers ; proofErrors]))
 
 		  (*			
 		  (*
 			  
+			  
+			  OLD call to canonical form is silly:
+		  [Tactic(Named("Canonical", Assert(String.concat " \\/ " (List.map (existentiallyClosedEquation "E1") constructors)))) ; Tactic(Backchain("canonical_form", typeBeingProved)) ; Tactic(Case("Canonical")) ; RepeatPlain((List.length constructors) - 1, Tactic(Search))] 
+			  	
 Seq([Tactic(Case("Value"))] @ List.map callCanonicalLemma (specError_getHandlers errorSpec)) 
 			  
 let progressLemmasByOperators errorSpec operator = 
