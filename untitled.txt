@@ -1,121 +1,60 @@
-let sig_onlyConstructors termDecl = match termDecl with DeclTrm(c1, info, ctx, arguments) -> match info with 
-	| Constr(c2) -> true 
-	| otherwise -> false
-let sig_onlyConstructorsOfc c1 termDecl = match termDecl with DeclTrm(c2, info, ctx, arguments) -> match info with 
-	| Constr(c3) -> c1 = c3 
-	| otherwise -> false
-let sig_onlyDestructors termDecl = match termDecl with DeclTrm(c1, info, ctx, arguments) -> match info with 
-	| Destr(c2) -> true
-	| otherwise -> false 
-let sig_onlyDerivedNoDestructors termDecl = match termDecl with DeclTrm(c1, info, ctx, arguments) -> match info with 
-	| Derived(maybeinfo) -> (match maybeinfo with 
-		| None -> true
-		| _ -> false)
-	| otherwise -> false 
-let sig_onlyDerivedDestructors termDecl = match termDecl with DeclTrm(c1, info, ctx, arguments) -> match info with 
-	| Derived(maybeinfo) -> (match maybeinfo with 
-		| None -> false
-		| _ -> true)
-	| otherwise -> false 
-let sig_onlyErrorHandlers termDecl = match termDecl with DeclTrm(c1, info, ctx, arguments) -> match info with 
-	| ErrorHandler -> true
-	| otherwise -> false 
-let sig_onlyErrors termDecl = match termDecl with DeclTrm(c1, info, ctx, arguments) -> match info with 
-	| Error -> true
-	| otherwise -> false 
-let sig_onlyValueWithValues termDecl = match termDecl with DeclTrm(_, info, ctx, _) -> match info with 
-| Constr(c) -> (List.length (context_getFlattenedInfo ctx)) > 0 
-| otherwise -> false 
 
-let sig_onlyContextual termDecl = match termDecl with DeclTrm(c, info, (Contextual ctxList), arguments) -> not (ctxList == [])
-let sig_onlyAbout c1 termDecl = match termDecl with DeclTrm(c2, info, (Contextual ctxList), arguments) -> c1 == c2
-	
-let termDelc_getOperator termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> c
-let termDelc_getArgumentEntries termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> arguments
-let termDelc_getCtxInfo termDecl = match termDecl with DeclTrm(c, info, ctx, arguments) -> context_getFlattenedInfo ctx
-let termDecl_containTerms termDecl = List.mem (Simple("term")) (termDelc_getArgumentEntries termDecl)
-let getConstructors signatureTerms = List.filter sig_onlyConstructors signatureTerms
-let getConstructorsByOp c signatureTerms = List.filter (sig_onlyConstructorsOfc c) signatureTerms
-let getDestructors signatureTerms = List.filter sig_onlyDestructors signatureTerms
-let getDerivedNoDestructors signatureTerms = List.filter sig_onlyDerivedNoDestructors signatureTerms
-let getDerivedDestructors signatureTerms = List.filter sig_onlyDerivedDestructors signatureTerms
-let getDerived signatureTerms = (getDerivedNoDestructors signatureTerms) @ (getDerivedDestructors signatureTerms) 
-let getErrorHandlers signatureTerms = List.filter sig_onlyErrorHandlers signatureTerms
-let getErrors signatureTerms = List.filter sig_onlyErrors signatureTerms
-let getNonResults signatureTerms = (getDestructors signatureTerms) @ (getDerived signatureTerms) @ (getErrorHandlers signatureTerms)
-let getAllButErrorHandlers signatureTerms = (getConstructors signatureTerms) @ (getDestructors signatureTerms) @ (getDerived signatureTerms) @ (getErrors signatureTerms)
-let errorPropagatingContexts signatureTerms = (List.concat (List.map termDelc_getCtxInfo (getAllButErrorHandlers signatureTerms)))
-let getValuesWithValues signatureTerms = List.filter sig_onlyValueWithValues signatureTerms
+pair superlazy: values are pair E E. no reductions under pairs.
+pair lazy: values are pair E E. parallel reduction for pairs. (another name would be better)
+pair plain: values are pair V V. parallel reduction for pairs. (another name would be better)
+pairs_onlyfstButBoth : values are pair V E. parallel reduction for pairs.
+where is strict evaluation for pairs???
 
-let ts_containErrors ts = match ts with TypeSystem(signatureTypes,signatureTerms,rules) -> not((getErrors signatureTerms) = [])
+iff: if C e e.
+lists : cons
 
-let rec term_withTick index term = match term with 
-	| Var(name) -> Var(name ^ "'")
-	| Constructor(name, arguments) -> Constructor(name, List.take index arguments @ [term_withTick 0 (List.nth arguments index)] @ List.drop (index+1) arguments)
+lists_lazy : cons E E. reduction in head and tail. 
 
-let info_destructedType info = match info with 
-	| Destr(c) -> c
-	| Derived(maybeinfo) -> match maybeinfo with Some c -> c
+listsIsNil: 
+% context cons C e.
+% context cons v C.
+% context head C.
+% context tail C.
+% context isnil C.
+% context if C e e.
 
+listsIsNil_lazy:
+% context head C.
+% context tail C.
+% context isnil C.
+% context if C e e.
 
-let rule_getOutputTerm rule = match rule with Rule(name, premises, conclusion) -> match conclusion with Formula(pred, inputs, outputs) -> List.hd outputs
-let rule_getInputTerm rule = match rule with Rule(name, premises, conclusion) -> match conclusion with Formula(pred, inputs, outputs) -> List.hd inputs
-let rule_getPremises rule = match rule with Rule(name, premises, conclusion) -> premises
-let rule_getConclusion rule = match rule with Rule(name, premises, conclusion) -> conclusion
-let rule_turnFormulaTo pred1 formula = match formula with Formula(pred2, inputs, outputs) -> Formula(pred1, inputs, outputs)
-let rec term_getAllVariables term = match term with 
-	| Var(name) -> [Var(name)] 
-	| Constructor(c,arguments) -> List.concat (List.map term_getAllVariables arguments)
-	| Application(term1,term2) -> term_getAllVariables term1 @ term_getAllVariables term2
+sums:
+value (inl E1) :- value E1.
+value (inr E1) :- value E1.
 
-let formula_getAllVariables formula = match formula with Formula(pred, inputs, outputs) -> List.concat (List.map term_getAllVariables inputs) @ List.concat (List.map term_getAllVariables outputs)
-let rule_getAllVariables rule = match rule with Rule(name, premises, conclusion) -> (List.concat (List.map formula_getAllVariables premises)) @ (formula_getAllVariables conclusion)
-let is_destructing info = sig_onlyDestructors (DeclTrm("", info, Contextual([]), []))
-let getContextualTerms signatureTerms = List.filter sig_onlyContextual signatureTerms
+tuples_lazy:
+value tuple E E E E E .. and context select_i C
 
-let rule_onlyTypingRules rule = match rule with Rule(name, premises, conclusion) -> match conclusion with Formula(pred, inputs, outputs) -> pred = "typeOf"
-let rule_onlyStepRules rule = match rule with Rule(name, premises, conclusion) -> match conclusion with Formula(pred, inputs, outputs) -> pred = "step"
-let rule_onlyContextRules rule = match rule with Rule(name, premises, conclusion) -> String.starts_with name "ctx"
-let rule_onlyAboutC c1 rule = match rule_getInputTerm rule with 
-	| Constructor(c2,arguments) -> c1 = c2
-	| otherwise -> false
-let rec retrieveApplications term = match term with 
-		  | Var(name) -> []
-		  | Constructor(name, arguments) -> List.concat (List.map retrieveApplications arguments)
-		  | Application(term1, term2) -> [(term1, term2)]
-let retrieveApplication var term = try Some (List.assoc var (retrieveApplications term)) with Not_found -> None
-let rec retrievePosition var term = match term with 
-    | Var(name) -> raise (Failure "ERROR:retrievePosition, proved term is simply a variable, not allowed!")
-    | Constructor(name, arguments) -> let index = find var arguments in 
-		if index = 0 then match (List.hd arguments) with Constructor(name2, arguments2) -> let index = find var arguments2 in "2_" ^ (string_of_int index)
-		else "1_" ^ (string_of_int index)
-    | Application(term1, term2) -> raise (Failure "ERROR: retrievePosition, Application in proved term, not allowed!") 
-	
-let rule_seekStepOfWith c rules canonicalDecl  = match canonicalDecl with DeclTrm(canonical_c, _, _, _) -> 
-	let onlyDestroyCanonical = fun rule -> match rule_getInputTerm rule with Constructor(_,arguments) -> (match List.hd arguments with 
-		| Constructor(c2,_) -> canonical_c = c2 
-		| otherwise -> false)
-	in 
-	let result = (List.filter onlyDestroyCanonical (List.filter (rule_onlyAboutC c) (List.filter rule_onlyStepRules rules))) in 
-	if result = [] then None else Some (List.hd result)
+tuples_parallelL value: tuple V V V  V V.  and parallel for tuple. and select_i C
+% context tuple5 C e e e e.
+% context tuple5 e C e e e.
+% context tuple5 e e C e e.
+% context tuple5 e e e C e.
+% context tuple5 e e e e C.
+% context select1 C.
+% context select2 C.
+% context select3 C.
+% context select4 C.
+% context select5 C.
 
-let rule_seekStepOf c rules = List.hd (List.filter (rule_onlyAboutC c) (List.filter rule_onlyStepRules rules))
-let rule_seekTypeOf c rules = List.hd (List.filter (rule_onlyAboutC c) (List.filter rule_onlyTypingRules rules))
-let seekDeclTermOf signatureTerms c = List.hd (List.filter (sig_onlyAbout c) signatureTerms)
+tuples_plain value: tuple V V V  V V. and context tuple5 is strict. 
 
-let toStepPremise term1 term2 = Formula("step", [term1], [term2])
-let toTypeOfPremise term1 term2 = Formula("typeOf", [term1], [term2])
+forall: 
+% context appT C e.
 
+recursive:
+value (fold E1 U2) :- value E1.
+% context fold C.
+% context unfold C.
 
-open PreservationTests
-let generateTestDefinitions rule = match rule with Rule(name,premises,conclusion) ->
-         let allVariables_ = (rule_getAllVariables rule) in 
-         let forallPreamble = if allVariables_ = [] then "" else "forall " ^ (String.concat " " (List.unique (List.map toString (rule_getAllVariables rule)))) ^ ", " in 
-         let testname = "test_" ^ name in 
-         let displayedPremises = (List.map generateFormula premises) in
-         let wrappedInBrackets = fun formula -> "{" ^ formula ^ "}" in
-          "Define " ^ testname ^ " : prop by\n   " ^ testname ^ " := " ^ forallPreamble ^ String.concat " -> " (List.map wrappedInBrackets displayedPremises) ^ " -> " ^ wrappedInBrackets (generateFormula conclusion) ^ ".\n\n"
+stlc_if_par means:
+% context if C e e.
+% context if e C e.
+% context if e e C.
 
-let generateTestModule ts = let testRules = rulesForPreservationTests ts in 
-         let generateTestQuery = fun rule -> match rule with Rule(name,premises,conclusion) -> "Query test_" ^ name ^ ".\n\n"in 
-         (String.concat "\n" (List.map generateTestDefinitions testRules)) ^ "\n" ^ (String.concat "\n" (List.map generateTestQuery testRules))

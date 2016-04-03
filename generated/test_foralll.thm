@@ -1,5 +1,0 @@
-Specification "foralll".
-
-Define test_betaT : prop by
-   test_betaT := forall R2 X R RX, {typeOf (absT R2) (all R)} -> {typeOf (R2 X) (R RX)} -> {typeOf (R2 X) (R X)}.
-

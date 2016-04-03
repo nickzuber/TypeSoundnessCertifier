@@ -1,14 +1,15 @@
 sig stlc_cbv_sums.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
-type arrow typ -> typ -> typ.
 type sum typ -> typ -> typ.
-type abs (term -> term) -> typ -> term.
-type inl term -> term.
+type arrow typ -> typ -> typ.
 type inr term -> term.
-type app term -> term -> term.
+type inl term -> term.
+type abs (term -> term) -> typ -> term.
 type case term -> (term -> term) -> (term -> term) -> term.
+type app term -> term -> term.
 
 type value term -> o.
 

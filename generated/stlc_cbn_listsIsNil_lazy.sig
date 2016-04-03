@@ -1,20 +1,21 @@
 sig stlc_cbn_listsIsNil_lazy.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
-type arrow typ -> typ -> typ.
-type list typ -> typ.
 type bool typ.
-type abs (term -> term) -> typ -> term.
-type emptyList term.
-type cons term -> term -> term.
-type tt term.
+type list typ -> typ.
+type arrow typ -> typ -> typ.
 type ff term.
-type app term -> term -> term.
-type head term -> term.
-type tail term -> term.
-type isnil term -> term.
+type tt term.
+type cons term -> term -> term.
+type emptyList term.
+type abs (term -> term) -> typ -> term.
 type if term -> term -> term -> term.
+type isnil term -> term.
+type tail term -> term.
+type head term -> term.
+type app term -> term -> term.
 type myError term.
 
 type value term -> o.

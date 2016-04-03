@@ -1,13 +1,14 @@
 sig stlc_cbn_forall.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
-type arrow typ -> typ -> typ.
 type all (typ -> typ) -> typ.
-type abs (term -> term) -> typ -> term.
+type arrow typ -> typ -> typ.
 type absT (typ -> term) -> term.
-type app term -> term -> term.
+type abs (term -> term) -> typ -> term.
 type appT term -> typ -> term.
+type app term -> term -> term.
 
 type value term -> o.
 

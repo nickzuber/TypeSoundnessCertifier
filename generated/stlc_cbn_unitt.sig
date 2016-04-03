@@ -1,6 +1,7 @@
 sig stlc_cbn_unitt.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
 type arrow typ -> typ -> typ.
 type unitType typ.

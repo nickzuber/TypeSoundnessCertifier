@@ -1,8 +1,0 @@
-Specification "sums".
-
-Define test_caseStepinl : prop by
-   test_caseStepinl := forall T2 R1 T EE T1, {typeOf (inl EE) (sum T1 T2)} -> {typeOf (R1 EE) T} -> {typeOf EE T1} -> {typeOf (R1 EE) T}.
-
-Define test_caseStepinr : prop by
-   test_caseStepinr := forall T1 R2 T EE T2, {typeOf (inr EE) (sum T1 T2)} -> {typeOf (R2 EE) T} -> {typeOf EE T2} -> {typeOf (R2 EE) T}.
-

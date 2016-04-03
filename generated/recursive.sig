@@ -1,6 +1,7 @@
 sig recursive.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
 type mu (typ -> typ) -> typ.
 type fold term -> (typ -> typ) -> term.

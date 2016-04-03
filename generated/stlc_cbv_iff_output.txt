@@ -2,6 +2,103 @@ Welcome to Abella 2.0.2
 Abella < Specification "stlc_cbv_iff".
 Reading specification "stlc_cbv_iff"
 
+Abella < Theorem canonical_form_bool : 
+forall E, {typeOf E bool} -> {value E} -> E = ff \/ E = tt.
+
+============================
+ forall E, {typeOf E bool} -> {value E} -> E = ff \/ E = tt
+
+canonical_form_bool < intros Main Value.
+
+Variables: E
+Main : {typeOf E bool}
+Value : {value E}
+============================
+ E = ff \/ E = tt
+
+canonical_form_bool < case Main.
+Subgoal 1:
+
+Value : {value ff}
+============================
+ ff = ff \/ ff = tt
+
+Subgoal 2 is:
+ tt = ff \/ tt = tt
+
+Subgoal 3 is:
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
+
+Subgoal 4 is:
+ app E1 E2 = ff \/ app E1 E2 = tt
+
+canonical_form_bool < case Value.
+Subgoal 1:
+
+============================
+ ff = ff \/ ff = tt
+
+Subgoal 2 is:
+ tt = ff \/ tt = tt
+
+Subgoal 3 is:
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
+
+Subgoal 4 is:
+ app E1 E2 = ff \/ app E1 E2 = tt
+
+canonical_form_bool < search.
+Subgoal 2:
+
+Value : {value tt}
+============================
+ tt = ff \/ tt = tt
+
+Subgoal 3 is:
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
+
+Subgoal 4 is:
+ app E1 E2 = ff \/ app E1 E2 = tt
+
+canonical_form_bool < case Value.
+Subgoal 2:
+
+============================
+ tt = ff \/ tt = tt
+
+Subgoal 3 is:
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
+
+Subgoal 4 is:
+ app E1 E2 = ff \/ app E1 E2 = tt
+
+canonical_form_bool < search.
+Subgoal 3:
+
+Variables: E3 E2 E1
+Value : {value (if E1 E2 E3)}
+H1 : {typeOf E1 bool}
+H2 : {typeOf E2 bool}
+H3 : {typeOf E3 bool}
+============================
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
+
+Subgoal 4 is:
+ app E1 E2 = ff \/ app E1 E2 = tt
+
+canonical_form_bool < case Value.
+Subgoal 4:
+
+Variables: T1 E2 E1
+Value : {value (app E1 E2)}
+H1 : {typeOf E1 (arrow T1 bool)}
+H2 : {typeOf E2 T1}
+============================
+ app E1 E2 = ff \/ app E1 E2 = tt
+
+canonical_form_bool < case Value.
+Proof completed.
+
 Abella < Theorem canonical_form_arrow : 
 forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} ->
   (exists Arg1 Arg2, E = abs Arg1 Arg2).
@@ -28,10 +125,10 @@ H1 : {typeOf n1 T1 |- typeOf (R n1) T2}
  exists Arg1 Arg2, abs R T1 = abs Arg1 Arg2
 
 Subgoal 2 is:
- exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
+ exists Arg1 Arg2, if E1 E2 E3 = abs Arg1 Arg2
 
 Subgoal 3 is:
- exists Arg1 Arg2, if E1 E2 E3 = abs Arg1 Arg2
+ exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
 
 canonical_form_arrow < case Value.
 Subgoal 1:
@@ -42,26 +139,13 @@ H1 : {typeOf n1 T1 |- typeOf (R n1) T2}
  exists Arg1 Arg2, abs R T1 = abs Arg1 Arg2
 
 Subgoal 2 is:
- exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
+ exists Arg1 Arg2, if E1 E2 E3 = abs Arg1 Arg2
 
 Subgoal 3 is:
- exists Arg1 Arg2, if E1 E2 E3 = abs Arg1 Arg2
+ exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
 
 canonical_form_arrow < search.
 Subgoal 2:
-
-Variables: T1 T2 T3 E2 E1
-Value : {value (app E1 E2)}
-H1 : {typeOf E1 (arrow T3 (arrow T1 T2))}
-H2 : {typeOf E2 T3}
-============================
- exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
-
-Subgoal 3 is:
- exists Arg1 Arg2, if E1 E2 E3 = abs Arg1 Arg2
-
-canonical_form_arrow < case Value.
-Subgoal 3:
 
 Variables: T1 T2 E3 E2 E1
 Value : {value (if E1 E2 E3)}
@@ -71,109 +155,143 @@ H3 : {typeOf E3 (arrow T1 T2)}
 ============================
  exists Arg1 Arg2, if E1 E2 E3 = abs Arg1 Arg2
 
+Subgoal 3 is:
+ exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
+
 canonical_form_arrow < case Value.
-Proof completed.
-
-Abella < Theorem canonical_form_bool : 
-forall E, {typeOf E bool} -> {value E} -> E = tt \/ E = ff.
-
-============================
- forall E, {typeOf E bool} -> {value E} -> E = tt \/ E = ff
-
-canonical_form_bool < intros Main Value.
-
-Variables: E
-Main : {typeOf E bool}
-Value : {value E}
-============================
- E = tt \/ E = ff
-
-canonical_form_bool < case Main.
-Subgoal 1:
-
-Value : {value tt}
-============================
- tt = tt \/ tt = ff
-
-Subgoal 2 is:
- ff = tt \/ ff = ff
-
-Subgoal 3 is:
- app E1 E2 = tt \/ app E1 E2 = ff
-
-Subgoal 4 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
-
-canonical_form_bool < case Value.
-Subgoal 1:
-
-============================
- tt = tt \/ tt = ff
-
-Subgoal 2 is:
- ff = tt \/ ff = ff
-
-Subgoal 3 is:
- app E1 E2 = tt \/ app E1 E2 = ff
-
-Subgoal 4 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
-
-canonical_form_bool < search.
-Subgoal 2:
-
-Value : {value ff}
-============================
- ff = tt \/ ff = ff
-
-Subgoal 3 is:
- app E1 E2 = tt \/ app E1 E2 = ff
-
-Subgoal 4 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
-
-canonical_form_bool < case Value.
-Subgoal 2:
-
-============================
- ff = tt \/ ff = ff
-
-Subgoal 3 is:
- app E1 E2 = tt \/ app E1 E2 = ff
-
-Subgoal 4 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
-
-canonical_form_bool < search.
 Subgoal 3:
 
-Variables: T1 E2 E1
+Variables: T1 T2 T3 E2 E1
 Value : {value (app E1 E2)}
-H1 : {typeOf E1 (arrow T1 bool)}
-H2 : {typeOf E2 T1}
+H1 : {typeOf E1 (arrow T3 (arrow T1 T2))}
+H2 : {typeOf E2 T3}
 ============================
- app E1 E2 = tt \/ app E1 E2 = ff
+ exists Arg1 Arg2, app E1 E2 = abs Arg1 Arg2
 
-Subgoal 4 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
-
-canonical_form_bool < case Value.
-Subgoal 4:
-
-Variables: E3 E2 E1
-Value : {value (if E1 E2 E3)}
-H1 : {typeOf E1 bool}
-H2 : {typeOf E2 bool}
-H3 : {typeOf E3 bool}
-============================
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
-
-canonical_form_bool < case Value.
+canonical_form_arrow < case Value.
 Proof completed.
 
 Abella < Define progresses : term -> prop by 
 progresses E := {value E};
 progresses E := exists E', {step E E'}.
+
+Abella < Theorem progress_ff : 
+forall T, {typeOf ff T} -> progresses ff.
+
+============================
+ forall T, {typeOf ff T} -> progresses ff
+
+progress_ff < search.
+Proof completed.
+
+Abella < Theorem progress_tt : 
+forall T, {typeOf tt T} -> progresses tt.
+
+============================
+ forall T, {typeOf tt T} -> progresses tt
+
+progress_tt < search.
+Proof completed.
+
+Abella < Theorem progress_if : 
+forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 ->
+  progresses (if E1 E2 E3).
+
+============================
+ forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 ->
+   progresses (if E1 E2 E3)
+
+progress_if < intros Main PrgsE1.
+
+Variables: E1 E2 E3 T
+Main : {typeOf (if E1 E2 E3) T}
+PrgsE1 : progresses E1
+============================
+ progresses (if E1 E2 E3)
+
+progress_if < case TypeOfE1 : Main.
+
+Variables: E1 E2 E3 T
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+============================
+ progresses (if E1 E2 E3)
+
+progress_if < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 E2 E3 T
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {value E1}
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 2 is:
+ progresses (if E1 E2 E3)
+
+progress_if < apply Canonical : canonical_form_bool to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: E1 E2 E3 T
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {value E1}
+Canonical : E1 = ff \/ E1 = tt
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 2 is:
+ progresses (if E1 E2 E3)
+
+progress_if < case Canonical.
+Subgoal 1.1:
+
+Variables: E2 E3 T
+TypeOfE1 : {typeOf ff bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {value ff}
+============================
+ progresses (if ff E2 E3)
+
+Subgoal 1.2 is:
+ progresses (if tt E2 E3)
+
+Subgoal 2 is:
+ progresses (if E1 E2 E3)
+
+progress_if < search.
+Subgoal 1.2:
+
+Variables: E2 E3 T
+TypeOfE1 : {typeOf tt bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {value tt}
+============================
+ progresses (if tt E2 E3)
+
+Subgoal 2 is:
+ progresses (if E1 E2 E3)
+
+progress_if < search.
+Subgoal 2:
+
+Variables: E1 E2 E3 T E'
+TypeOfE1 : {typeOf E1 bool}
+TypeOfE2 : {typeOf E2 T}
+TypeOfE3 : {typeOf E3 T}
+ProgressClause : {step E1 E'}
+============================
+ progresses (if E1 E2 E3)
+
+progress_if < search.
+Proof completed.
 
 Abella < Theorem progress_abs : 
 forall R1 T2 T, {typeOf (abs R1 T2) T} -> progresses (abs R1 T2).
@@ -287,124 +405,6 @@ ProgressClause : {step E1 E'}
 progress_app < search.
 Proof completed.
 
-Abella < Theorem progress_tt : 
-forall T, {typeOf tt T} -> progresses tt.
-
-============================
- forall T, {typeOf tt T} -> progresses tt
-
-progress_tt < search.
-Proof completed.
-
-Abella < Theorem progress_ff : 
-forall T, {typeOf ff T} -> progresses ff.
-
-============================
- forall T, {typeOf ff T} -> progresses ff
-
-progress_ff < search.
-Proof completed.
-
-Abella < Theorem progress_if : 
-forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 ->
-  progresses (if E1 E2 E3).
-
-============================
- forall E1 E2 E3 T, {typeOf (if E1 E2 E3) T} -> progresses E1 ->
-   progresses (if E1 E2 E3)
-
-progress_if < intros Main PrgsE1.
-
-Variables: E1 E2 E3 T
-Main : {typeOf (if E1 E2 E3) T}
-PrgsE1 : progresses E1
-============================
- progresses (if E1 E2 E3)
-
-progress_if < case TypeOfE1 : Main.
-
-Variables: E1 E2 E3 T
-PrgsE1 : progresses E1
-TypeOfE1 : {typeOf E1 bool}
-TypeOfE2 : {typeOf E2 T}
-TypeOfE3 : {typeOf E3 T}
-============================
- progresses (if E1 E2 E3)
-
-progress_if < case ProgressClause : PrgsE1.
-Subgoal 1:
-
-Variables: E1 E2 E3 T
-TypeOfE1 : {typeOf E1 bool}
-TypeOfE2 : {typeOf E2 T}
-TypeOfE3 : {typeOf E3 T}
-ProgressClause : {value E1}
-============================
- progresses (if E1 E2 E3)
-
-Subgoal 2 is:
- progresses (if E1 E2 E3)
-
-progress_if < apply Canonical : canonical_form_bool to TypeOfE1 ProgressClause.
-Subgoal 1:
-
-Variables: E1 E2 E3 T
-TypeOfE1 : {typeOf E1 bool}
-TypeOfE2 : {typeOf E2 T}
-TypeOfE3 : {typeOf E3 T}
-ProgressClause : {value E1}
-Canonical : E1 = tt \/ E1 = ff
-============================
- progresses (if E1 E2 E3)
-
-Subgoal 2 is:
- progresses (if E1 E2 E3)
-
-progress_if < case Canonical.
-Subgoal 1.1:
-
-Variables: E2 E3 T
-TypeOfE1 : {typeOf tt bool}
-TypeOfE2 : {typeOf E2 T}
-TypeOfE3 : {typeOf E3 T}
-ProgressClause : {value tt}
-============================
- progresses (if tt E2 E3)
-
-Subgoal 1.2 is:
- progresses (if ff E2 E3)
-
-Subgoal 2 is:
- progresses (if E1 E2 E3)
-
-progress_if < search.
-Subgoal 1.2:
-
-Variables: E2 E3 T
-TypeOfE1 : {typeOf ff bool}
-TypeOfE2 : {typeOf E2 T}
-TypeOfE3 : {typeOf E3 T}
-ProgressClause : {value ff}
-============================
- progresses (if ff E2 E3)
-
-Subgoal 2 is:
- progresses (if E1 E2 E3)
-
-progress_if < search.
-Subgoal 2:
-
-Variables: E1 E2 E3 T E'
-TypeOfE1 : {typeOf E1 bool}
-TypeOfE2 : {typeOf E2 T}
-TypeOfE3 : {typeOf E3 T}
-ProgressClause : {step E1 E'}
-============================
- progresses (if E1 E2 E3)
-
-progress_if < search.
-Proof completed.
-
 Abella < Theorem progress : 
 forall E T, {typeOf E T} -> progresses E.
 
@@ -428,25 +428,23 @@ Main : {typeOf E T}@
 progress < case TypeOfE1 : Main.
 Subgoal 1:
 
-Variables: T2 R T1
 IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf n1 T1 |- typeOf (R n1) T2}*
 ============================
- progresses (abs R T1)
+ progresses ff
 
 Subgoal 2 is:
  progresses tt
 
 Subgoal 3 is:
- progresses ff
+ progresses (abs R T1)
 
 Subgoal 4 is:
- progresses (app E1 E2)
-
-Subgoal 5 is:
  progresses (if E1 E2 E3)
 
-progress < backchain progress_abs.
+Subgoal 5 is:
+ progresses (app E1 E2)
+
+progress < backchain progress_ff.
 Subgoal 2:
 
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -454,29 +452,60 @@ IH : forall E T, {typeOf E T}* -> progresses E
  progresses tt
 
 Subgoal 3 is:
- progresses ff
+ progresses (abs R T1)
 
 Subgoal 4 is:
- progresses (app E1 E2)
+ progresses (if E1 E2 E3)
 
 Subgoal 5 is:
- progresses (if E1 E2 E3)
+ progresses (app E1 E2)
 
 progress < backchain progress_tt.
 Subgoal 3:
 
+Variables: T2 R T1
 IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf n1 T1 |- typeOf (R n1) T2}*
 ============================
- progresses ff
+ progresses (abs R T1)
 
 Subgoal 4 is:
- progresses (app E1 E2)
-
-Subgoal 5 is:
  progresses (if E1 E2 E3)
 
-progress < backchain progress_ff.
+Subgoal 5 is:
+ progresses (app E1 E2)
+
+progress < backchain progress_abs.
 Subgoal 4:
+
+Variables: T E3 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 bool}*
+TypeOfE2 : {typeOf E2 T}*
+TypeOfE3 : {typeOf E3 T}*
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 5 is:
+ progresses (app E1 E2)
+
+progress < apply IH to TypeOfE1.
+Subgoal 4:
+
+Variables: T E3 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 bool}*
+TypeOfE2 : {typeOf E2 T}*
+TypeOfE3 : {typeOf E3 T}*
+H1 : progresses E1
+============================
+ progresses (if E1 E2 E3)
+
+Subgoal 5 is:
+ progresses (app E1 E2)
+
+progress < backchain progress_if.
+Subgoal 5:
 
 Variables: T T1 E2 E1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -485,11 +514,8 @@ TypeOfE2 : {typeOf E2 T1}*
 ============================
  progresses (app E1 E2)
 
-Subgoal 5 is:
- progresses (if E1 E2 E3)
-
 progress < apply IH to TypeOfE1.
-Subgoal 4:
+Subgoal 5:
 
 Variables: T T1 E2 E1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -499,11 +525,8 @@ H1 : progresses E1
 ============================
  progresses (app E1 E2)
 
-Subgoal 5 is:
- progresses (if E1 E2 E3)
-
 progress < apply IH to TypeOfE2.
-Subgoal 4:
+Subgoal 5:
 
 Variables: T T1 E2 E1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -514,33 +537,7 @@ H2 : progresses E2
 ============================
  progresses (app E1 E2)
 
-Subgoal 5 is:
- progresses (if E1 E2 E3)
-
 progress < backchain progress_app.
-Subgoal 5:
-
-Variables: T E3 E2 E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 bool}*
-TypeOfE2 : {typeOf E2 T}*
-TypeOfE3 : {typeOf E3 T}*
-============================
- progresses (if E1 E2 E3)
-
-progress < apply IH to TypeOfE1.
-Subgoal 5:
-
-Variables: T E3 E2 E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 bool}*
-TypeOfE2 : {typeOf E2 T}*
-TypeOfE3 : {typeOf E3 T}*
-H1 : progresses E1
-============================
- progresses (if E1 E2 E3)
-
-progress < backchain progress_if.
 Proof completed.
 
 Abella < Theorem preservation : 
@@ -567,6 +564,153 @@ Main : {step E E'}@
 preservation < case Step : Main.
 Subgoal 1:
 
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if tt E' E2) T}
+============================
+ {typeOf E' T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (R EE) T}
+
+Subgoal 4 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 1:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if tt E' E2) T}
+Arg1_1 : {typeOf tt bool}
+Arg1_2 : {typeOf E' T}
+Arg1_3 : {typeOf E2 T}
+============================
+ {typeOf E' T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (R EE) T}
+
+Subgoal 4 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 1:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if tt E' E2) T}
+Arg1_1 : {typeOf tt bool}
+Arg1_2 : {typeOf E' T}
+Arg1_3 : {typeOf E2 T}
+============================
+ {typeOf E' T}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (R EE) T}
+
+Subgoal 4 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < search.
+Subgoal 2:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if ff E1 E') T}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (R EE) T}
+
+Subgoal 4 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 2:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if ff E1 E') T}
+Arg1_1 : {typeOf ff bool}
+Arg1_2 : {typeOf E1 T}
+Arg1_3 : {typeOf E' T}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (R EE) T}
+
+Subgoal 4 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 2:
+
+Variables: E' T E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (if ff E1 E') T}
+Arg1_1 : {typeOf ff bool}
+Arg1_2 : {typeOf E1 T}
+Arg1_3 : {typeOf E' T}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (R EE) T}
+
+Subgoal 4 is:
+ {typeOf (if E1' E2 E3) T}
+
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < search.
+Subgoal 3:
+
 Variables: T EE R T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
 TypeOf : {typeOf (app (abs R T1) EE) T}
@@ -574,23 +718,17 @@ Step : {value EE}*
 ============================
  {typeOf (R EE) T}
 
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf E' T}
-
 Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
  {typeOf (if E1' E2 E3) T}
 
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
 preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 1:
+Subgoal 3:
 
 Variables: T EE R T1 T2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -601,23 +739,17 @@ Arg1_2 : {typeOf EE T2}
 ============================
  {typeOf (R EE) T}
 
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf E' T}
-
 Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
  {typeOf (if E1' E2 E3) T}
 
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
 preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 1:
+Subgoal 3:
 
 Variables: T EE R T2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -629,23 +761,17 @@ Arg2_1 : {typeOf n1 T2 |- typeOf (R n1) T}
 ============================
  {typeOf (R EE) T}
 
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf E' T}
-
 Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
  {typeOf (if E1' E2 E3) T}
 
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
 preservation < inst ToCut : Arg2_1 with n1 = EE.
-Subgoal 1:
+Subgoal 3:
 
 Variables: T EE R T2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -658,23 +784,17 @@ ToCut : {typeOf EE T2 |- typeOf (R EE) T}
 ============================
  {typeOf (R EE) T}
 
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf E' T}
-
 Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
  {typeOf (if E1' E2 E3) T}
 
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
 preservation < cut ToCut with Arg1_2.
-Subgoal 1:
+Subgoal 3:
 
 Variables: T EE R T2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -688,248 +808,17 @@ H1 : {typeOf (R EE) T}
 ============================
  {typeOf (R EE) T}
 
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf E' T}
-
 Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
  {typeOf (if E1' E2 E3) T}
 
-preservation < search.
-Subgoal 2:
-
-Variables: E' T E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (if tt E' E2) T}
-============================
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf E' T}
-
-Subgoal 4 is:
+Subgoal 5 is:
  {typeOf (app E1' E2) T}
 
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
 Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 2:
-
-Variables: E' T E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (if tt E' E2) T}
-Arg1_1 : {typeOf tt bool}
-Arg1_2 : {typeOf E' T}
-Arg1_3 : {typeOf E2 T}
-============================
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf E' T}
-
-Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
  {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 2:
-
-Variables: E' T E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (if tt E' E2) T}
-Arg1_1 : {typeOf tt bool}
-Arg1_2 : {typeOf E' T}
-Arg1_3 : {typeOf E2 T}
-============================
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf E' T}
-
-Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < search.
-Subgoal 3:
-
-Variables: E' T E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (if ff E1 E') T}
-============================
- {typeOf E' T}
-
-Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 3:
-
-Variables: E' T E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (if ff E1 E') T}
-Arg1_1 : {typeOf ff bool}
-Arg1_2 : {typeOf E1 T}
-Arg1_3 : {typeOf E' T}
-============================
- {typeOf E' T}
-
-Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 3:
-
-Variables: E' T E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (if ff E1 E') T}
-Arg1_1 : {typeOf ff bool}
-Arg1_2 : {typeOf E1 T}
-Arg1_3 : {typeOf E' T}
-============================
- {typeOf E' T}
-
-Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
 
 preservation < search.
 Subgoal 4:
-
-Variables: T E1' E1 E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (app E1 E2) T}
-Step : {step E1 E1'}*
-============================
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < case TypeOf1 : TypeOf.
-Subgoal 4:
-
-Variables: T E1' E1 E2 T1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (arrow T1 T)}
-TypeOf2 : {typeOf E2 T1}
-============================
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < apply IH to TypeOf1 Step.
-Subgoal 4:
-
-Variables: T E1' E1 E2 T1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (arrow T1 T)}
-TypeOf2 : {typeOf E2 T1}
-H1 : {typeOf E1' (arrow T1 T)}
-============================
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < search.
-Subgoal 5:
-
-Variables: T E1 E2' E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (app E1 E2) T}
-Step : {step E2 E2'}*
-Step1 : {value E1}*
-============================
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < case TypeOf1 : TypeOf.
-Subgoal 5:
-
-Variables: T E1 E2' E2 T1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E2 E2'}*
-Step1 : {value E1}*
-TypeOf1 : {typeOf E1 (arrow T1 T)}
-TypeOf2 : {typeOf E2 T1}
-============================
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < apply IH to TypeOf2 Step.
-Subgoal 5:
-
-Variables: T E1 E2' E2 T1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E2 E2'}*
-Step1 : {value E1}*
-TypeOf1 : {typeOf E1 (arrow T1 T)}
-TypeOf2 : {typeOf E2 T1}
-H1 : {typeOf E2' T1}
-============================
- {typeOf (app E1 E2') T}
-
-Subgoal 6 is:
- {typeOf (if E1' E2 E3) T}
-
-preservation < search.
-Subgoal 6:
 
 Variables: T E1' E1 E3 E2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -938,8 +827,14 @@ Step : {step E1 E1'}*
 ============================
  {typeOf (if E1' E2 E3) T}
 
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
 preservation < case TypeOf1 : TypeOf.
-Subgoal 6:
+Subgoal 4:
 
 Variables: T E1' E1 E3 E2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -950,8 +845,14 @@ TypeOf3 : {typeOf E3 T}
 ============================
  {typeOf (if E1' E2 E3) T}
 
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
 preservation < apply IH to TypeOf1 Step.
-Subgoal 6:
+Subgoal 4:
 
 Variables: T E1' E1 E3 E2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -962,6 +863,90 @@ TypeOf3 : {typeOf E3 T}
 H1 : {typeOf E1' bool}
 ============================
  {typeOf (if E1' E2 E3) T}
+
+Subgoal 5 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < search.
+Subgoal 5:
+
+Variables: T E1' E1 E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app E1 E2) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 5:
+
+Variables: T E1' E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 5:
+
+Variables: T E1' E1 E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+H1 : {typeOf E1' (arrow T1 T)}
+============================
+ {typeOf (app E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (app E1 E2') T}
+
+preservation < search.
+Subgoal 6:
+
+Variables: T E1 E2' E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (app E1 E2) T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+============================
+ {typeOf (app E1 E2') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 6:
+
+Variables: T E1 E2' E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+============================
+ {typeOf (app E1 E2') T}
+
+preservation < apply IH to TypeOf2 Step.
+Subgoal 6:
+
+Variables: T E1 E2' E2 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E2 E2'}*
+Step1 : {value E1}*
+TypeOf1 : {typeOf E1 (arrow T1 T)}
+TypeOf2 : {typeOf E2 T1}
+H1 : {typeOf E2' T1}
+============================
+ {typeOf (app E1 E2') T}
 
 preservation < search.
 Proof completed.

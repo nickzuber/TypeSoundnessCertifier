@@ -2,7 +2,7 @@ Specification "sums".
 
 
 
-Theorem  canonical_form_sum : forall E T1 T2, {typeOf E (sum T1 T2)} -> {value E} -> (exists Arg1, E = (inl Arg1) /\ {value Arg1}) \/ (exists Arg1, E = (inr Arg1) /\ {value Arg1}).
+Theorem  canonical_form_sum : forall E T1 T2, {typeOf E (sum T1 T2)} -> {value E} -> (exists Arg1, E = (inr Arg1) /\ {value Arg1}) \/ (exists Arg1, E = (inl Arg1) /\ {value Arg1}).
 intros Main Value. case Main.
  case Value. search.
  case Value. search.
@@ -17,13 +17,13 @@ Define progresses : term -> prop by
 	 progresses E := {value E} ;
 	 progresses E := exists E', {step E E'}.
 
-Theorem progress_inl : forall E1 T, {typeOf ((inl E1)) T} -> progresses E1 -> progresses ((inl E1)).
+Theorem progress_inr : forall E1 T, {typeOf ((inr E1)) T} -> progresses E1 -> progresses ((inr E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
  search. search.
 
 
 
-Theorem progress_inr : forall E1 T, {typeOf ((inr E1)) T} -> progresses E1 -> progresses ((inr E1)).
+Theorem progress_inl : forall E1 T, {typeOf ((inl E1)) T} -> progresses E1 -> progresses ((inl E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
  search. search.
 
@@ -39,8 +39,8 @@ intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
 
 Theorem progress : forall E T, {typeOf E T} -> progresses E. 
 induction on 1. intros Main. TypeOfE1 : case Main.
-apply IH to TypeOfE1. backchain progress_inl.
- apply IH to TypeOfE1. backchain progress_inr.
+apply IH to TypeOfE1. backchain progress_inr.
+ apply IH to TypeOfE1. backchain progress_inl.
 
  apply IH to TypeOfE1. backchain progress_case.
 

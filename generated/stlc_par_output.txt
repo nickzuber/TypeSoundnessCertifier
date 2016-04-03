@@ -68,18 +68,19 @@ progress_abs < search.
 Proof completed.
 
 Abella < Theorem progress_app : 
-forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 ->
+forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses E2 ->
   progresses (app E1 E2).
 
 ============================
- forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 ->
+ forall E1 E2 T, {typeOf (app E1 E2) T} -> progresses E1 -> progresses E2 ->
    progresses (app E1 E2)
 
-progress_app < intros Main PrgsE1.
+progress_app < intros Main PrgsE1 PrgsE2.
 
 Variables: E1 E2 T
 Main : {typeOf (app E1 E2) T}
 PrgsE1 : progresses E1
+PrgsE2 : progresses E2
 ============================
  progresses (app E1 E2)
 
@@ -87,6 +88,7 @@ progress_app < case TypeOfE1 : Main.
 
 Variables: E1 E2 T T1
 PrgsE1 : progresses E1
+PrgsE2 : progresses E2
 TypeOfE1 : {typeOf E1 (arrow T1 T)}
 TypeOfE2 : {typeOf E2 T1}
 ============================
@@ -96,6 +98,7 @@ progress_app < case ProgressClause : PrgsE1.
 Subgoal 1:
 
 Variables: E1 E2 T T1
+PrgsE2 : progresses E2
 TypeOfE1 : {typeOf E1 (arrow T1 T)}
 TypeOfE2 : {typeOf E2 T1}
 ProgressClause : {value E1}
@@ -105,15 +108,50 @@ ProgressClause : {value E1}
 Subgoal 2 is:
  progresses (app E1 E2)
 
+progress_app < case PrgsE2.
+Subgoal 1.1:
+
+Variables: E1 E2 T T1
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {value E1}
+H1 : {value E2}
+============================
+ progresses (app E1 E2)
+
+Subgoal 1.2 is:
+ progresses (app E1 E2)
+
+Subgoal 2 is:
+ progresses (app E1 E2)
+
 progress_app < apply Canonical : canonical_form_arrow to TypeOfE1 ProgressClause.
-Subgoal 1:
+Subgoal 1.1:
 
 Variables: E2 T T1 Arg1 Arg2
 TypeOfE1 : {typeOf (abs Arg1 Arg2) (arrow T1 T)}
 TypeOfE2 : {typeOf E2 T1}
 ProgressClause : {value (abs Arg1 Arg2)}
+H1 : {value E2}
 ============================
  progresses (app (abs Arg1 Arg2) E2)
+
+Subgoal 1.2 is:
+ progresses (app E1 E2)
+
+Subgoal 2 is:
+ progresses (app E1 E2)
+
+progress_app < search.
+Subgoal 1.2:
+
+Variables: E1 E2 T T1 E'
+TypeOfE1 : {typeOf E1 (arrow T1 T)}
+TypeOfE2 : {typeOf E2 T1}
+ProgressClause : {value E1}
+H1 : {step E2 E'}
+============================
+ progresses (app E1 E2)
 
 Subgoal 2 is:
  progresses (app E1 E2)
@@ -122,6 +160,7 @@ progress_app < search.
 Subgoal 2:
 
 Variables: E1 E2 T T1 E'
+PrgsE2 : progresses E2
 TypeOfE1 : {typeOf E1 (arrow T1 T)}
 TypeOfE2 : {typeOf E2 T1}
 ProgressClause : {step E1 E'}
@@ -181,6 +220,18 @@ IH : forall E T, {typeOf E T}* -> progresses E
 TypeOfE1 : {typeOf E1 (arrow T1 T)}*
 TypeOfE2 : {typeOf E2 T1}*
 H1 : progresses E1
+============================
+ progresses (app E1 E2)
+
+progress < apply IH to TypeOfE2.
+Subgoal 2:
+
+Variables: T T1 E2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T1 T)}*
+TypeOfE2 : {typeOf E2 T1}*
+H1 : progresses E1
+H2 : progresses E2
 ============================
  progresses (app E1 E2)
 

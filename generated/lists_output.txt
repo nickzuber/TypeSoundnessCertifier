@@ -3,12 +3,14 @@ Abella < Specification "lists".
 Reading specification "lists"
 
 Abella < Theorem canonical_form_list : 
-forall E T1, {typeOf E (list T1)} -> {value E} -> E = emptyList \/
-  (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}).
+forall E T1, {typeOf E (list T1)} -> {value E} ->
+  (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+  E = emptyList.
 
 ============================
- forall E T1, {typeOf E (list T1)} -> {value E} -> E = emptyList \/
-   (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2})
+ forall E T1, {typeOf E (list T1)} -> {value E} ->
+   (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   E = emptyList
 
 canonical_form_list < intros Main Value.
 
@@ -16,97 +18,40 @@ Variables: E T1
 Main : {typeOf E (list T1)}
 Value : {value E}
 ============================
- E = emptyList \/
-   (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2})
+ (exists Arg1 Arg2, E = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   E = emptyList
 
 canonical_form_list < case Main.
 Subgoal 1:
-
-Variables: T1
-Value : {value emptyList}
-============================
- emptyList = emptyList \/
-   (exists Arg1 Arg2, emptyList = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-Subgoal 2 is:
- cons E1 E2 = emptyList \/
-   (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-Subgoal 3 is:
- head E1 = emptyList \/
-   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-Subgoal 4 is:
- tail E1 = emptyList \/
-   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-Subgoal 5 is:
- myError = emptyList \/
-   (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-canonical_form_list < case Value.
-Subgoal 1:
-
-Variables: T1
-============================
- emptyList = emptyList \/
-   (exists Arg1 Arg2, emptyList = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-Subgoal 2 is:
- cons E1 E2 = emptyList \/
-   (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-Subgoal 3 is:
- head E1 = emptyList \/
-   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-Subgoal 4 is:
- tail E1 = emptyList \/
-   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-Subgoal 5 is:
- myError = emptyList \/
-   (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
-
-canonical_form_list < search.
-Subgoal 2:
 
 Variables: T1 E2 E1
 Value : {value (cons E1 E2)}
 H1 : {typeOf E1 T1}
 H2 : {typeOf E2 (list T1)}
 ============================
- cons E1 E2 = emptyList \/
-   (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+    {value Arg2}) \/
+   cons E1 E2 = emptyList
+
+Subgoal 2 is:
+ (exists Arg1 Arg2, emptyList = cons Arg1 Arg2 /\ {value Arg1} /\
+    {value Arg2}) \/
+   emptyList = emptyList
 
 Subgoal 3 is:
- head E1 = emptyList \/
-   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   tail E1 = emptyList
 
 Subgoal 4 is:
- tail E1 = emptyList \/
-   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   head E1 = emptyList
 
 Subgoal 5 is:
- myError = emptyList \/
-   (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   myError = emptyList
 
 canonical_form_list < case Value.
-Subgoal 2:
+Subgoal 1:
 
 Variables: T1 E2 E1
 H1 : {typeOf E1 T1}
@@ -114,61 +59,101 @@ H2 : {typeOf E2 (list T1)}
 H3 : {value E1}
 H4 : {value E2}
 ============================
- cons E1 E2 = emptyList \/
-   (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, cons E1 E2 = cons Arg1 Arg2 /\ {value Arg1} /\
+    {value Arg2}) \/
+   cons E1 E2 = emptyList
+
+Subgoal 2 is:
+ (exists Arg1 Arg2, emptyList = cons Arg1 Arg2 /\ {value Arg1} /\
+    {value Arg2}) \/
+   emptyList = emptyList
 
 Subgoal 3 is:
- head E1 = emptyList \/
-   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   tail E1 = emptyList
 
 Subgoal 4 is:
- tail E1 = emptyList \/
-   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   head E1 = emptyList
 
 Subgoal 5 is:
- myError = emptyList \/
-   (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   myError = emptyList
+
+canonical_form_list < search.
+Subgoal 2:
+
+Variables: T1
+Value : {value emptyList}
+============================
+ (exists Arg1 Arg2, emptyList = cons Arg1 Arg2 /\ {value Arg1} /\
+    {value Arg2}) \/
+   emptyList = emptyList
+
+Subgoal 3 is:
+ (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   tail E1 = emptyList
+
+Subgoal 4 is:
+ (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   head E1 = emptyList
+
+Subgoal 5 is:
+ (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   myError = emptyList
+
+canonical_form_list < case Value.
+Subgoal 2:
+
+Variables: T1
+============================
+ (exists Arg1 Arg2, emptyList = cons Arg1 Arg2 /\ {value Arg1} /\
+    {value Arg2}) \/
+   emptyList = emptyList
+
+Subgoal 3 is:
+ (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   tail E1 = emptyList
+
+Subgoal 4 is:
+ (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   head E1 = emptyList
+
+Subgoal 5 is:
+ (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   myError = emptyList
 
 canonical_form_list < search.
 Subgoal 3:
 
 Variables: T1 E1
-Value : {value (head E1)}
-H1 : {typeOf E1 (list (list T1))}
+Value : {value (tail E1)}
+H1 : {typeOf E1 (list T1)}
 ============================
- head E1 = emptyList \/
-   (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   tail E1 = emptyList
 
 Subgoal 4 is:
- tail E1 = emptyList \/
-   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   head E1 = emptyList
 
 Subgoal 5 is:
- myError = emptyList \/
-   (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   myError = emptyList
 
 canonical_form_list < case Value.
 Subgoal 4:
 
 Variables: T1 E1
-Value : {value (tail E1)}
-H1 : {typeOf E1 (list T1)}
+Value : {value (head E1)}
+H1 : {typeOf E1 (list (list T1))}
 ============================
- tail E1 = emptyList \/
-   (exists Arg1 Arg2, tail E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, head E1 = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   head E1 = emptyList
 
 Subgoal 5 is:
- myError = emptyList \/
-   (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   myError = emptyList
 
 canonical_form_list < case Value.
 Subgoal 5:
@@ -176,9 +161,8 @@ Subgoal 5:
 Variables: T1
 Value : {value myError}
 ============================
- myError = emptyList \/
-   (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\
-      {value Arg2})
+ (exists Arg1 Arg2, myError = cons Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}) \/
+   myError = emptyList
 
 canonical_form_list < case Value.
 Proof completed.
@@ -187,15 +171,6 @@ Abella < Define progresses : term -> prop by
 progresses E := {value E};
 progresses E := {error E};
 progresses E := exists E', {step E E'}.
-
-Abella < Theorem progress_emptyList : 
-forall T, {typeOf emptyList T} -> progresses emptyList.
-
-============================
- forall T, {typeOf emptyList T} -> progresses emptyList
-
-progress_emptyList < search.
-Proof completed.
 
 Abella < Theorem progress_cons : 
 forall E1 E2 T, {typeOf (cons E1 E2) T} -> progresses E1 -> progresses E2 ->
@@ -329,118 +304,13 @@ ProgressClause : {step E1 E'}
 progress_cons < search.
 Proof completed.
 
-Abella < Theorem progress_head : 
-forall E1 T, {typeOf (head E1) T} -> progresses E1 -> progresses (head E1).
+Abella < Theorem progress_emptyList : 
+forall T, {typeOf emptyList T} -> progresses emptyList.
 
 ============================
- forall E1 T, {typeOf (head E1) T} -> progresses E1 -> progresses (head E1)
+ forall T, {typeOf emptyList T} -> progresses emptyList
 
-progress_head < intros Main PrgsE1.
-
-Variables: E1 T
-Main : {typeOf (head E1) T}
-PrgsE1 : progresses E1
-============================
- progresses (head E1)
-
-progress_head < case TypeOfE1 : Main.
-
-Variables: E1 T
-PrgsE1 : progresses E1
-TypeOfE1 : {typeOf E1 (list T)}
-============================
- progresses (head E1)
-
-progress_head < case ProgressClause : PrgsE1.
-Subgoal 1:
-
-Variables: E1 T
-TypeOfE1 : {typeOf E1 (list T)}
-ProgressClause : {value E1}
-============================
- progresses (head E1)
-
-Subgoal 2 is:
- progresses (head E1)
-
-Subgoal 3 is:
- progresses (head E1)
-
-progress_head < apply Canonical : canonical_form_list to TypeOfE1 ProgressClause.
-Subgoal 1:
-
-Variables: E1 T
-TypeOfE1 : {typeOf E1 (list T)}
-ProgressClause : {value E1}
-Canonical : E1 = emptyList \/
-              (exists Arg1 Arg2, E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-                 {value Arg2})
-============================
- progresses (head E1)
-
-Subgoal 2 is:
- progresses (head E1)
-
-Subgoal 3 is:
- progresses (head E1)
-
-progress_head < case Canonical.
-Subgoal 1.1:
-
-Variables: T
-TypeOfE1 : {typeOf emptyList (list T)}
-ProgressClause : {value emptyList}
-============================
- progresses (head emptyList)
-
-Subgoal 1.2 is:
- progresses (head (cons Arg1 Arg2))
-
-Subgoal 2 is:
- progresses (head E1)
-
-Subgoal 3 is:
- progresses (head E1)
-
-progress_head < search.
-Subgoal 1.2:
-
-Variables: T Arg1 Arg2
-TypeOfE1 : {typeOf (cons Arg1 Arg2) (list T)}
-ProgressClause : {value (cons Arg1 Arg2)}
-H1 : {value Arg1}
-H2 : {value Arg2}
-============================
- progresses (head (cons Arg1 Arg2))
-
-Subgoal 2 is:
- progresses (head E1)
-
-Subgoal 3 is:
- progresses (head E1)
-
-progress_head < search.
-Subgoal 2:
-
-Variables: E1 T
-TypeOfE1 : {typeOf E1 (list T)}
-ProgressClause : {error E1}
-============================
- progresses (head E1)
-
-Subgoal 3 is:
- progresses (head E1)
-
-progress_head < search.
-Subgoal 3:
-
-Variables: E1 T E'
-TypeOfE1 : {typeOf E1 (list T)}
-ProgressClause : {step E1 E'}
-============================
- progresses (head E1)
-
-progress_head < search.
+progress_emptyList < search.
 Proof completed.
 
 Abella < Theorem progress_tail : 
@@ -486,9 +356,9 @@ Subgoal 1:
 Variables: E1 T1
 TypeOfE1 : {typeOf E1 (list T1)}
 ProgressClause : {value E1}
-Canonical : E1 = emptyList \/
-              (exists Arg1 Arg2, E1 = cons Arg1 Arg2 /\ {value Arg1} /\
-                 {value Arg2})
+Canonical : (exists Arg1 Arg2, E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+               {value Arg2}) \/
+              E1 = emptyList
 ============================
  progresses (tail E1)
 
@@ -501,14 +371,16 @@ Subgoal 3 is:
 progress_tail < case Canonical.
 Subgoal 1.1:
 
-Variables: T1
-TypeOfE1 : {typeOf emptyList (list T1)}
-ProgressClause : {value emptyList}
+Variables: T1 Arg1 Arg2
+TypeOfE1 : {typeOf (cons Arg1 Arg2) (list T1)}
+ProgressClause : {value (cons Arg1 Arg2)}
+H1 : {value Arg1}
+H2 : {value Arg2}
 ============================
- progresses (tail emptyList)
+ progresses (tail (cons Arg1 Arg2))
 
 Subgoal 1.2 is:
- progresses (tail (cons Arg1 Arg2))
+ progresses (tail emptyList)
 
 Subgoal 2 is:
  progresses (tail E1)
@@ -519,13 +391,11 @@ Subgoal 3 is:
 progress_tail < search.
 Subgoal 1.2:
 
-Variables: T1 Arg1 Arg2
-TypeOfE1 : {typeOf (cons Arg1 Arg2) (list T1)}
-ProgressClause : {value (cons Arg1 Arg2)}
-H1 : {value Arg1}
-H2 : {value Arg2}
+Variables: T1
+TypeOfE1 : {typeOf emptyList (list T1)}
+ProgressClause : {value emptyList}
 ============================
- progresses (tail (cons Arg1 Arg2))
+ progresses (tail emptyList)
 
 Subgoal 2 is:
  progresses (tail E1)
@@ -555,6 +425,120 @@ ProgressClause : {step E1 E'}
  progresses (tail E1)
 
 progress_tail < search.
+Proof completed.
+
+Abella < Theorem progress_head : 
+forall E1 T, {typeOf (head E1) T} -> progresses E1 -> progresses (head E1).
+
+============================
+ forall E1 T, {typeOf (head E1) T} -> progresses E1 -> progresses (head E1)
+
+progress_head < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (head E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (head E1)
+
+progress_head < case TypeOfE1 : Main.
+
+Variables: E1 T
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (list T)}
+============================
+ progresses (head E1)
+
+progress_head < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (list T)}
+ProgressClause : {value E1}
+============================
+ progresses (head E1)
+
+Subgoal 2 is:
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < apply Canonical : canonical_form_list to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (list T)}
+ProgressClause : {value E1}
+Canonical : (exists Arg1 Arg2, E1 = cons Arg1 Arg2 /\ {value Arg1} /\
+               {value Arg2}) \/
+              E1 = emptyList
+============================
+ progresses (head E1)
+
+Subgoal 2 is:
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < case Canonical.
+Subgoal 1.1:
+
+Variables: T Arg1 Arg2
+TypeOfE1 : {typeOf (cons Arg1 Arg2) (list T)}
+ProgressClause : {value (cons Arg1 Arg2)}
+H1 : {value Arg1}
+H2 : {value Arg2}
+============================
+ progresses (head (cons Arg1 Arg2))
+
+Subgoal 1.2 is:
+ progresses (head emptyList)
+
+Subgoal 2 is:
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < search.
+Subgoal 1.2:
+
+Variables: T
+TypeOfE1 : {typeOf emptyList (list T)}
+ProgressClause : {value emptyList}
+============================
+ progresses (head emptyList)
+
+Subgoal 2 is:
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < search.
+Subgoal 2:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (list T)}
+ProgressClause : {error E1}
+============================
+ progresses (head E1)
+
+Subgoal 3 is:
+ progresses (head E1)
+
+progress_head < search.
+Subgoal 3:
+
+Variables: E1 T E'
+TypeOfE1 : {typeOf E1 (list T)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (head E1)
+
+progress_head < search.
 Proof completed.
 
 Abella < Theorem progress_myError : 
@@ -589,26 +573,6 @@ Main : {typeOf E T}@
 progress < case TypeOfE1 : Main.
 Subgoal 1:
 
-Variables: T1
-IH : forall E T, {typeOf E T}* -> progresses E
-============================
- progresses emptyList
-
-Subgoal 2 is:
- progresses (cons E1 E2)
-
-Subgoal 3 is:
- progresses (head E1)
-
-Subgoal 4 is:
- progresses (tail E1)
-
-Subgoal 5 is:
- progresses myError
-
-progress < backchain progress_emptyList.
-Subgoal 2:
-
 Variables: T1 E2 E1
 IH : forall E T, {typeOf E T}* -> progresses E
 TypeOfE1 : {typeOf E1 T1}*
@@ -616,17 +580,20 @@ TypeOfE2 : {typeOf E2 (list T1)}*
 ============================
  progresses (cons E1 E2)
 
+Subgoal 2 is:
+ progresses emptyList
+
 Subgoal 3 is:
- progresses (head E1)
+ progresses (tail E1)
 
 Subgoal 4 is:
- progresses (tail E1)
+ progresses (head E1)
 
 Subgoal 5 is:
  progresses myError
 
 progress < apply IH to TypeOfE1.
-Subgoal 2:
+Subgoal 1:
 
 Variables: T1 E2 E1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -636,17 +603,20 @@ H1 : progresses E1
 ============================
  progresses (cons E1 E2)
 
+Subgoal 2 is:
+ progresses emptyList
+
 Subgoal 3 is:
- progresses (head E1)
+ progresses (tail E1)
 
 Subgoal 4 is:
- progresses (tail E1)
+ progresses (head E1)
 
 Subgoal 5 is:
  progresses myError
 
 progress < apply IH to TypeOfE2.
-Subgoal 2:
+Subgoal 1:
 
 Variables: T1 E2 E1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -657,48 +627,37 @@ H2 : progresses E2
 ============================
  progresses (cons E1 E2)
 
+Subgoal 2 is:
+ progresses emptyList
+
 Subgoal 3 is:
- progresses (head E1)
+ progresses (tail E1)
 
 Subgoal 4 is:
- progresses (tail E1)
+ progresses (head E1)
 
 Subgoal 5 is:
  progresses myError
 
 progress < backchain progress_cons.
-Subgoal 3:
+Subgoal 2:
 
-Variables: T E1
+Variables: T1
 IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (list T)}*
 ============================
- progresses (head E1)
+ progresses emptyList
+
+Subgoal 3 is:
+ progresses (tail E1)
 
 Subgoal 4 is:
- progresses (tail E1)
+ progresses (head E1)
 
 Subgoal 5 is:
  progresses myError
 
-progress < apply IH to TypeOfE1.
+progress < backchain progress_emptyList.
 Subgoal 3:
-
-Variables: T E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (list T)}*
-H1 : progresses E1
-============================
- progresses (head E1)
-
-Subgoal 4 is:
- progresses (tail E1)
-
-Subgoal 5 is:
- progresses myError
-
-progress < backchain progress_head.
-Subgoal 4:
 
 Variables: T1 E1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -706,11 +665,14 @@ TypeOfE1 : {typeOf E1 (list T1)}*
 ============================
  progresses (tail E1)
 
+Subgoal 4 is:
+ progresses (head E1)
+
 Subgoal 5 is:
  progresses myError
 
 progress < apply IH to TypeOfE1.
-Subgoal 4:
+Subgoal 3:
 
 Variables: T1 E1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -718,11 +680,39 @@ TypeOfE1 : {typeOf E1 (list T1)}*
 H1 : progresses E1
 ============================
  progresses (tail E1)
+
+Subgoal 4 is:
+ progresses (head E1)
 
 Subgoal 5 is:
  progresses myError
 
 progress < backchain progress_tail.
+Subgoal 4:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (list T)}*
+============================
+ progresses (head E1)
+
+Subgoal 5 is:
+ progresses myError
+
+progress < apply IH to TypeOfE1.
+Subgoal 4:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (list T)}*
+H1 : progresses E1
+============================
+ progresses (head E1)
+
+Subgoal 5 is:
+ progresses myError
+
+progress < backchain progress_head.
 Subgoal 5:
 
 Variables: T
@@ -759,259 +749,16 @@ Subgoal 1:
 
 Variables: T
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head emptyList) T}
-============================
- {typeOf myError T}
-
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf myError T}
-
-Subgoal 4 is:
- {typeOf E' T}
-
-Subgoal 5 is:
- {typeOf (cons E1' E2) T}
-
-Subgoal 6 is:
- {typeOf (cons E1 E2') T}
-
-Subgoal 7 is:
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 1:
-
-Variables: T
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head emptyList) T}
-Arg1_1 : {typeOf emptyList (list T)}
-============================
- {typeOf myError T}
-
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf myError T}
-
-Subgoal 4 is:
- {typeOf E' T}
-
-Subgoal 5 is:
- {typeOf (cons E1' E2) T}
-
-Subgoal 6 is:
- {typeOf (cons E1 E2') T}
-
-Subgoal 7 is:
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 1:
-
-Variables: T
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head emptyList) T}
-Arg1_1 : {typeOf emptyList (list T)}
-============================
- {typeOf myError T}
-
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf myError T}
-
-Subgoal 4 is:
- {typeOf E' T}
-
-Subgoal 5 is:
- {typeOf (cons E1' E2) T}
-
-Subgoal 6 is:
- {typeOf (cons E1 E2') T}
-
-Subgoal 7 is:
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < search.
-Subgoal 2:
-
-Variables: E' T E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head (cons E' E2)) T}
-============================
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf myError T}
-
-Subgoal 4 is:
- {typeOf E' T}
-
-Subgoal 5 is:
- {typeOf (cons E1' E2) T}
-
-Subgoal 6 is:
- {typeOf (cons E1 E2') T}
-
-Subgoal 7 is:
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 2:
-
-Variables: E' T E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head (cons E' E2)) T}
-Arg1_1 : {typeOf (cons E' E2) (list T)}
-============================
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf myError T}
-
-Subgoal 4 is:
- {typeOf E' T}
-
-Subgoal 5 is:
- {typeOf (cons E1' E2) T}
-
-Subgoal 6 is:
- {typeOf (cons E1 E2') T}
-
-Subgoal 7 is:
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 2:
-
-Variables: E' T E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head (cons E' E2)) T}
-Arg1_1 : {typeOf (cons E' E2) (list T)}
-Arg2_1 : {typeOf E' T}
-Arg2_2 : {typeOf E2 (list T)}
-============================
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf myError T}
-
-Subgoal 4 is:
- {typeOf E' T}
-
-Subgoal 5 is:
- {typeOf (cons E1' E2) T}
-
-Subgoal 6 is:
- {typeOf (cons E1 E2') T}
-
-Subgoal 7 is:
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < search.
-Subgoal 3:
-
-Variables: T
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
 TypeOf : {typeOf (tail emptyList) T}
 ============================
  {typeOf myError T}
 
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf myError T}
+
 Subgoal 4 is:
  {typeOf E' T}
 
@@ -1022,10 +769,10 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1040,7 +787,7 @@ Subgoal 12 is:
  {typeOf E' T}
 
 preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 3:
+Subgoal 1:
 
 Variables: T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1048,6 +795,12 @@ TypeOf : {typeOf (tail emptyList) (list T1)}
 Arg1_1 : {typeOf emptyList (list T1)}
 ============================
  {typeOf myError (list T1)}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf myError T}
 
 Subgoal 4 is:
  {typeOf E' T}
@@ -1059,10 +812,10 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1077,7 +830,7 @@ Subgoal 12 is:
  {typeOf E' T}
 
 preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 3:
+Subgoal 1:
 
 Variables: T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1085,6 +838,12 @@ TypeOf : {typeOf (tail emptyList) (list T1)}
 Arg1_1 : {typeOf emptyList (list T1)}
 ============================
  {typeOf myError (list T1)}
+
+Subgoal 2 is:
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf myError T}
 
 Subgoal 4 is:
  {typeOf E' T}
@@ -1096,10 +855,10 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1114,7 +873,7 @@ Subgoal 12 is:
  {typeOf E' T}
 
 preservation < search.
-Subgoal 4:
+Subgoal 2:
 
 Variables: E' T E1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1122,6 +881,12 @@ TypeOf : {typeOf (tail (cons E1 E')) T}
 ============================
  {typeOf E' T}
 
+Subgoal 3 is:
+ {typeOf myError T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
 Subgoal 5 is:
  {typeOf (cons E1' E2) T}
 
@@ -1129,10 +894,10 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1147,7 +912,7 @@ Subgoal 12 is:
  {typeOf E' T}
 
 preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 4:
+Subgoal 2:
 
 Variables: E' E1 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1156,6 +921,12 @@ Arg1_1 : {typeOf (cons E1 E') (list T1)}
 ============================
  {typeOf E' (list T1)}
 
+Subgoal 3 is:
+ {typeOf myError T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
 Subgoal 5 is:
  {typeOf (cons E1' E2) T}
 
@@ -1163,10 +934,10 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1181,7 +952,7 @@ Subgoal 12 is:
  {typeOf E' T}
 
 preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 4:
+Subgoal 2:
 
 Variables: E' E1 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1192,6 +963,12 @@ Arg2_2 : {typeOf E' (list T1)}
 ============================
  {typeOf E' (list T1)}
 
+Subgoal 3 is:
+ {typeOf myError T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
 Subgoal 5 is:
  {typeOf (cons E1' E2) T}
 
@@ -1199,10 +976,223 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 3:
+
+Variables: T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head emptyList) T}
+============================
+ {typeOf myError T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 7 is:
  {typeOf (tail E1') T}
+
+Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 3:
+
+Variables: T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head emptyList) T}
+Arg1_1 : {typeOf emptyList (list T)}
+============================
+ {typeOf myError T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 7 is:
+ {typeOf (tail E1') T}
+
+Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 3:
+
+Variables: T
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head emptyList) T}
+Arg1_1 : {typeOf emptyList (list T)}
+============================
+ {typeOf myError T}
+
+Subgoal 4 is:
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 7 is:
+ {typeOf (tail E1') T}
+
+Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 4:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head (cons E' E2)) T}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 7 is:
+ {typeOf (tail E1') T}
+
+Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 4:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head (cons E' E2)) T}
+Arg1_1 : {typeOf (cons E' E2) (list T)}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 7 is:
+ {typeOf (tail E1') T}
+
+Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 4:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head (cons E' E2)) T}
+Arg1_1 : {typeOf (cons E' E2) (list T)}
+Arg2_1 : {typeOf E' T}
+Arg2_2 : {typeOf E2 (list T)}
+============================
+ {typeOf E' T}
+
+Subgoal 5 is:
+ {typeOf (cons E1' E2) T}
+
+Subgoal 6 is:
+ {typeOf (cons E1 E2') T}
+
+Subgoal 7 is:
+ {typeOf (tail E1') T}
+
+Subgoal 8 is:
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1230,10 +1220,10 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1262,10 +1252,10 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1295,10 +1285,10 @@ Subgoal 6 is:
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1324,10 +1314,10 @@ Step1 : {value E1}*
  {typeOf (cons E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1354,10 +1344,10 @@ TypeOf2 : {typeOf E2 (list T1)}
  {typeOf (cons E1 E2') (list T1)}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1385,10 +1375,10 @@ H1 : {typeOf E2' (list T1)}
  {typeOf (cons E1 E2') (list T1)}
 
 Subgoal 7 is:
- {typeOf (head E1') T}
+ {typeOf (tail E1') T}
 
 Subgoal 8 is:
- {typeOf (tail E1') T}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1404,82 +1394,6 @@ Subgoal 12 is:
 
 preservation < search.
 Subgoal 7:
-
-Variables: T E1' E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head E1) T}
-Step : {step E1 E1'}*
-============================
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < case TypeOf1 : TypeOf.
-Subgoal 7:
-
-Variables: T E1' E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (list T)}
-============================
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < apply IH to TypeOf1 Step.
-Subgoal 7:
-
-Variables: T E1' E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (list T)}
-H1 : {typeOf E1' (list T)}
-============================
- {typeOf (head E1') T}
-
-Subgoal 8 is:
- {typeOf (tail E1') T}
-
-Subgoal 9 is:
- {typeOf E' T}
-
-Subgoal 10 is:
- {typeOf E' T}
-
-Subgoal 11 is:
- {typeOf E' T}
-
-Subgoal 12 is:
- {typeOf E' T}
-
-preservation < search.
-Subgoal 8:
 
 Variables: T E1' E1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1488,6 +1402,82 @@ Step : {step E1 E1'}*
 ============================
  {typeOf (tail E1') T}
 
+Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 7:
+
+Variables: E1' E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (list T1)}
+============================
+ {typeOf (tail E1') (list T1)}
+
+Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 7:
+
+Variables: E1' E1 T1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (list T1)}
+H1 : {typeOf E1' (list T1)}
+============================
+ {typeOf (tail E1') (list T1)}
+
+Subgoal 8 is:
+ {typeOf (head E1') T}
+
+Subgoal 9 is:
+ {typeOf E' T}
+
+Subgoal 10 is:
+ {typeOf E' T}
+
+Subgoal 11 is:
+ {typeOf E' T}
+
+Subgoal 12 is:
+ {typeOf E' T}
+
+preservation < search.
+Subgoal 8:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (head E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (head E1') T}
+
 Subgoal 9 is:
  {typeOf E' T}
 
@@ -1503,12 +1493,12 @@ Subgoal 12 is:
 preservation < case TypeOf1 : TypeOf.
 Subgoal 8:
 
-Variables: E1' E1 T1
+Variables: T E1' E1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
 Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (list T1)}
+TypeOf1 : {typeOf E1 (list T)}
 ============================
- {typeOf (tail E1') (list T1)}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1525,13 +1515,13 @@ Subgoal 12 is:
 preservation < apply IH to TypeOf1 Step.
 Subgoal 8:
 
-Variables: E1' E1 T1
+Variables: T E1' E1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
 Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (list T1)}
-H1 : {typeOf E1' (list T1)}
+TypeOf1 : {typeOf E1 (list T)}
+H1 : {typeOf E1' (list T)}
 ============================
- {typeOf (tail E1') (list T1)}
+ {typeOf (head E1') T}
 
 Subgoal 9 is:
  {typeOf E' T}
@@ -1686,7 +1676,7 @@ Subgoal 11:
 
 Variables: E' T
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head E') T}
+TypeOf : {typeOf (tail E') T}
 Step : {error E'}*
 ============================
  {typeOf E' T}
@@ -1699,7 +1689,7 @@ Subgoal 11:
 
 Variables: T
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (head myError) T}
+TypeOf : {typeOf (tail myError) T}
 ============================
  {typeOf myError T}
 
@@ -1709,11 +1699,11 @@ Subgoal 12 is:
 preservation < case TypeOf1 : TypeOf.
 Subgoal 11:
 
-Variables: T
+Variables: T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf1 : {typeOf myError (list T)}
+TypeOf1 : {typeOf myError (list T1)}
 ============================
- {typeOf myError T}
+ {typeOf myError (list T1)}
 
 Subgoal 12 is:
  {typeOf E' T}
@@ -1721,10 +1711,10 @@ Subgoal 12 is:
 preservation < case TypeOf1.
 Subgoal 11:
 
-Variables: T
+Variables: T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
 ============================
- {typeOf myError T}
+ {typeOf myError (list T1)}
 
 Subgoal 12 is:
  {typeOf E' T}
@@ -1734,7 +1724,7 @@ Subgoal 12:
 
 Variables: E' T
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (tail E') T}
+TypeOf : {typeOf (head E') T}
 Step : {error E'}*
 ============================
  {typeOf E' T}
@@ -1744,26 +1734,26 @@ Subgoal 12:
 
 Variables: T
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (tail myError) T}
+TypeOf : {typeOf (head myError) T}
 ============================
  {typeOf myError T}
 
 preservation < case TypeOf1 : TypeOf.
 Subgoal 12:
 
-Variables: T1
+Variables: T
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf1 : {typeOf myError (list T1)}
+TypeOf1 : {typeOf myError (list T)}
 ============================
- {typeOf myError (list T1)}
+ {typeOf myError T}
 
 preservation < case TypeOf1.
 Subgoal 12:
 
-Variables: T1
+Variables: T
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
 ============================
- {typeOf myError (list T1)}
+ {typeOf myError T}
 
 preservation < search.
 Proof completed.

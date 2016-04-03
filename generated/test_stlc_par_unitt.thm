@@ -1,5 +1,0 @@
-Specification "stlc_par_unitt".
-
-Define test_beta : prop by
-   test_beta := forall T T1 R EE T2, {typeOf (abs R T) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
-

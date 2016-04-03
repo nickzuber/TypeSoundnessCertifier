@@ -3,10 +3,10 @@ Abella < Specification "iff".
 Reading specification "iff"
 
 Abella < Theorem canonical_form_bool : 
-forall E, {typeOf E bool} -> {value E} -> E = tt \/ E = ff.
+forall E, {typeOf E bool} -> {value E} -> E = ff \/ E = tt.
 
 ============================
- forall E, {typeOf E bool} -> {value E} -> E = tt \/ E = ff
+ forall E, {typeOf E bool} -> {value E} -> E = ff \/ E = tt
 
 canonical_form_bool < intros Main Value.
 
@@ -14,51 +14,51 @@ Variables: E
 Main : {typeOf E bool}
 Value : {value E}
 ============================
- E = tt \/ E = ff
+ E = ff \/ E = tt
 
 canonical_form_bool < case Main.
 Subgoal 1:
 
-Value : {value tt}
+Value : {value ff}
 ============================
- tt = tt \/ tt = ff
+ ff = ff \/ ff = tt
 
 Subgoal 2 is:
- ff = tt \/ ff = ff
+ tt = ff \/ tt = tt
 
 Subgoal 3 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
 
 canonical_form_bool < case Value.
 Subgoal 1:
 
 ============================
- tt = tt \/ tt = ff
+ ff = ff \/ ff = tt
 
 Subgoal 2 is:
- ff = tt \/ ff = ff
+ tt = ff \/ tt = tt
 
 Subgoal 3 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
 
 canonical_form_bool < search.
 Subgoal 2:
 
-Value : {value ff}
+Value : {value tt}
 ============================
- ff = tt \/ ff = ff
+ tt = ff \/ tt = tt
 
 Subgoal 3 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
 
 canonical_form_bool < case Value.
 Subgoal 2:
 
 ============================
- ff = tt \/ ff = ff
+ tt = ff \/ tt = tt
 
 Subgoal 3 is:
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
 
 canonical_form_bool < search.
 Subgoal 3:
@@ -69,7 +69,7 @@ H1 : {typeOf E1 bool}
 H2 : {typeOf E2 bool}
 H3 : {typeOf E3 bool}
 ============================
- if E1 E2 E3 = tt \/ if E1 E2 E3 = ff
+ if E1 E2 E3 = ff \/ if E1 E2 E3 = tt
 
 canonical_form_bool < case Value.
 Proof completed.
@@ -78,15 +78,6 @@ Abella < Define progresses : term -> prop by
 progresses E := {value E};
 progresses E := exists E', {step E E'}.
 
-Abella < Theorem progress_tt : 
-forall T, {typeOf tt T} -> progresses tt.
-
-============================
- forall T, {typeOf tt T} -> progresses tt
-
-progress_tt < search.
-Proof completed.
-
 Abella < Theorem progress_ff : 
 forall T, {typeOf ff T} -> progresses ff.
 
@@ -94,6 +85,15 @@ forall T, {typeOf ff T} -> progresses ff.
  forall T, {typeOf ff T} -> progresses ff
 
 progress_ff < search.
+Proof completed.
+
+Abella < Theorem progress_tt : 
+forall T, {typeOf tt T} -> progresses tt.
+
+============================
+ forall T, {typeOf tt T} -> progresses tt
+
+progress_tt < search.
 Proof completed.
 
 Abella < Theorem progress_if : 
@@ -144,7 +144,7 @@ TypeOfE1 : {typeOf E1 bool}
 TypeOfE2 : {typeOf E2 T}
 TypeOfE3 : {typeOf E3 T}
 ProgressClause : {value E1}
-Canonical : E1 = tt \/ E1 = ff
+Canonical : E1 = ff \/ E1 = tt
 ============================
  progresses (if E1 E2 E3)
 
@@ -155,15 +155,15 @@ progress_if < case Canonical.
 Subgoal 1.1:
 
 Variables: E2 E3 T
-TypeOfE1 : {typeOf tt bool}
+TypeOfE1 : {typeOf ff bool}
 TypeOfE2 : {typeOf E2 T}
 TypeOfE3 : {typeOf E3 T}
-ProgressClause : {value tt}
+ProgressClause : {value ff}
 ============================
- progresses (if tt E2 E3)
+ progresses (if ff E2 E3)
 
 Subgoal 1.2 is:
- progresses (if ff E2 E3)
+ progresses (if tt E2 E3)
 
 Subgoal 2 is:
  progresses (if E1 E2 E3)
@@ -172,12 +172,12 @@ progress_if < search.
 Subgoal 1.2:
 
 Variables: E2 E3 T
-TypeOfE1 : {typeOf ff bool}
+TypeOfE1 : {typeOf tt bool}
 TypeOfE2 : {typeOf E2 T}
 TypeOfE3 : {typeOf E3 T}
-ProgressClause : {value ff}
+ProgressClause : {value tt}
 ============================
- progresses (if ff E2 E3)
+ progresses (if tt E2 E3)
 
 Subgoal 2 is:
  progresses (if E1 E2 E3)
@@ -221,25 +221,25 @@ Subgoal 1:
 
 IH : forall E T, {typeOf E T}* -> progresses E
 ============================
- progresses tt
+ progresses ff
 
 Subgoal 2 is:
- progresses ff
-
-Subgoal 3 is:
- progresses (if E1 E2 E3)
-
-progress < backchain progress_tt.
-Subgoal 2:
-
-IH : forall E T, {typeOf E T}* -> progresses E
-============================
- progresses ff
+ progresses tt
 
 Subgoal 3 is:
  progresses (if E1 E2 E3)
 
 progress < backchain progress_ff.
+Subgoal 2:
+
+IH : forall E T, {typeOf E T}* -> progresses E
+============================
+ progresses tt
+
+Subgoal 3 is:
+ progresses (if E1 E2 E3)
+
+progress < backchain progress_tt.
 Subgoal 3:
 
 Variables: T E3 E2 E1

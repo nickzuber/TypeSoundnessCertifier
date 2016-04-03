@@ -27,9 +27,8 @@ intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
 
 
 
-Theorem progress_fix : forall E1 T, {typeOf ((fix E1)) T} -> progresses E1 -> progresses ((fix E1)).
-intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- search. search.
+Theorem progress_letrec : forall R1 R2 T, {typeOf ((letrec R1 R2)) T} -> progresses ((letrec R1 R2)).
+ search.
 
 
 
@@ -39,8 +38,9 @@ intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
 
 
 
-Theorem progress_letrec : forall R1 R2 T, {typeOf ((letrec R1 R2)) T} -> progresses ((letrec R1 R2)).
- search.
+Theorem progress_fix : forall E1 T, {typeOf ((fix E1)) T} -> progresses E1 -> progresses ((fix E1)).
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ search. search.
 
 
 
@@ -52,9 +52,9 @@ induction on 1. intros Main. TypeOfE1 : case Main.
 
  apply IH to TypeOfE1. backchain progress_app.
 
- apply IH to TypeOfE1. backchain progress_fix.
- apply IH to TypeOfE1. backchain progress_let.
   backchain progress_letrec.
+ apply IH to TypeOfE1. backchain progress_let.
+ apply IH to TypeOfE1. backchain progress_fix.
 
  
 

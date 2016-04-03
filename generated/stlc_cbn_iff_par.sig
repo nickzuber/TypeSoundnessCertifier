@@ -1,14 +1,15 @@
 sig stlc_cbn_iff_par.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
-type arrow typ -> typ -> typ.
 type bool typ.
-type abs (term -> term) -> typ -> term.
-type tt term.
+type arrow typ -> typ -> typ.
 type ff term.
-type app term -> term -> term.
+type tt term.
+type abs (term -> term) -> typ -> term.
 type if term -> term -> term -> term.
+type app term -> term -> term.
 
 type value term -> o.
 

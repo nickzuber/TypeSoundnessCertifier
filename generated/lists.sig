@@ -1,12 +1,13 @@
 sig lists.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
 type list typ -> typ.
-type emptyList term.
 type cons term -> term -> term.
-type head term -> term.
+type emptyList term.
 type tail term -> term.
+type head term -> term.
 type myError term.
 
 type value term -> o.

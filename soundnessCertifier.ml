@@ -38,6 +38,7 @@ open Recursive
 open LambdaFull
 open FullFledged
 open FullFledgedWithType
+open Parser
 
 let sep = "\n\n"
 let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ (generateTheoremS (generateCanonicalFormsLemma ts)) ^ sep ^ (progressDefinition ts) ^ sep ^ (generateTheoremS (generateProgressLemmas ts)) ^ sep ^ (generateTheorem (generateProgressTheorem ts)) ^ sep ^ (generateTheorem (generatePreservationTheorem ts)) ^ sep ^ typesoundnessProof 
@@ -192,7 +193,8 @@ let tsTable = [
 let lookup_typesystem tsName = List.assoc tsName tsTable  
 
 let g slName =
-	let sl = lookup_typesystem slName in 
+	let tlRaw = parseFile slName in 
+	let sl = typecheck_tl tlRaw in 
 	let tl = compile sl in 
 	let mycalculus_sig = open_out ("./generated/" ^ slName ^ ".sig") in
 	let mycalculus_mod = open_out ("./generated/" ^ slName ^ ".mod") in
@@ -203,11 +205,12 @@ let g slName =
     close_out mycalculus_sig;
     close_out mycalculus_mod;
     close_out mycalculus_thm;
-	runPreservationTests (slName, sl); 
+(*	runPreservationTests (slName, sl); *)
 	let directory = getcwd () in 
 		chdir "generated";
 		Unix.open_process_in ("abella " ^ (slName ^ ".thm") ^ " > " ^ (slName ^ "_output.txt"));
 		chdir directory;;
+
 
 let compileAll () = (List.map compile (List.map snd tsTable))
 let typecheckAll () = List.map typecheck_tl (List.map compile (List.map snd tsTable))

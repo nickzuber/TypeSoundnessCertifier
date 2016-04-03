@@ -72,6 +72,7 @@ let term_getConstructor term = match term with Constructor(c, args) -> c | other
 let term_getArguments term = match term with Constructor(c, args) -> args | otherwise -> raise(Failure ("term_getArguments: " ^ toString term))
 let term_getNestedFirstArgument term = term_getConstructor (List.hd (term_getArguments term))
 let type_getOperator typeDecl = match typeDecl with DeclType(c,arguments) -> c
+let type_getArguments typeDecl = match typeDecl with DeclType(c,arguments) -> arguments
 let term_getOperator termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> c
 let term_getValPositions termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> valpos
 let term_getContextInfo termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> ctx

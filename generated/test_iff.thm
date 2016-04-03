@@ -1,8 +1,0 @@
-Specification "iff".
-
-Define test_conditional_true : prop by
-   test_conditional_true := forall E1 E2 T, {typeOf (tt ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E1 T}.
-
-Define test_conditional_false : prop by
-   test_conditional_false := forall E1 E2 T, {typeOf (ff ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E2 T}.
-

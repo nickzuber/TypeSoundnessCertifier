@@ -1,10 +1,11 @@
 sig sums.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
 type sum typ -> typ -> typ.
-type inl term -> term.
 type inr term -> term.
+type inl term -> term.
 type case term -> (term -> term) -> (term -> term) -> term.
 
 type value term -> o.

@@ -1,17 +1,18 @@
 sig listsIsNil.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
-type list typ -> typ.
 type bool typ.
-type emptyList term.
-type cons term -> term -> term.
-type tt term.
+type list typ -> typ.
 type ff term.
-type head term -> term.
-type tail term -> term.
-type isnil term -> term.
+type tt term.
+type cons term -> term -> term.
+type emptyList term.
 type if term -> term -> term -> term.
+type isnil term -> term.
+type tail term -> term.
+type head term -> term.
 type myError term.
 
 type value term -> o.

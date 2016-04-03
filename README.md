@@ -1,2 +1,2 @@
-# TypeSafetyCertifier
+# TypeSafetyAssistant
 Certified Type Safety, automatically!

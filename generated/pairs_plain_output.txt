@@ -30,10 +30,10 @@ H2 : {typeOf E2 T2}
    {value Arg2}
 
 Subgoal 2 is:
- exists Arg1 Arg2, fst E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
+ exists Arg1 Arg2, snd E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
 
 Subgoal 3 is:
- exists Arg1 Arg2, snd E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
+ exists Arg1 Arg2, fst E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
 
 canonical_form_times < case Value.
 Subgoal 1:
@@ -48,31 +48,31 @@ H4 : {value E2}
    {value Arg2}
 
 Subgoal 2 is:
- exists Arg1 Arg2, fst E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
+ exists Arg1 Arg2, snd E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
 
 Subgoal 3 is:
- exists Arg1 Arg2, snd E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
+ exists Arg1 Arg2, fst E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
 
 canonical_form_times < search.
 Subgoal 2:
-
-Variables: T1 T2 T3 E1
-Value : {value (fst E1)}
-H1 : {typeOf E1 (times (times T1 T2) T3)}
-============================
- exists Arg1 Arg2, fst E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
-
-Subgoal 3 is:
- exists Arg1 Arg2, snd E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
-
-canonical_form_times < case Value.
-Subgoal 3:
 
 Variables: T1 T2 T3 E1
 Value : {value (snd E1)}
 H1 : {typeOf E1 (times T3 (times T1 T2))}
 ============================
  exists Arg1 Arg2, snd E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
+
+Subgoal 3 is:
+ exists Arg1 Arg2, fst E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
+
+canonical_form_times < case Value.
+Subgoal 3:
+
+Variables: T1 T2 T3 E1
+Value : {value (fst E1)}
+H1 : {typeOf E1 (times (times T1 T2) T3)}
+============================
+ exists Arg1 Arg2, fst E1 = pair Arg1 Arg2 /\ {value Arg1} /\ {value Arg2}
 
 canonical_form_times < case Value.
 Proof completed.
@@ -167,66 +167,6 @@ ProgressClause : {step E1 E'}
 progress_pair < search.
 Proof completed.
 
-Abella < Theorem progress_fst : 
-forall E1 T, {typeOf (fst E1) T} -> progresses E1 -> progresses (fst E1).
-
-============================
- forall E1 T, {typeOf (fst E1) T} -> progresses E1 -> progresses (fst E1)
-
-progress_fst < intros Main PrgsE1.
-
-Variables: E1 T
-Main : {typeOf (fst E1) T}
-PrgsE1 : progresses E1
-============================
- progresses (fst E1)
-
-progress_fst < case TypeOfE1 : Main.
-
-Variables: E1 T T2
-PrgsE1 : progresses E1
-TypeOfE1 : {typeOf E1 (times T T2)}
-============================
- progresses (fst E1)
-
-progress_fst < case ProgressClause : PrgsE1.
-Subgoal 1:
-
-Variables: E1 T T2
-TypeOfE1 : {typeOf E1 (times T T2)}
-ProgressClause : {value E1}
-============================
- progresses (fst E1)
-
-Subgoal 2 is:
- progresses (fst E1)
-
-progress_fst < apply Canonical : canonical_form_times to TypeOfE1 ProgressClause.
-Subgoal 1:
-
-Variables: T T2 Arg1 Arg2
-TypeOfE1 : {typeOf (pair Arg1 Arg2) (times T T2)}
-ProgressClause : {value (pair Arg1 Arg2)}
-Canonical : {value Arg1}
-Canonical1 : {value Arg2}
-============================
- progresses (fst (pair Arg1 Arg2))
-
-Subgoal 2 is:
- progresses (fst E1)
-
-progress_fst < search.
-Subgoal 2:
-
-Variables: E1 T T2 E'
-TypeOfE1 : {typeOf E1 (times T T2)}
-ProgressClause : {step E1 E'}
-============================
- progresses (fst E1)
-
-progress_fst < search.
-Proof completed.
-
 Abella < Theorem progress_snd : 
 forall E1 T, {typeOf (snd E1) T} -> progresses E1 -> progresses (snd E1).
 
@@ -287,6 +227,66 @@ ProgressClause : {step E1 E'}
 progress_snd < search.
 Proof completed.
 
+Abella < Theorem progress_fst : 
+forall E1 T, {typeOf (fst E1) T} -> progresses E1 -> progresses (fst E1).
+
+============================
+ forall E1 T, {typeOf (fst E1) T} -> progresses E1 -> progresses (fst E1)
+
+progress_fst < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (fst E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (fst E1)
+
+progress_fst < case TypeOfE1 : Main.
+
+Variables: E1 T T2
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (times T T2)}
+============================
+ progresses (fst E1)
+
+progress_fst < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T T2
+TypeOfE1 : {typeOf E1 (times T T2)}
+ProgressClause : {value E1}
+============================
+ progresses (fst E1)
+
+Subgoal 2 is:
+ progresses (fst E1)
+
+progress_fst < apply Canonical : canonical_form_times to TypeOfE1 ProgressClause.
+Subgoal 1:
+
+Variables: T T2 Arg1 Arg2
+TypeOfE1 : {typeOf (pair Arg1 Arg2) (times T T2)}
+ProgressClause : {value (pair Arg1 Arg2)}
+Canonical : {value Arg1}
+Canonical1 : {value Arg2}
+============================
+ progresses (fst (pair Arg1 Arg2))
+
+Subgoal 2 is:
+ progresses (fst E1)
+
+progress_fst < search.
+Subgoal 2:
+
+Variables: E1 T T2 E'
+TypeOfE1 : {typeOf E1 (times T T2)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (fst E1)
+
+progress_fst < search.
+Proof completed.
+
 Abella < Theorem progress : 
 forall E T, {typeOf E T} -> progresses E.
 
@@ -318,10 +318,10 @@ TypeOfE2 : {typeOf E2 T2}*
  progresses (pair E1 E2)
 
 Subgoal 2 is:
- progresses (fst E1)
+ progresses (snd E1)
 
 Subgoal 3 is:
- progresses (snd E1)
+ progresses (fst E1)
 
 progress < apply IH to TypeOfE1.
 Subgoal 1:
@@ -335,10 +335,10 @@ H1 : progresses E1
  progresses (pair E1 E2)
 
 Subgoal 2 is:
- progresses (fst E1)
+ progresses (snd E1)
 
 Subgoal 3 is:
- progresses (snd E1)
+ progresses (fst E1)
 
 progress < apply IH to TypeOfE2.
 Subgoal 1:
@@ -353,26 +353,48 @@ H2 : progresses E2
  progresses (pair E1 E2)
 
 Subgoal 2 is:
- progresses (fst E1)
+ progresses (snd E1)
 
 Subgoal 3 is:
- progresses (snd E1)
+ progresses (fst E1)
 
 progress < backchain progress_pair.
 Subgoal 2:
 
-Variables: T T2 E1
+Variables: T T1 E1
 IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (times T T2)}*
+TypeOfE1 : {typeOf E1 (times T1 T)}*
 ============================
- progresses (fst E1)
+ progresses (snd E1)
 
 Subgoal 3 is:
- progresses (snd E1)
+ progresses (fst E1)
 
 progress < apply IH to TypeOfE1.
 Subgoal 2:
 
+Variables: T T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (times T1 T)}*
+H1 : progresses E1
+============================
+ progresses (snd E1)
+
+Subgoal 3 is:
+ progresses (fst E1)
+
+progress < backchain progress_snd.
+Subgoal 3:
+
+Variables: T T2 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (times T T2)}*
+============================
+ progresses (fst E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 3:
+
 Variables: T T2 E1
 IH : forall E T, {typeOf E T}* -> progresses E
 TypeOfE1 : {typeOf E1 (times T T2)}*
@@ -380,29 +402,7 @@ H1 : progresses E1
 ============================
  progresses (fst E1)
 
-Subgoal 3 is:
- progresses (snd E1)
-
 progress < backchain progress_fst.
-Subgoal 3:
-
-Variables: T T1 E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (times T1 T)}*
-============================
- progresses (snd E1)
-
-progress < apply IH to TypeOfE1.
-Subgoal 3:
-
-Variables: T T1 E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (times T1 T)}*
-H1 : progresses E1
-============================
- progresses (snd E1)
-
-progress < backchain progress_snd.
 Proof completed.
 
 Abella < Theorem preservation : 
@@ -429,88 +429,15 @@ Main : {step E E'}@
 preservation < case Step : Main.
 Subgoal 1:
 
-Variables: E' T E2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fst (pair E' E2)) T}
-============================
- {typeOf E' T}
-
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf (pair E1' E2) T}
-
-Subgoal 4 is:
- {typeOf (pair E1 E2') T}
-
-Subgoal 5 is:
- {typeOf (fst E1') T}
-
-Subgoal 6 is:
- {typeOf (snd E1') T}
-
-preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 1:
-
-Variables: E' T E2 T2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fst (pair E' E2)) T}
-Arg1_1 : {typeOf (pair E' E2) (times T T2)}
-============================
- {typeOf E' T}
-
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf (pair E1' E2) T}
-
-Subgoal 4 is:
- {typeOf (pair E1 E2') T}
-
-Subgoal 5 is:
- {typeOf (fst E1') T}
-
-Subgoal 6 is:
- {typeOf (snd E1') T}
-
-preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 1:
-
-Variables: E' T E2 T2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fst (pair E' E2)) T}
-Arg1_1 : {typeOf (pair E' E2) (times T T2)}
-Arg2_1 : {typeOf E' T}
-Arg2_2 : {typeOf E2 T2}
-============================
- {typeOf E' T}
-
-Subgoal 2 is:
- {typeOf E' T}
-
-Subgoal 3 is:
- {typeOf (pair E1' E2) T}
-
-Subgoal 4 is:
- {typeOf (pair E1 E2') T}
-
-Subgoal 5 is:
- {typeOf (fst E1') T}
-
-Subgoal 6 is:
- {typeOf (snd E1') T}
-
-preservation < search.
-Subgoal 2:
-
 Variables: E' T E1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
 TypeOf : {typeOf (snd (pair E1 E')) T}
 ============================
  {typeOf E' T}
 
+Subgoal 2 is:
+ {typeOf E' T}
+
 Subgoal 3 is:
  {typeOf (pair E1' E2) T}
 
@@ -518,13 +445,13 @@ Subgoal 4 is:
  {typeOf (pair E1 E2') T}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
-
-Subgoal 6 is:
  {typeOf (snd E1') T}
 
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
 preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 2:
+Subgoal 1:
 
 Variables: E' T E1 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -533,6 +460,9 @@ Arg1_1 : {typeOf (pair E1 E') (times T1 T)}
 ============================
  {typeOf E' T}
 
+Subgoal 2 is:
+ {typeOf E' T}
+
 Subgoal 3 is:
  {typeOf (pair E1' E2) T}
 
@@ -540,13 +470,13 @@ Subgoal 4 is:
  {typeOf (pair E1 E2') T}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
-
-Subgoal 6 is:
  {typeOf (snd E1') T}
 
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
 preservation < case Arg2_1 : Arg1_1 (keep).
-Subgoal 2:
+Subgoal 1:
 
 Variables: E' T E1 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -557,6 +487,9 @@ Arg2_2 : {typeOf E' T}
 ============================
  {typeOf E' T}
 
+Subgoal 2 is:
+ {typeOf E' T}
+
 Subgoal 3 is:
  {typeOf (pair E1' E2) T}
 
@@ -564,10 +497,77 @@ Subgoal 4 is:
  {typeOf (pair E1 E2') T}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
+ {typeOf (snd E1') T}
 
 Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+preservation < search.
+Subgoal 2:
+
+Variables: E' T E2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fst (pair E' E2)) T}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (pair E1' E2) T}
+
+Subgoal 4 is:
+ {typeOf (pair E1 E2') T}
+
+Subgoal 5 is:
  {typeOf (snd E1') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 2:
+
+Variables: E' T E2 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fst (pair E' E2)) T}
+Arg1_1 : {typeOf (pair E' E2) (times T T2)}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (pair E1' E2) T}
+
+Subgoal 4 is:
+ {typeOf (pair E1 E2') T}
+
+Subgoal 5 is:
+ {typeOf (snd E1') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+preservation < case Arg2_1 : Arg1_1 (keep).
+Subgoal 2:
+
+Variables: E' T E2 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fst (pair E' E2)) T}
+Arg1_1 : {typeOf (pair E' E2) (times T T2)}
+Arg2_1 : {typeOf E' T}
+Arg2_2 : {typeOf E2 T2}
+============================
+ {typeOf E' T}
+
+Subgoal 3 is:
+ {typeOf (pair E1' E2) T}
+
+Subgoal 4 is:
+ {typeOf (pair E1 E2') T}
+
+Subgoal 5 is:
+ {typeOf (snd E1') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
 
 preservation < search.
 Subgoal 3:
@@ -583,10 +583,10 @@ Subgoal 4 is:
  {typeOf (pair E1 E2') T}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
+ {typeOf (snd E1') T}
 
 Subgoal 6 is:
- {typeOf (snd E1') T}
+ {typeOf (fst E1') T}
 
 preservation < case TypeOf1 : TypeOf.
 Subgoal 3:
@@ -603,10 +603,10 @@ Subgoal 4 is:
  {typeOf (pair E1 E2') T}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
+ {typeOf (snd E1') T}
 
 Subgoal 6 is:
- {typeOf (snd E1') T}
+ {typeOf (fst E1') T}
 
 preservation < apply IH to TypeOf1 Step.
 Subgoal 3:
@@ -624,10 +624,10 @@ Subgoal 4 is:
  {typeOf (pair E1 E2') T}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
+ {typeOf (snd E1') T}
 
 Subgoal 6 is:
- {typeOf (snd E1') T}
+ {typeOf (fst E1') T}
 
 preservation < search.
 Subgoal 4:
@@ -640,10 +640,10 @@ Step : {step E2 E2'}*
  {typeOf (pair E1 E2') T}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
+ {typeOf (snd E1') T}
 
 Subgoal 6 is:
- {typeOf (snd E1') T}
+ {typeOf (fst E1') T}
 
 preservation < case TypeOf1 : TypeOf.
 Subgoal 4:
@@ -657,10 +657,10 @@ TypeOf2 : {typeOf E2 T2}
  {typeOf (pair E1 E2') (times T1 T2)}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
+ {typeOf (snd E1') T}
 
 Subgoal 6 is:
- {typeOf (snd E1') T}
+ {typeOf (fst E1') T}
 
 preservation < apply IH to TypeOf2 Step.
 Subgoal 4:
@@ -675,53 +675,13 @@ H1 : {typeOf E2' T2}
  {typeOf (pair E1 E2') (times T1 T2)}
 
 Subgoal 5 is:
- {typeOf (fst E1') T}
+ {typeOf (snd E1') T}
 
 Subgoal 6 is:
- {typeOf (snd E1') T}
+ {typeOf (fst E1') T}
 
 preservation < search.
 Subgoal 5:
-
-Variables: T E1' E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fst E1) T}
-Step : {step E1 E1'}*
-============================
- {typeOf (fst E1') T}
-
-Subgoal 6 is:
- {typeOf (snd E1') T}
-
-preservation < case TypeOf1 : TypeOf.
-Subgoal 5:
-
-Variables: T E1' E1 T2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (times T T2)}
-============================
- {typeOf (fst E1') T}
-
-Subgoal 6 is:
- {typeOf (snd E1') T}
-
-preservation < apply IH to TypeOf1 Step.
-Subgoal 5:
-
-Variables: T E1' E1 T2
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (times T T2)}
-H1 : {typeOf E1' (times T T2)}
-============================
- {typeOf (fst E1') T}
-
-Subgoal 6 is:
- {typeOf (snd E1') T}
-
-preservation < search.
-Subgoal 6:
 
 Variables: T E1' E1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -730,8 +690,11 @@ Step : {step E1 E1'}*
 ============================
  {typeOf (snd E1') T}
 
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
 preservation < case TypeOf1 : TypeOf.
-Subgoal 6:
+Subgoal 5:
 
 Variables: T E1' E1 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -740,8 +703,11 @@ TypeOf1 : {typeOf E1 (times T1 T)}
 ============================
  {typeOf (snd E1') T}
 
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
 preservation < apply IH to TypeOf1 Step.
-Subgoal 6:
+Subgoal 5:
 
 Variables: T E1' E1 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -750,6 +716,40 @@ TypeOf1 : {typeOf E1 (times T1 T)}
 H1 : {typeOf E1' (times T1 T)}
 ============================
  {typeOf (snd E1') T}
+
+Subgoal 6 is:
+ {typeOf (fst E1') T}
+
+preservation < search.
+Subgoal 6:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fst E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (fst E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 6:
+
+Variables: T E1' E1 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times T T2)}
+============================
+ {typeOf (fst E1') T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 6:
+
+Variables: T E1' E1 T2
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (times T T2)}
+H1 : {typeOf E1' (times T T2)}
+============================
+ {typeOf (fst E1') T}
 
 preservation < search.
 Proof completed.

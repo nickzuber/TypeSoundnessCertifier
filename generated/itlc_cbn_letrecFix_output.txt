@@ -31,10 +31,10 @@ Subgoal 2 is:
  exists Arg1, app E1 E2 = abs Arg1
 
 Subgoal 3 is:
- exists Arg1, fix E1 = abs Arg1
+ exists Arg1, letrec R1 R2 = abs Arg1
 
 Subgoal 4 is:
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < case Value.
 Subgoal 1:
@@ -48,10 +48,10 @@ Subgoal 2 is:
  exists Arg1, app E1 E2 = abs Arg1
 
 Subgoal 3 is:
- exists Arg1, fix E1 = abs Arg1
+ exists Arg1, letrec R1 R2 = abs Arg1
 
 Subgoal 4 is:
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < search.
 Subgoal 2:
@@ -64,25 +64,13 @@ H2 : {typeOf E2 T3}
  exists Arg1, app E1 E2 = abs Arg1
 
 Subgoal 3 is:
- exists Arg1, fix E1 = abs Arg1
+ exists Arg1, letrec R1 R2 = abs Arg1
 
 Subgoal 4 is:
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < case Value.
 Subgoal 3:
-
-Variables: T1 T2 E1
-Value : {value (fix E1)}
-H1 : {typeOf E1 (arrow (arrow T1 T2) (arrow T1 T2))}
-============================
- exists Arg1, fix E1 = abs Arg1
-
-Subgoal 4 is:
- exists Arg1, letrec R1 R2 = abs Arg1
-
-canonical_form_arrow < case Value.
-Subgoal 4:
 
 Variables: T1 T2 R2 T3 R1
 Value : {value (letrec R1 R2)}
@@ -90,6 +78,18 @@ H1 : {typeOf n1 T3 |- typeOf (R1 n1) T3}
 H2 : {typeOf n1 T3 |- typeOf (R2 n1) (arrow T1 T2)}
 ============================
  exists Arg1, letrec R1 R2 = abs Arg1
+
+Subgoal 4 is:
+ exists Arg1, fix E1 = abs Arg1
+
+canonical_form_arrow < case Value.
+Subgoal 4:
+
+Variables: T1 T2 E1
+Value : {value (fix E1)}
+H1 : {typeOf E1 (arrow (arrow T1 T2) (arrow T1 T2))}
+============================
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < case Value.
 Proof completed.
@@ -171,6 +171,15 @@ ProgressClause : {step E1 E'}
 progress_app < search.
 Proof completed.
 
+Abella < Theorem progress_letrec : 
+forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2).
+
+============================
+ forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2)
+
+progress_letrec < search.
+Proof completed.
+
 Abella < Theorem progress_fix : 
 forall E1 T, {typeOf (fix E1) T} -> progresses E1 -> progresses (fix E1).
 
@@ -217,15 +226,6 @@ ProgressClause : {step E1 E'}
 progress_fix < search.
 Proof completed.
 
-Abella < Theorem progress_letrec : 
-forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2).
-
-============================
- forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2)
-
-progress_letrec < search.
-Proof completed.
-
 Abella < Theorem progress : 
 forall E T, {typeOf E T} -> progresses E.
 
@@ -259,10 +259,10 @@ Subgoal 2 is:
  progresses (app E1 E2)
 
 Subgoal 3 is:
- progresses (fix E1)
+ progresses (letrec R1 R2)
 
 Subgoal 4 is:
- progresses (letrec R1 R2)
+ progresses (fix E1)
 
 progress < backchain progress_abs.
 Subgoal 2:
@@ -275,10 +275,10 @@ TypeOfE2 : {typeOf E2 T1}*
  progresses (app E1 E2)
 
 Subgoal 3 is:
- progresses (fix E1)
+ progresses (letrec R1 R2)
 
 Subgoal 4 is:
- progresses (letrec R1 R2)
+ progresses (fix E1)
 
 progress < apply IH to TypeOfE1.
 Subgoal 2:
@@ -292,38 +292,13 @@ H1 : progresses E1
  progresses (app E1 E2)
 
 Subgoal 3 is:
- progresses (fix E1)
+ progresses (letrec R1 R2)
 
 Subgoal 4 is:
- progresses (letrec R1 R2)
+ progresses (fix E1)
 
 progress < backchain progress_app.
 Subgoal 3:
-
-Variables: T E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (arrow T T)}*
-============================
- progresses (fix E1)
-
-Subgoal 4 is:
- progresses (letrec R1 R2)
-
-progress < apply IH to TypeOfE1.
-Subgoal 3:
-
-Variables: T E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (arrow T T)}*
-H1 : progresses E1
-============================
- progresses (fix E1)
-
-Subgoal 4 is:
- progresses (letrec R1 R2)
-
-progress < backchain progress_fix.
-Subgoal 4:
 
 Variables: T R2 T1 R1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -332,7 +307,29 @@ TypeOfE2 : {typeOf n1 T1 |- typeOf (R2 n1) T}*
 ============================
  progresses (letrec R1 R2)
 
+Subgoal 4 is:
+ progresses (fix E1)
+
 progress < backchain progress_letrec.
+Subgoal 4:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T T)}*
+============================
+ progresses (fix E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 4:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T T)}*
+H1 : progresses E1
+============================
+ progresses (fix E1)
+
+progress < backchain progress_fix.
 Proof completed.
 
 Abella < Theorem preservation : 
@@ -366,10 +363,10 @@ TypeOf : {typeOf (app (abs R) EE) T}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (R2 (fix (abs R1))) T}
 
 Subgoal 3 is:
- {typeOf (R2 (fix (abs R1))) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
@@ -389,10 +386,10 @@ Arg1_2 : {typeOf EE T1}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (R2 (fix (abs R1))) T}
 
 Subgoal 3 is:
- {typeOf (R2 (fix (abs R1))) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
@@ -413,10 +410,10 @@ Arg2_1 : {typeOf n1 T1 |- typeOf (R n1) T}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (R2 (fix (abs R1))) T}
 
 Subgoal 3 is:
- {typeOf (R2 (fix (abs R1))) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
@@ -438,10 +435,10 @@ ToCut : {typeOf EE T1 |- typeOf (R EE) T}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (R2 (fix (abs R1))) T}
 
 Subgoal 3 is:
- {typeOf (R2 (fix (abs R1))) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
@@ -464,10 +461,10 @@ H1 : {typeOf (R EE) T}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (R2 (fix (abs R1))) T}
 
 Subgoal 3 is:
- {typeOf (R2 (fix (abs R1))) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
@@ -477,45 +474,6 @@ Subgoal 5 is:
 
 preservation < search.
 Subgoal 2:
-
-Variables: T V
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fix V) T}
-Step : {value V}*
-============================
- {typeOf (app V (fix V)) T}
-
-Subgoal 3 is:
- {typeOf (R2 (fix (abs R1))) T}
-
-Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (fix E1') T}
-
-preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 2:
-
-Variables: T V
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fix V) T}
-Step : {value V}*
-Arg1_1 : {typeOf V (arrow T T)}
-============================
- {typeOf (app V (fix V)) T}
-
-Subgoal 3 is:
- {typeOf (R2 (fix (abs R1))) T}
-
-Subgoal 4 is:
- {typeOf (app E1' E2) T}
-
-Subgoal 5 is:
- {typeOf (fix E1') T}
-
-preservation < search.
-Subgoal 3:
 
 Variables: T R1 R2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -523,6 +481,9 @@ TypeOf : {typeOf (letrec R1 R2) T}
 ============================
  {typeOf (R2 (fix (abs R1))) T}
 
+Subgoal 3 is:
+ {typeOf (app V (fix V)) T}
+
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
 
@@ -530,7 +491,7 @@ Subgoal 5 is:
  {typeOf (fix E1') T}
 
 preservation < case Arg1_1 : TypeOf (keep).
-Subgoal 3:
+Subgoal 2:
 
 Variables: T R1 R2 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -540,6 +501,9 @@ Arg1_2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
 ============================
  {typeOf (R2 (fix (abs R1))) T}
 
+Subgoal 3 is:
+ {typeOf (app V (fix V)) T}
+
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
 
@@ -547,7 +511,7 @@ Subgoal 5 is:
  {typeOf (fix E1') T}
 
 preservation < assert Cutting : {typeOf (fix (abs R1)) T1}.
-Subgoal 3:
+Subgoal 2:
 
 Variables: T R1 R2 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -558,6 +522,9 @@ Cutting : {typeOf (fix (abs R1)) T1}
 ============================
  {typeOf (R2 (fix (abs R1))) T}
 
+Subgoal 3 is:
+ {typeOf (app V (fix V)) T}
+
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
 
@@ -565,7 +532,7 @@ Subgoal 5 is:
  {typeOf (fix E1') T}
 
 preservation < inst ToCut : Arg1_2 with n1 = fix (abs R1).
-Subgoal 3:
+Subgoal 2:
 
 Variables: T R1 R2 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -577,6 +544,9 @@ ToCut : {typeOf (fix (abs R1)) T1 |- typeOf (R2 (fix (abs R1))) T}
 ============================
  {typeOf (R2 (fix (abs R1))) T}
 
+Subgoal 3 is:
+ {typeOf (app V (fix V)) T}
+
 Subgoal 4 is:
  {typeOf (app E1' E2) T}
 
@@ -584,7 +554,7 @@ Subgoal 5 is:
  {typeOf (fix E1') T}
 
 preservation < cut ToCut with Cutting.
-Subgoal 3:
+Subgoal 2:
 
 Variables: T R1 R2 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -596,6 +566,42 @@ ToCut : {typeOf (fix (abs R1)) T1 |- typeOf (R2 (fix (abs R1))) T}
 H1 : {typeOf (R2 (fix (abs R1))) T}
 ============================
  {typeOf (R2 (fix (abs R1))) T}
+
+Subgoal 3 is:
+ {typeOf (app V (fix V)) T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (fix E1') T}
+
+preservation < search.
+Subgoal 3:
+
+Variables: T V
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fix V) T}
+Step : {value V}*
+============================
+ {typeOf (app V (fix V)) T}
+
+Subgoal 4 is:
+ {typeOf (app E1' E2) T}
+
+Subgoal 5 is:
+ {typeOf (fix E1') T}
+
+preservation < case Arg1_1 : TypeOf (keep).
+Subgoal 3:
+
+Variables: T V
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fix V) T}
+Step : {value V}*
+Arg1_1 : {typeOf V (arrow T T)}
+============================
+ {typeOf (app V (fix V)) T}
 
 Subgoal 4 is:
  {typeOf (app E1' E2) T}

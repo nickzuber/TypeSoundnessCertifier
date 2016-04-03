@@ -1,10 +1,11 @@
 sig iff.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
 type bool typ.
-type tt term.
 type ff term.
+type tt term.
 type if term -> term -> term -> term.
 
 type value term -> o.

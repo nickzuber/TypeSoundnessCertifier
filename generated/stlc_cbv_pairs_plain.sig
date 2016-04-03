@@ -1,14 +1,15 @@
 sig stlc_cbv_pairs_plain.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
-type arrow typ -> typ -> typ.
 type times typ -> typ -> typ.
-type abs (term -> term) -> typ -> term.
+type arrow typ -> typ -> typ.
 type pair term -> term -> term.
-type app term -> term -> term.
-type fst term -> term.
+type abs (term -> term) -> typ -> term.
 type snd term -> term.
+type fst term -> term.
+type app term -> term -> term.
 
 type value term -> o.
 

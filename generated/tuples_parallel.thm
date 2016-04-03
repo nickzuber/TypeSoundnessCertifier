@@ -22,19 +22,7 @@ intros Main PrgsE1 PrgsE2 PrgsE3 PrgsE4 PrgsE5. TypeOfE1 : case Main. ProgressCl
 
 
 
-Theorem progress_select1 : forall E1 T, {typeOf ((select1 E1)) T} -> progresses E1 -> progresses ((select1 E1)).
-intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
-
-
-
-Theorem progress_select2 : forall E1 T, {typeOf ((select2 E1)) T} -> progresses E1 -> progresses ((select2 E1)).
-intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
-
-
-
-Theorem progress_select3 : forall E1 T, {typeOf ((select3 E1)) T} -> progresses E1 -> progresses ((select3 E1)).
+Theorem progress_select5 : forall E1 T, {typeOf ((select5 E1)) T} -> progresses E1 -> progresses ((select5 E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
  Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
 
@@ -46,7 +34,19 @@ intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
 
 
 
-Theorem progress_select5 : forall E1 T, {typeOf ((select5 E1)) T} -> progresses E1 -> progresses ((select5 E1)).
+Theorem progress_select3 : forall E1 T, {typeOf ((select3 E1)) T} -> progresses E1 -> progresses ((select3 E1)).
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
+
+
+
+Theorem progress_select2 : forall E1 T, {typeOf ((select2 E1)) T} -> progresses E1 -> progresses ((select2 E1)).
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
+
+
+
+Theorem progress_select1 : forall E1 T, {typeOf ((select1 E1)) T} -> progresses E1 -> progresses ((select1 E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
  Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
 
@@ -58,11 +58,11 @@ Theorem progress : forall E T, {typeOf E T} -> progresses E.
 induction on 1. intros Main. TypeOfE1 : case Main.
 apply IH to TypeOfE1. apply IH to TypeOfE2. apply IH to TypeOfE3. apply IH to TypeOfE4. apply IH to TypeOfE5. backchain progress_tuple5.
 
- apply IH to TypeOfE1. backchain progress_select1.
- apply IH to TypeOfE1. backchain progress_select2.
- apply IH to TypeOfE1. backchain progress_select3.
- apply IH to TypeOfE1. backchain progress_select4.
  apply IH to TypeOfE1. backchain progress_select5.
+ apply IH to TypeOfE1. backchain progress_select4.
+ apply IH to TypeOfE1. backchain progress_select3.
+ apply IH to TypeOfE1. backchain progress_select2.
+ apply IH to TypeOfE1. backchain progress_select1.
 
  
  

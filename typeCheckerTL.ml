@@ -63,6 +63,7 @@ let typecheck_valueDefinitions (sl, tl) = let (valueDefinitions, tl') = tl_popVa
 
 let typecheck_tl tlInput = 
 	let (sl, tl) = typecheck_theRestByTypingRules (typecheck_valueDefinitions (typecheck_typingForConstructors (typecheck_contexts (typecheck_error tlInput)))) in 
-	if tl_isEmpty tl then try typecheck_sl sl with Failure e -> raise(Failure (generateModule "dontknowthename" (compile sl))) 
-					 else raise(Failure "Typed language contains unclassified parts.") 
+	if tl_isEmpty tl 
+	then if typecheck_sl sl  then sl else raise(Failure "TypedLanguage does not typecheck into an SL.") 
+	else raise(Failure ("Typed language contains unclassified parts." ^ (generateModule "dontknowthename" tl))) 
 	

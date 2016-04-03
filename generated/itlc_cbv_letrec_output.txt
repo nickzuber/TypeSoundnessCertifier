@@ -31,13 +31,13 @@ Subgoal 2 is:
  exists Arg1, app E1 E2 = abs Arg1
 
 Subgoal 3 is:
- exists Arg1, fix E1 = abs Arg1
+ exists Arg1, letrec R1 R2 = abs Arg1
 
 Subgoal 4 is:
  exists Arg1, let E1 R = abs Arg1
 
 Subgoal 5 is:
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < case Value.
 Subgoal 1:
@@ -51,13 +51,13 @@ Subgoal 2 is:
  exists Arg1, app E1 E2 = abs Arg1
 
 Subgoal 3 is:
- exists Arg1, fix E1 = abs Arg1
+ exists Arg1, letrec R1 R2 = abs Arg1
 
 Subgoal 4 is:
  exists Arg1, let E1 R = abs Arg1
 
 Subgoal 5 is:
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < search.
 Subgoal 2:
@@ -70,28 +70,29 @@ H2 : {typeOf E2 T3}
  exists Arg1, app E1 E2 = abs Arg1
 
 Subgoal 3 is:
- exists Arg1, fix E1 = abs Arg1
+ exists Arg1, letrec R1 R2 = abs Arg1
 
 Subgoal 4 is:
  exists Arg1, let E1 R = abs Arg1
 
 Subgoal 5 is:
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < case Value.
 Subgoal 3:
 
-Variables: T1 T2 E1
-Value : {value (fix E1)}
-H1 : {typeOf E1 (arrow (arrow T1 T2) (arrow T1 T2))}
+Variables: T1 T2 R2 T3 R1
+Value : {value (letrec R1 R2)}
+H1 : {typeOf n1 T3 |- typeOf (R1 n1) T3}
+H2 : {typeOf n1 T3 |- typeOf (R2 n1) (arrow T1 T2)}
 ============================
- exists Arg1, fix E1 = abs Arg1
+ exists Arg1, letrec R1 R2 = abs Arg1
 
 Subgoal 4 is:
  exists Arg1, let E1 R = abs Arg1
 
 Subgoal 5 is:
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < case Value.
 Subgoal 4:
@@ -104,17 +105,16 @@ H2 : {typeOf n1 T3 |- typeOf (R n1) (arrow T1 T2)}
  exists Arg1, let E1 R = abs Arg1
 
 Subgoal 5 is:
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < case Value.
 Subgoal 5:
 
-Variables: T1 T2 R2 T3 R1
-Value : {value (letrec R1 R2)}
-H1 : {typeOf n1 T3 |- typeOf (R1 n1) T3}
-H2 : {typeOf n1 T3 |- typeOf (R2 n1) (arrow T1 T2)}
+Variables: T1 T2 E1
+Value : {value (fix E1)}
+H1 : {typeOf E1 (arrow (arrow T1 T2) (arrow T1 T2))}
 ============================
- exists Arg1, letrec R1 R2 = abs Arg1
+ exists Arg1, fix E1 = abs Arg1
 
 canonical_form_arrow < case Value.
 Proof completed.
@@ -235,50 +235,13 @@ ProgressClause : {step E1 E'}
 progress_app < search.
 Proof completed.
 
-Abella < Theorem progress_fix : 
-forall E1 T, {typeOf (fix E1) T} -> progresses E1 -> progresses (fix E1).
+Abella < Theorem progress_letrec : 
+forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2).
 
 ============================
- forall E1 T, {typeOf (fix E1) T} -> progresses E1 -> progresses (fix E1)
+ forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2)
 
-progress_fix < intros Main PrgsE1.
-
-Variables: E1 T
-Main : {typeOf (fix E1) T}
-PrgsE1 : progresses E1
-============================
- progresses (fix E1)
-
-progress_fix < case TypeOfE1 : Main.
-
-Variables: E1 T
-PrgsE1 : progresses E1
-TypeOfE1 : {typeOf E1 (arrow T T)}
-============================
- progresses (fix E1)
-
-progress_fix < case ProgressClause : PrgsE1.
-Subgoal 1:
-
-Variables: E1 T
-TypeOfE1 : {typeOf E1 (arrow T T)}
-ProgressClause : {value E1}
-============================
- progresses (fix E1)
-
-Subgoal 2 is:
- progresses (fix E1)
-
-progress_fix < search.
-Subgoal 2:
-
-Variables: E1 T E'
-TypeOfE1 : {typeOf E1 (arrow T T)}
-ProgressClause : {step E1 E'}
-============================
- progresses (fix E1)
-
-progress_fix < search.
+progress_letrec < search.
 Proof completed.
 
 Abella < Theorem progress_let : 
@@ -332,13 +295,50 @@ ProgressClause : {step E1 E'}
 progress_let < search.
 Proof completed.
 
-Abella < Theorem progress_letrec : 
-forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2).
+Abella < Theorem progress_fix : 
+forall E1 T, {typeOf (fix E1) T} -> progresses E1 -> progresses (fix E1).
 
 ============================
- forall R1 R2 T, {typeOf (letrec R1 R2) T} -> progresses (letrec R1 R2)
+ forall E1 T, {typeOf (fix E1) T} -> progresses E1 -> progresses (fix E1)
 
-progress_letrec < search.
+progress_fix < intros Main PrgsE1.
+
+Variables: E1 T
+Main : {typeOf (fix E1) T}
+PrgsE1 : progresses E1
+============================
+ progresses (fix E1)
+
+progress_fix < case TypeOfE1 : Main.
+
+Variables: E1 T
+PrgsE1 : progresses E1
+TypeOfE1 : {typeOf E1 (arrow T T)}
+============================
+ progresses (fix E1)
+
+progress_fix < case ProgressClause : PrgsE1.
+Subgoal 1:
+
+Variables: E1 T
+TypeOfE1 : {typeOf E1 (arrow T T)}
+ProgressClause : {value E1}
+============================
+ progresses (fix E1)
+
+Subgoal 2 is:
+ progresses (fix E1)
+
+progress_fix < search.
+Subgoal 2:
+
+Variables: E1 T E'
+TypeOfE1 : {typeOf E1 (arrow T T)}
+ProgressClause : {step E1 E'}
+============================
+ progresses (fix E1)
+
+progress_fix < search.
 Proof completed.
 
 Abella < Theorem progress : 
@@ -374,13 +374,13 @@ Subgoal 2 is:
  progresses (app E1 E2)
 
 Subgoal 3 is:
- progresses (fix E1)
+ progresses (letrec R1 R2)
 
 Subgoal 4 is:
  progresses (let E1 R)
 
 Subgoal 5 is:
- progresses (letrec R1 R2)
+ progresses (fix E1)
 
 progress < backchain progress_abs.
 Subgoal 2:
@@ -393,13 +393,13 @@ TypeOfE2 : {typeOf E2 T1}*
  progresses (app E1 E2)
 
 Subgoal 3 is:
- progresses (fix E1)
+ progresses (letrec R1 R2)
 
 Subgoal 4 is:
  progresses (let E1 R)
 
 Subgoal 5 is:
- progresses (letrec R1 R2)
+ progresses (fix E1)
 
 progress < apply IH to TypeOfE1.
 Subgoal 2:
@@ -413,13 +413,13 @@ H1 : progresses E1
  progresses (app E1 E2)
 
 Subgoal 3 is:
- progresses (fix E1)
+ progresses (letrec R1 R2)
 
 Subgoal 4 is:
  progresses (let E1 R)
 
 Subgoal 5 is:
- progresses (letrec R1 R2)
+ progresses (fix E1)
 
 progress < apply IH to TypeOfE2.
 Subgoal 2:
@@ -434,74 +434,16 @@ H2 : progresses E2
  progresses (app E1 E2)
 
 Subgoal 3 is:
- progresses (fix E1)
+ progresses (letrec R1 R2)
 
 Subgoal 4 is:
  progresses (let E1 R)
 
 Subgoal 5 is:
- progresses (letrec R1 R2)
+ progresses (fix E1)
 
 progress < backchain progress_app.
 Subgoal 3:
-
-Variables: T E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (arrow T T)}*
-============================
- progresses (fix E1)
-
-Subgoal 4 is:
- progresses (let E1 R)
-
-Subgoal 5 is:
- progresses (letrec R1 R2)
-
-progress < apply IH to TypeOfE1.
-Subgoal 3:
-
-Variables: T E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 (arrow T T)}*
-H1 : progresses E1
-============================
- progresses (fix E1)
-
-Subgoal 4 is:
- progresses (let E1 R)
-
-Subgoal 5 is:
- progresses (letrec R1 R2)
-
-progress < backchain progress_fix.
-Subgoal 4:
-
-Variables: T R T1 E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 T1}*
-TypeOfE2 : {typeOf n1 T1 |- typeOf (R n1) T}*
-============================
- progresses (let E1 R)
-
-Subgoal 5 is:
- progresses (letrec R1 R2)
-
-progress < apply IH to TypeOfE1.
-Subgoal 4:
-
-Variables: T R T1 E1
-IH : forall E T, {typeOf E T}* -> progresses E
-TypeOfE1 : {typeOf E1 T1}*
-TypeOfE2 : {typeOf n1 T1 |- typeOf (R n1) T}*
-H1 : progresses E1
-============================
- progresses (let E1 R)
-
-Subgoal 5 is:
- progresses (letrec R1 R2)
-
-progress < backchain progress_let.
-Subgoal 5:
 
 Variables: T R2 T1 R1
 IH : forall E T, {typeOf E T}* -> progresses E
@@ -510,7 +452,59 @@ TypeOfE2 : {typeOf n1 T1 |- typeOf (R2 n1) T}*
 ============================
  progresses (letrec R1 R2)
 
+Subgoal 4 is:
+ progresses (let E1 R)
+
+Subgoal 5 is:
+ progresses (fix E1)
+
 progress < backchain progress_letrec.
+Subgoal 4:
+
+Variables: T R T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 T1}*
+TypeOfE2 : {typeOf n1 T1 |- typeOf (R n1) T}*
+============================
+ progresses (let E1 R)
+
+Subgoal 5 is:
+ progresses (fix E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 4:
+
+Variables: T R T1 E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 T1}*
+TypeOfE2 : {typeOf n1 T1 |- typeOf (R n1) T}*
+H1 : progresses E1
+============================
+ progresses (let E1 R)
+
+Subgoal 5 is:
+ progresses (fix E1)
+
+progress < backchain progress_let.
+Subgoal 5:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T T)}*
+============================
+ progresses (fix E1)
+
+progress < apply IH to TypeOfE1.
+Subgoal 5:
+
+Variables: T E1
+IH : forall E T, {typeOf E T}* -> progresses E
+TypeOfE1 : {typeOf E1 (arrow T T)}*
+H1 : progresses E1
+============================
+ progresses (fix E1)
+
+progress < backchain progress_fix.
 Proof completed.
 
 Abella < Theorem preservation : 
@@ -545,13 +539,13 @@ Step : {value EE}*
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (let (fix (abs R1)) R2) T}
 
 Subgoal 3 is:
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -560,10 +554,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < case Arg1_1 : TypeOf (keep).
 Subgoal 1:
@@ -578,13 +572,13 @@ Arg1_2 : {typeOf EE T1}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (let (fix (abs R1)) R2) T}
 
 Subgoal 3 is:
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -593,10 +587,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < case Arg2_1 : Arg1_1 (keep).
 Subgoal 1:
@@ -612,13 +606,13 @@ Arg2_1 : {typeOf n1 T1 |- typeOf (R n1) T}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (let (fix (abs R1)) R2) T}
 
 Subgoal 3 is:
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -627,10 +621,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < inst ToCut : Arg2_1 with n1 = EE.
 Subgoal 1:
@@ -647,13 +641,13 @@ ToCut : {typeOf EE T1 |- typeOf (R EE) T}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (let (fix (abs R1)) R2) T}
 
 Subgoal 3 is:
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -662,10 +656,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < cut ToCut with Arg1_2.
 Subgoal 1:
@@ -683,13 +677,13 @@ H1 : {typeOf (R EE) T}
  {typeOf (R EE) T}
 
 Subgoal 2 is:
- {typeOf (app V (fix V)) T}
+ {typeOf (let (fix (abs R1)) R2) T}
 
 Subgoal 3 is:
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -698,26 +692,25 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < search.
 Subgoal 2:
 
-Variables: T V
+Variables: T R2 R1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fix V) T}
-Step : {value V}*
+TypeOf : {typeOf (letrec R1 R2) T}
 ============================
- {typeOf (app V (fix V)) T}
+ {typeOf (let (fix (abs R1)) R2) T}
 
 Subgoal 3 is:
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -726,27 +719,27 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < case Arg1_1 : TypeOf (keep).
 Subgoal 2:
 
-Variables: T V
+Variables: T R2 R1 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fix V) T}
-Step : {value V}*
-Arg1_1 : {typeOf V (arrow T T)}
+TypeOf : {typeOf (letrec R1 R2) T}
+Arg1_1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
+Arg1_2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
 ============================
- {typeOf (app V (fix V)) T}
+ {typeOf (let (fix (abs R1)) R2) T}
 
 Subgoal 3 is:
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -755,10 +748,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < search.
 Subgoal 3:
@@ -771,7 +764,7 @@ Step : {value V}*
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -780,10 +773,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < case Arg1_1 : TypeOf (keep).
 Subgoal 3:
@@ -798,7 +791,7 @@ Arg1_2 : {typeOf n1 T1 |- typeOf (R n1) T}
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -807,10 +800,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < inst ToCut : Arg1_2 with n1 = V.
 Subgoal 3:
@@ -826,7 +819,7 @@ ToCut : {typeOf V T1 |- typeOf (R V) T}
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -835,10 +828,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < cut ToCut with Arg1_1.
 Subgoal 3:
@@ -855,7 +848,7 @@ H1 : {typeOf (R V) T}
  {typeOf (R V) T}
 
 Subgoal 4 is:
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -864,19 +857,20 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < search.
 Subgoal 4:
 
-Variables: T R2 R1
+Variables: T V
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (letrec R1 R2) T}
+TypeOf : {typeOf (fix V) T}
+Step : {value V}*
 ============================
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -885,21 +879,21 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < case Arg1_1 : TypeOf (keep).
 Subgoal 4:
 
-Variables: T R2 R1 T1
+Variables: T V
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (letrec R1 R2) T}
-Arg1_1 : {typeOf n1 T1 |- typeOf (R1 n1) T1}
-Arg1_2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
+TypeOf : {typeOf (fix V) T}
+Step : {value V}*
+Arg1_1 : {typeOf V (arrow T T)}
 ============================
- {typeOf (let (fix (abs R1)) R2) T}
+ {typeOf (app V (fix V)) T}
 
 Subgoal 5 is:
  {typeOf (app E1' E2) T}
@@ -908,10 +902,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < search.
 Subgoal 5:
@@ -927,10 +921,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < case TypeOf1 : TypeOf.
 Subgoal 5:
@@ -947,10 +941,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < apply IH to TypeOf1 Step.
 Subgoal 5:
@@ -968,10 +962,10 @@ Subgoal 6 is:
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < search.
 Subgoal 6:
@@ -985,10 +979,10 @@ Step1 : {value E1}*
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < case TypeOf1 : TypeOf.
 Subgoal 6:
@@ -1003,10 +997,10 @@ TypeOf2 : {typeOf E2 T1}
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < apply IH to TypeOf2 Step.
 Subgoal 6:
@@ -1022,53 +1016,13 @@ H1 : {typeOf E2' T1}
  {typeOf (app E1 E2') T}
 
 Subgoal 7 is:
- {typeOf (fix E1') T}
+ {typeOf (let E1' R2) T}
 
 Subgoal 8 is:
- {typeOf (let E1' R2) T}
+ {typeOf (fix E1') T}
 
 preservation < search.
 Subgoal 7:
-
-Variables: T E1' E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-TypeOf : {typeOf (fix E1) T}
-Step : {step E1 E1'}*
-============================
- {typeOf (fix E1') T}
-
-Subgoal 8 is:
- {typeOf (let E1' R2) T}
-
-preservation < case TypeOf1 : TypeOf.
-Subgoal 7:
-
-Variables: T E1' E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (arrow T T)}
-============================
- {typeOf (fix E1') T}
-
-Subgoal 8 is:
- {typeOf (let E1' R2) T}
-
-preservation < apply IH to TypeOf1 Step.
-Subgoal 7:
-
-Variables: T E1' E1
-IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
-Step : {step E1 E1'}*
-TypeOf1 : {typeOf E1 (arrow T T)}
-H1 : {typeOf E1' (arrow T T)}
-============================
- {typeOf (fix E1') T}
-
-Subgoal 8 is:
- {typeOf (let E1' R2) T}
-
-preservation < search.
-Subgoal 8:
 
 Variables: T E1' E1 R2
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1077,8 +1031,11 @@ Step : {step E1 E1'}*
 ============================
  {typeOf (let E1' R2) T}
 
+Subgoal 8 is:
+ {typeOf (fix E1') T}
+
 preservation < case TypeOf1 : TypeOf.
-Subgoal 8:
+Subgoal 7:
 
 Variables: T E1' E1 R2 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1088,8 +1045,11 @@ TypeOf2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
 ============================
  {typeOf (let E1' R2) T}
 
+Subgoal 8 is:
+ {typeOf (fix E1') T}
+
 preservation < apply IH to TypeOf1 Step.
-Subgoal 8:
+Subgoal 7:
 
 Variables: T E1' E1 R2 T1
 IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
@@ -1099,6 +1059,40 @@ TypeOf2 : {typeOf n1 T1 |- typeOf (R2 n1) T}
 H1 : {typeOf E1' T1}
 ============================
  {typeOf (let E1' R2) T}
+
+Subgoal 8 is:
+ {typeOf (fix E1') T}
+
+preservation < search.
+Subgoal 8:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+TypeOf : {typeOf (fix E1) T}
+Step : {step E1 E1'}*
+============================
+ {typeOf (fix E1') T}
+
+preservation < case TypeOf1 : TypeOf.
+Subgoal 8:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T T)}
+============================
+ {typeOf (fix E1') T}
+
+preservation < apply IH to TypeOf1 Step.
+Subgoal 8:
+
+Variables: T E1' E1
+IH : forall E E' T, {typeOf E T} -> {step E E'}* -> {typeOf E' T}
+Step : {step E1 E1'}*
+TypeOf1 : {typeOf E1 (arrow T T)}
+H1 : {typeOf E1' (arrow T T)}
+============================
+ {typeOf (fix E1') T}
 
 preservation < search.
 Proof completed.

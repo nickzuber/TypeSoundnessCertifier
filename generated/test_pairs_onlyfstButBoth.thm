@@ -1,8 +1,0 @@
-Specification "pairs_onlyfstButBoth".
-
-Define test_fstStep : prop by
-   test_fstStep := forall E1 T1 E2 T2, {typeOf (pair E1 E2) (times T1 T2)} -> {typeOf E1 T1} -> {typeOf E2 T2} -> {typeOf E1 T1}.
-
-Define test_sndStep : prop by
-   test_sndStep := forall E1 T1 E2 T2, {typeOf (pair E1 E2) (times T1 T2)} -> {typeOf E1 T1} -> {typeOf E2 T2} -> {typeOf E2 T2}.
-

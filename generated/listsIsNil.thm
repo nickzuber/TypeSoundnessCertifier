@@ -2,7 +2,7 @@ Specification "listsIsNil".
 
 
 
-Theorem  canonical_form_list : forall E T1, {typeOf E (list T1)} -> {value E} -> E = (emptyList ) \/ (exists Arg1 Arg2, E = (cons Arg1 Arg2) /\ {value Arg1} /\ {value Arg2}).
+Theorem  canonical_form_bool : forall E, {typeOf E (bool )} -> {value E} -> E = (ff ) \/ E = (tt ).
 intros Main Value. case Main.
  case Value. search.
  case Value. search.
@@ -12,7 +12,7 @@ intros Main Value. case Main.
 
 
 
-Theorem  canonical_form_bool : forall E, {typeOf E (bool )} -> {value E} -> E = (tt ) \/ E = (ff ).
+Theorem  canonical_form_list : forall E T1, {typeOf E (list T1)} -> {value E} -> (exists Arg1 Arg2, E = (cons Arg1 Arg2) /\ {value Arg1} /\ {value Arg2}) \/ E = (emptyList ).
 intros Main Value. case Main.
  case Value. search.
  case Value. search.
@@ -29,8 +29,19 @@ Define progresses : term -> prop by
 	 progresses E := {error E} ;
 	 progresses E := exists E', {step E E'}.
 
-Theorem progress_emptyList : forall  T, {typeOf ((emptyList )) T} -> progresses ((emptyList )).
+Theorem progress_ff : forall  T, {typeOf ((ff )) T} -> progresses ((ff )).
  search.
+
+
+
+Theorem progress_tt : forall  T, {typeOf ((tt )) T} -> progresses ((tt )).
+ search.
+
+
+
+Theorem progress_if : forall E1 E2 E3 T, {typeOf ((if E1 E2 E3)) T} -> progresses E1 -> progresses ((if E1 E2 E3)).
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_bool to TypeOfE1 ProgressClause. case Canonical. search. search. search. search.
 
 
 
@@ -40,7 +51,12 @@ intros Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. c
 
 
 
-Theorem progress_head : forall E1 T, {typeOf ((head E1)) T} -> progresses E1 -> progresses ((head E1)).
+Theorem progress_emptyList : forall  T, {typeOf ((emptyList )) T} -> progresses ((emptyList )).
+ search.
+
+
+
+Theorem progress_isnil : forall E1 T, {typeOf ((isnil E1)) T} -> progresses E1 -> progresses ((isnil E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
  Canonical : apply canonical_form_list to TypeOfE1 ProgressClause. case Canonical. search. search. search. search.
 
@@ -52,25 +68,9 @@ intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
 
 
 
-Theorem progress_isnil : forall E1 T, {typeOf ((isnil E1)) T} -> progresses E1 -> progresses ((isnil E1)).
+Theorem progress_head : forall E1 T, {typeOf ((head E1)) T} -> progresses E1 -> progresses ((head E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
  Canonical : apply canonical_form_list to TypeOfE1 ProgressClause. case Canonical. search. search. search. search.
-
-
-
-Theorem progress_tt : forall  T, {typeOf ((tt )) T} -> progresses ((tt )).
- search.
-
-
-
-Theorem progress_ff : forall  T, {typeOf ((ff )) T} -> progresses ((ff )).
- search.
-
-
-
-Theorem progress_if : forall E1 E2 E3 T, {typeOf ((if E1 E2 E3)) T} -> progresses E1 -> progresses ((if E1 E2 E3)).
-intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_bool to TypeOfE1 ProgressClause. case Canonical. search. search. search. search.
 
 
 
@@ -83,15 +83,15 @@ Theorem progress_myError : forall  T, {typeOf ((myError )) T} -> progresses ((my
 
 Theorem progress : forall E T, {typeOf E T} -> progresses E. 
 induction on 1. intros Main. TypeOfE1 : case Main.
- backchain progress_emptyList.
- apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_cons.
+ backchain progress_ff.
   backchain progress_tt.
-  backchain progress_ff.
+ apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_cons.
+  backchain progress_emptyList.
 
- apply IH to TypeOfE1. backchain progress_head.
- apply IH to TypeOfE1. backchain progress_tail.
- apply IH to TypeOfE1. backchain progress_isnil.
  apply IH to TypeOfE1. backchain progress_if.
+ apply IH to TypeOfE1. backchain progress_isnil.
+ apply IH to TypeOfE1. backchain progress_tail.
+ apply IH to TypeOfE1. backchain progress_head.
 
  
   backchain progress_myError.

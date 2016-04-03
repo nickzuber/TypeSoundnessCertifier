@@ -5,7 +5,7 @@ open TypedLanguage
 open SafeTypedLanguage
 open Proof
 
-let generateSigPreamble tsName = "sig " ^ tsName ^ ".\n\nkind typ, term type.\n\n"
+let generateSigPreamble tsName = "sig " ^ tsName ^ ".\n\nkind term type.\nkind typ type.\n\n"
 let generateModPreamble tsName = "module " ^ tsName ^ ".\n\n"
 let generateThmPreamble tsName = "Specification \"" ^ tsName ^ "\".\n\n"
 

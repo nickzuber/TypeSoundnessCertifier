@@ -48,4 +48,3 @@ let stlc_cbn = stlc [1] [(1,[])] beta
 let stlc_cbv = stlc [1 ; 2] [(1,[]) ; (2,[1])] betaCBV
 let stlc_par = stlc [1] [(1,[]) ; (2,[])] beta
 
-

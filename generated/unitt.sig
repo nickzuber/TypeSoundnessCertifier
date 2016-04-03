@@ -1,6 +1,7 @@
 sig unitt.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
 type unitType typ.
 type unit term.

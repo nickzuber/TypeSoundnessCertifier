@@ -21,15 +21,14 @@ Theorem progress_abs : forall R1 T, {typeOf ((abs R1)) T} -> progresses ((abs R1
 
 
 
-Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses ((app E1 E2)).
-intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search.
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((app E1 E2)).
+intros Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. case PrgsE2.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search. search.
 
 
 
-Theorem progress_fix : forall E1 T, {typeOf ((fix E1)) T} -> progresses E1 -> progresses ((fix E1)).
-intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- search. search.
+Theorem progress_letrec : forall R1 R2 T, {typeOf ((letrec R1 R2)) T} -> progresses ((letrec R1 R2)).
+ search.
 
 
 
@@ -39,8 +38,9 @@ intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
 
 
 
-Theorem progress_letrec : forall R1 R2 T, {typeOf ((letrec R1 R2)) T} -> progresses ((letrec R1 R2)).
- search.
+Theorem progress_fix : forall E1 T, {typeOf ((fix E1)) T} -> progresses E1 -> progresses ((fix E1)).
+intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ search. search.
 
 
 
@@ -50,11 +50,11 @@ Theorem progress : forall E T, {typeOf E T} -> progresses E.
 induction on 1. intros Main. TypeOfE1 : case Main.
  backchain progress_abs.
 
- apply IH to TypeOfE1. backchain progress_app.
+ apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_app.
 
- apply IH to TypeOfE1. backchain progress_fix.
- apply IH to TypeOfE1. backchain progress_let.
   backchain progress_letrec.
+ apply IH to TypeOfE1. backchain progress_let.
+ apply IH to TypeOfE1. backchain progress_fix.
 
  
 

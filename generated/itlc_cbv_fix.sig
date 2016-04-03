@@ -1,6 +1,7 @@
 sig itlc_cbv_fix.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
 type arrow typ -> typ -> typ.
 type abs (term -> term) -> term.

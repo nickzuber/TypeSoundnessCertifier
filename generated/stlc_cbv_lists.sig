@@ -1,15 +1,16 @@
 sig stlc_cbv_lists.
 
-kind typ, term type.
+kind term type.
+kind typ type.
 
-type arrow typ -> typ -> typ.
 type list typ -> typ.
-type abs (term -> term) -> typ -> term.
-type emptyList term.
+type arrow typ -> typ -> typ.
 type cons term -> term -> term.
-type app term -> term -> term.
-type head term -> term.
+type emptyList term.
+type abs (term -> term) -> typ -> term.
 type tail term -> term.
+type head term -> term.
+type app term -> term -> term.
 type myError term.
 
 type value term -> o.

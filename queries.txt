@@ -1,4 +1,4 @@
-ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservation.ml preservationTests.ml stlc.ml itlc.ml pairs.ml iff.ml lists.ml listsIsNil.ml fix.ml let.ml letrec.ml letrecWithType.ml letrecFix.ml sums.ml unitt.ml exception.ml listsWithExc.ml tuples.ml forall.ml recursive.ml lambdaFull.ml fullFledged.ml fullFledgedWithType.ml soundnessCertifier.ml
+ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservation.ml preservationTests.ml stlc.ml itlc.ml pairs.ml iff.ml lists.ml listsIsNil.ml fix.ml let.ml letrec.ml letrecWithType.ml letrecFix.ml sums.ml unitt.ml exception.ml listsWithExc.ml tuples.ml forall.ml recursive.ml lambdaFull.ml fullFledged.ml fullFledgedWithType.ml parser.ml soundnessCertifier.ml
 
 #use "topfind";;
 #require "batteries";;
@@ -41,6 +41,7 @@ open Batteries;;
 #load  "fullFledged.cmo";;
 #load  "lambdaFull.cmo";;
 #load  "fullFledgedWithType.cmo";;
+#load  "parser.cmo";;
 #load  "soundnessCertifier.cmo";;
 
 open Aux;;
@@ -79,6 +80,7 @@ open Recursive;;
 open LambdaFull
 open FullFledged;;
 open FullFledgedWithType;;
+open Parser;;
 open SoundnessCertifier;;
 
 
