@@ -97,18 +97,18 @@ let rec generateTheoremS theorems = String.concat "\n\n" (List.map generateTheor
 
 let generateAbellaQuery rule = 
 	let variablesInConclusion = formula_getAllVariables (rule_getConclusion rule) in 
-	let removedVacuousApplications = List.filter (fun premise -> not(term_isApplication (formula_getFirstInput premise)) || List.for_all (fun x -> List.mem x variablesInConclusion) (term_getVariables (formula_getFirstInput premise))) (rule_getPremises rule) in 
+	let removedVacuousApplications = (rule_getPremises rule) in 
     let allVariables = variablesInConclusion @ List.concat (List.map formula_getAllVariables removedVacuousApplications) in
     let forallPreamble = if allVariables = [] then "" else "forall " ^ (String.concat " " (List.unique (List.map toString allVariables))) ^ ", " in 
 	let testname = rule_getRuleName rule in 
     let displayedPremises = List.map generateFormula removedVacuousApplications in
 	let implications = if displayedPremises = [] then "" else String.concat " -> " (List.map wrappedInBrackets displayedPremises) ^ " -> " in 
-        "Define " ^ testname ^ " : prop by\n   " ^ testname ^ " := " ^ forallPreamble ^ implications ^ wrappedInBrackets (generateFormula (rule_getConclusion rule)) ^ ".\n\n"
+        "Theorem " ^ testname ^ " : " ^ forallPreamble ^ implications ^ wrappedInBrackets (generateFormula (rule_getConclusion rule)) ^ ".\n" ^
+		"intros. search.\n"
 
 
-		(*		   Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'. 
-		   induction on 2. intros Main NStep. Step1 : case NStep. 
-		   backchain progress. 
-		   TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.
-
-*)
+		(* List.filter (fun premise -> not(term_isApplication (formula_getFirstInput premise)) || List.for_all (fun x -> List.mem x variablesInConclusion && not(term_isBound x)) (term_getVariables (formula_getFirstInput premise)))
+        "Define " ^ testname ^ " : prop by\n   " ^ testname ^ " := " ^ forallPreamble ^ implications ^ wrappedInBrackets (generateFormula (rule_getConclusion rule)) ^ ".\n" ^
+		"Query " ^ testname ^ ".\n\n"
+			
+		*)

@@ -77,9 +77,10 @@ let term_getOperator termDecl = match termDecl with DeclTrm(c, valpos, ctx, argu
 let term_getValPositions termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> valpos
 let term_getContextInfo termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> ctx
 let term_getContextualPositions termDecl = List.map fst (term_getContextInfo termDecl)
+let term_isBound term = term = Var("x") (* Needed in preservation. This should be done better *)
 
 let rec term_getVariables term = match term with 
-| Var(name) -> [Var(name)]
+| Var(name) as tt -> if term_isBound tt then [] else [Var(name)]
 | Constructor(name, arguments) -> List.concat (List.map term_getVariables arguments)
 | Application(term1, term2) -> term_getVariables term1 @ term_getVariables term2
 
@@ -88,7 +89,6 @@ let term_getExpressionVariables termDecl term = List.take (term_getExpressionNum
 let term_disjointTerms args = args = removeDuplicates args
 let term_isCanonicalRelaxedFor operatorname term = if term_isConstructor term then term_getConstructor term = operatorname && List.for_all term_isVar (term_getArguments term) else false
 let term_isCanonicalFor operatorname term = term_isCanonicalRelaxedFor operatorname term && term_disjointTerms (term_getArguments term)
-
 let rule_getConclusion rule = match rule with Rule(name, premises, conclusion) -> conclusion
 let rule_getRuleName rule = match rule with Rule(name, premises, conclusion) -> name
 let rule_getPremises rule = match rule with Rule(name, premises, conclusion) -> premises
@@ -97,6 +97,12 @@ let rule_getInputTerm rule = match rule_getConclusion rule with Formula(pred, in
 let rule_getConstructorOfOutput rule = term_getConstructor (rule_getOutputTerm rule)
 let rule_getConstructorOfInput rule = term_getConstructor (rule_getInputTerm rule)
 let rule_addPremises newpremises rule = match rule with Rule(name, premises, conclusion) -> Rule(name, premises @ newpremises, conclusion)
+
+let rule_checkEliminatesSome rule = 
+	if term_isConstructor (rule_getInputTerm rule) then 
+		let args = term_getArguments (rule_getInputTerm rule) in
+		if args = [] then false else term_isConstructor (List.hd args) 
+	else false
 
 let tl_getTypes tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> type_decls
 let tl_getTerms tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> term_decls
@@ -130,6 +136,12 @@ let formula_isPredicate pred1 premise = match premise with
 | Formula(pred2, inputs, outputs) -> pred1 = pred2
 | otherwise -> pred1 = typing
 let formula_isTyping premise = formula_isPredicate typing premise
+
+let formula_getRuleNameFromConclusion formula = match formula with Formula(pred, inputs, outputs) -> 
+	if pred = reduction then let preName = "r_" ^ (term_getConstructor (List.hd inputs)) in
+		 if rule_checkEliminatesSome (Rule("", [], formula)) then preName ^ "_" ^ term_getConstructor (List.hd (term_getArguments (List.hd inputs))) else preName
+	else if pred = typing then "t_" ^ (term_getConstructor (List.hd inputs))
+	else pred
 
 let term_isFreeVar rule term = term_isVar term && not(List.mem term (term_getVariables (rule_getInputTerm rule) @ List.concat (List.map term_getVariables (List.map formula_getFirstOutput (rule_getPremises rule)))))
 

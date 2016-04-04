@@ -23,9 +23,9 @@ let compile sl =
 	let ruleForConstructors = sl_getRulesOfConstructors types in 
 	let ruleForEliminators = sl_getRulesOfEliminators types in 
 	let ruleForOthers = List.concat (List.map specTerm_getRules others) in 
-	let ruleForErrors = if is_none errorSpec then [] else List.concat (List.map specTerm_getRules (specError_getHandlers errorSpec)) in 
+	let ruleForErrorHandlers = if is_none errorSpec then [] else List.concat (List.map specTerm_getRules (specError_getHandlers errorSpec)) in 
 	let valueDefinitions = List.map generateValues signatureConstructors in 
 	let contextualRules = List.concat (List.map generateContextualRules signatureTerms) in 
 	let errorManagement = generateErrorManagement errorSpec (signatureOfAllButError @ signatureError) in
-	 TypedLanguage(signatureTypes, signatureTerms, ruleForConstructors @ ruleForEliminators @ ruleForOthers @ ruleForErrors @ valueDefinitions @ contextualRules @ errorManagement)
+	 TypedLanguage(signatureTypes, signatureTerms, ruleForConstructors @ ruleForEliminators @ ruleForOthers @ ruleForErrorHandlers @ valueDefinitions @ contextualRules @ errorManagement)
 	

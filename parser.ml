@@ -243,13 +243,13 @@ let rec rule input = (fact <|> ruleReal) input
 and fact input = 
 	(formula      >>= fun f ->
 	 token "." >>
-	 return (Rule("formula",[],f))) input
+	 return (Rule(formula_getRuleNameFromConclusion f,[],f))) input
 and ruleReal input = 
 	(formula      >>= fun f ->
 	 token ":-" >>
 	 (sep_by premise (token ",")) >>= fun premises -> 
      token "." >>
- 	 return (Rule("ruleReal",premises,f))) input
+ 	 return (Rule(formula_getRuleNameFromConclusion f,premises,f))) input
 
 let module_pre input = (token "module" >> ident >> token "." >> return "") input
 		 

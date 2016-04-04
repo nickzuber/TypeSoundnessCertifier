@@ -106,11 +106,6 @@ let sl_getRulesOfConstructors typeSpec = List.concat (List.map specTerm_getRules
 let sl_getAllRules sl = let ruleForErrors = if is_none (sl_getError sl) then [] else List.concat (List.map specTerm_getRules (specError_getHandlers (sl_getError sl))) @ [List.hd (specTerm_getRules (specError_getError (sl_getError sl)))] in 
 	sl_getRulesOfConstructors (sl_getTypes sl) @ sl_getRulesOfEliminators (sl_getTypes sl) @  List.concat (List.map specTerm_getRules (sl_getOthers sl)) @ ruleForErrors 
 
-let rule_checkEliminatesSome rule = 
-	if term_isConstructor (rule_getInputTerm rule) then 
-		let args = term_getArguments (rule_getInputTerm rule) in
-		if args = [] then false else term_isConstructor (List.hd args) 
-	else false
 let rule_checkEliminates listOfConstructors rule =  
 	if term_isConstructor (rule_getInputTerm rule) then 
 		let args = term_getArguments (rule_getInputTerm rule) in
