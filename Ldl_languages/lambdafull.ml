@@ -12,5 +12,5 @@ open Forall
 open Recursive
 
 let lambdafull_cbn = sl_compose (sl_compose (sl_compose itlc_cbn_letrecFix recursive) listsWithExc) iff 
-let lambdafull_cbv = sl_compose (sl_compose (sl_compose itlc_cbn_letrecFix recursive) listsWithExc) iff
-let lambdafull_par = sl_compose (sl_compose (sl_compose itlc_cbn_letrecFix recursive) listsWithExc) iff 
+let lambdafull_cbv = sl_compose (sl_compose (sl_compose itlc_cbv_letrecFix recursive) listsWithExc) iff
+let lambdafull_par = sl_compose (sl_compose (sl_compose itlc_par_letrecFix recursive) listsWithExc) iff 
