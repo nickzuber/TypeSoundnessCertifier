@@ -1,0 +1,123 @@
+
+soundnessCerttifier.ml must contain the following:
+open Stlc
+open Itlc
+open Pairs
+open Iff
+open Lists
+open ListsIsNil
+open Fix
+open Let
+open Letrec
+open LetrecWithType
+open LetrecFix
+open Sums
+open Unitt
+open Exception
+open Tuples
+open Forall
+open Recursive
+open LambdaFull
+open FullFledged
+open FullFledgedWithType
+
+ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservation.ml preservationTests.ml stlc.ml itlc.ml pairs.ml iff.ml lists.ml listsIsNil.ml fix.ml let.ml letrec.ml letrecWithType.ml letrecFix.ml sums.ml unitt.ml exception.ml listsWithExc.ml tuples.ml forall.ml recursive.ml lambdaFull.ml fullFledged.ml fullFledgedWithType.ml parser.ml soundnessCertifier.ml
+
+#use "topfind";;
+#require "batteries";;
+open Batteries;;
+#load "unix.cma";;
+
+#load  "aux.cmo";;
+#load  "typedLanguage.cmo" ;;
+#load  "safeTypedLanguage.cmo" ;;
+#load  "proof.cmo" ;;
+#load  "generateLambdaProlog.cmo";;
+#load  "canonicalForms.cmo";;
+#load  "progress.cmo";;
+#load  "values.cmo";;
+#load  "contextualRules.cmo";;
+#load  "errorManagement.cmo";;
+#load  "safeToTyped.cmo";;
+#load  "typeCheckerSL.cmo";;
+#load  "typeCheckerTL.cmo";;
+#load  "preservation.cmo";;
+#load  "preservationTests.cmo";;
+#load  "stlc.cmo";;
+#load  "itlc.cmo";;
+#load  "pairs.cmo";;
+#load  "iff.cmo";;
+#load  "lists.cmo";;
+#load  "listsIsNil.cmo";;
+#load  "fix.cmo";;
+#load  "let.cmo";;
+#load  "letrec.cmo";;
+#load  "letrecWithType.cmo";;
+#load  "letrecFix.cmo";;
+#load  "sums.cmo";;
+#load  "unitt.cmo";;
+#load  "exception.cmo";;
+#load  "listsWithExc.cmo";;
+#load  "tuples.cmo";;
+#load  "forall.cmo";;
+#load  "recursive.cmo";;
+#load  "fullFledged.cmo";;
+#load  "lambdaFull.cmo";;
+#load  "fullFledgedWithType.cmo";;
+#load  "parser.cmo";;
+#load  "soundnessCertifier.cmo";;
+
+open Aux;;
+open TypedLanguage;;
+open SafeTypedLanguage;;
+open Proof;;
+open GenerateLambdaProlog;;
+open CanonicalForms;;
+open Progress;;
+open Values;;
+open ContextualRules;;
+open ErrorManagement;;
+open SafeToTyped;;
+open TypeCheckerSL;;
+open TypeCheckerTL;;
+open Preservation;;
+open PreservationTests;;
+open Stlc;;
+open Itlc;;
+open Pairs;;
+open Iff;;
+open Lists;;
+open ListsIsNil;;
+open Fix;;
+open Let;;
+open Letrec;;
+open LetrecWithType;;
+open LetrecFix;;
+open Sums;;
+open Unitt;;
+open Exception;;
+open ListsWithExc;;
+open Tuples;;
+open Forall;;
+open Recursive;;
+open LambdaFull
+open FullFledged;;
+open FullFledgedWithType;;
+open Parser;;
+open SoundnessCertifier;;
+
+
+let ts = generateNonValues (generateTermPred (generateValues systemF_CBV));;
+let ts = addContextualRules ts;;
+print_string (generateModule ts);;
+print_string (generateSignature ts);;
+print_string (generateTheorem (generateEitherLemma ts));;
+print_string (generateTheoremS (generateCanonicalFormsLemma ts));;
+print_string progressDefinition;;
+print_string (generateTheoremS (generateProgressLemmas ts));;
+print_string (generateTheorem (generateProgressTheorem ts));;
+print_string (generateTheorem (generatePreservationTheorem ts));;
+print_string (generateTestModule ts);;
+print_string (runPreservationTests ts);;
+
+

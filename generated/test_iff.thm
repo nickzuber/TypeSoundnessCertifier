@@ -1,0 +1,6 @@
+Specification "iff".
+
+Theorem test_r_if_tt : forall E1 E2 T, {typeOf (tt ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E1 T}.
+intros. search.
+Theorem test_r_if_ff : forall E1 E2 T, {typeOf (ff ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E2 T}.
+intros. search.

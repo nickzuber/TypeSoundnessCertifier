@@ -1,0 +1,8 @@
+Specification "stlc_par_exc".
+
+Theorem test_r_app_abs : forall T T1 R EE T2, {typeOf (abs R T) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
+intros. search.
+Theorem test_r_try : forall E1 E2 T, {typeOf E1 T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E1 T}.
+intros. search.
+Theorem test_r_try_raise : forall E2 T E1, {typeOf (raise E1) T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E1 (excType )} -> {typeOf (app E2 E1) T}.
+intros. search.

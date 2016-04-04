@@ -1,0 +1,10 @@
+Specification "itlc_cbv_letrec".
+
+Theorem test_r_app_abs : forall T1 R EE T2, {typeOf (abs R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
+intros. search.
+Theorem test_r_letrec : forall R1 T1 R2 T2, {(pi x\ typeOf x T1 => typeOf (R1 x) T1)} -> {(pi x\ typeOf x T1 => typeOf (R2 x) T2)} -> {typeOf (let (fix (abs R1)) R2) T2}.
+intros. search.
+Theorem test_r_let : forall T1 R V T2, {typeOf V T1} -> {typeOf (R V) T2} -> {typeOf (R V) T2}.
+intros. search.
+Theorem test_r_fix : forall V T, {typeOf V (arrow T T)} -> {typeOf (app V (fix V)) T}.
+intros. search.
