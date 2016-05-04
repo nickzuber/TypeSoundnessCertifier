@@ -186,5 +186,5 @@ let testOne tlName =
 		chdir directory;;
 
 
-let test () = List.map testOne tlTable
+let test = List.map testOne tlTable
 
