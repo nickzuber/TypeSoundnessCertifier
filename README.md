@@ -2,9 +2,9 @@
 Certified Type Safety, automatically!
 
 
-Rough usage:
-make
-./soundy
+Rough usage: <br />
+make <br />
+./soundy <br />
 
-To clean:
-make clean
+To clean: <br />
+make clean <br />
