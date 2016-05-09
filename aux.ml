@@ -52,3 +52,7 @@ let removeDuplicates(list') =
   in List.rev(removeDuplicatesHelper(list'));;
   
 let addAnd str = " /\\ " ^ str
+
+let list_subset a b = List.for_all (fun x -> List.mem x b) a
+
+let ck p message = if p then true else raise(Failure message)

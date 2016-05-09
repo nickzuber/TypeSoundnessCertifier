@@ -2,7 +2,7 @@ Specification "stlc_cbv_pairs_onlyfstButBoth".
 
 
 
-Theorem  canonical_form_times : forall E T1 T2, {typeOf E (times T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (pair Arg1 Arg2) /\ {value Arg1} /\ {value Arg2}).
+Theorem  canonical_form_times : forall E T1 T2, {typeOf E (times T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (pair Arg1 Arg2) /\ {value Arg1}).
 intros Main Value. case Main.
  case Value. search.
 
@@ -42,7 +42,7 @@ intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
 
 
 
-Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((abs R1 T2)).
+Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((abs T1 R2)).
  search.
 
 

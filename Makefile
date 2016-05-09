@@ -3,10 +3,13 @@ OUTPUT=soundy
 GENERATEDDIR=generated/
 
 default:
-	$(OCAML) aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservation.ml preservationTests.ml parser.ml soundnessCertifier.ml -o $(OUTPUT)
+	$(OCAML) aux.ml typedLanguage.ml ldl.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml ldlToTypedLanguage.ml typeCheckerProgress.ml typeCheckerTypedLanguage.ml preservation.ml typeCheckerPreservation.ml parser.ml soundnessCertifier.ml -o $(OUTPUT)
 	
-clean:
+cleanOnlyTool:
 	rm *.cmo
 	rm *.cmi
-	rm $(GENERATEDDIR)*.txt
 	rm $(OUTPUT)
+clean:
+	make cleanOnlyTool
+	rm $(GENERATEDDIR)*.txt
+	

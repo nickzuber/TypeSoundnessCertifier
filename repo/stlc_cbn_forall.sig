@@ -5,7 +5,7 @@ kind typ type.
 
 type arrow typ -> typ -> typ.
 type all (typ -> typ) -> typ.
-type abs (term -> term) -> typ -> term.
+type abs typ -> (term -> term) -> term.
 type absT (typ -> term) -> term.
 type app term -> term -> term.
 type appT term -> typ -> term.

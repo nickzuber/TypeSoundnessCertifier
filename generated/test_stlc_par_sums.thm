@@ -4,5 +4,5 @@ Theorem test_r_case_inl : forall R1 T2 R2 T EE T1, {typeOf (inl EE) (sum T1 T2)}
 intros. search.
 Theorem test_r_case_inr : forall T1 R1 R2 T EE T2, {typeOf (inr EE) (sum T1 T2)} -> {(pi x\ typeOf x T1 => typeOf (R1 x) T)} -> {typeOf (R2 EE) T} -> {typeOf EE T2} -> {typeOf (R2 EE) T}.
 intros. search.
-Theorem test_r_app_abs : forall T T1 R EE T2, {typeOf (abs R T) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
+Theorem test_r_app_abs : forall T T1 R EE T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
 intros. search.

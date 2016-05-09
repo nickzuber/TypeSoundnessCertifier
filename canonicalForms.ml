@@ -1,9 +1,9 @@
 
 open Batteries
 open Option
-open TypedLanguage
-open SafeTypedLanguage
 open Aux
+open TypedLanguage
+open Ldl
 open Proof
 open GenerateLambdaProlog
 
@@ -30,8 +30,8 @@ let eachCanonicalForm nonResults errorSpec typeSpec =
           in Theorem(theorem, Seq([preamble ; proofConstructors ; proofUnifiableNonResults ; proofErrors]))
 
 let generateCanonicalFormsLemma tl = 
-	match tl with SafeTypedLanguage(types, others, errorSpec) -> 
-		List.map (eachCanonicalForm ((sl_getAllEliminators tl) @ others) errorSpec) types
+	match tl with SafeTypedLanguage(types, derived, errorSpec) -> 
+		List.map (eachCanonicalForm ((ldl_getAllEliminators tl) @ derived) errorSpec) types
 
 
 (*

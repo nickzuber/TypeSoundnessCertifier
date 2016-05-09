@@ -92,7 +92,7 @@ step (try E1 E2) (try E1' E2) :- step E1 E1'.
 
 step (raise E1) (raise E1') :- step E1 E1'.
 
-error (raise E1) :- value E1.
+error (raise E1).
 
 typeOf (raise E) T :- typeOf E (excType ).
 

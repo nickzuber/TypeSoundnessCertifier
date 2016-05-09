@@ -2,7 +2,7 @@ open Batteries
 open Option
 open Aux
 open TypedLanguage
-open SafeTypedLanguage
+open Ldl
 open Proof
 open CanonicalForms
 
@@ -18,8 +18,8 @@ let combinatoricsOfSearches sensitivePositions errorSpec =
 
 let combinatoricsWithErrorAnalysis = [Tactic(Search) ; Tactic(Case("ProgressClause")) ; Tactic(Search) ; Tactic(Search)]
 
-let progressDefinition sl = 
-	if (sl_containErrors sl) 
+let progressDefinition ldl = 
+	if (ldl_containErrors ldl) 
 	then "Define progresses : term -> prop by\n\t progresses E := {value E} ;\n\t progresses E := {error E} ;\n\t progresses E := exists E', {" ^ dynamicSemantics ^ " E E'}."
 	else "Define progresses : term -> prop by\n\t progresses E := {value E} ;\n\t progresses E := exists E', {" ^ dynamicSemantics ^ " E E'}."
 
@@ -38,7 +38,7 @@ let statement_progress_lemmas termDecl sensitivePositions =
 
 let progressLemmasByOperators errorSpec typeSpec eliminator =  
 	let termDecl = specTerm_getSig eliminator in 
-	let sensitivePositions = (term_getValPositions termDecl) in 
+	let sensitivePositions = (term_getContextualPositions termDecl) in 
 	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
 	let preamble = preambleproof_progress_lemmas sensitivePositions in 
 	let proof_appealToCanonicalForm = if is_none typeSpec then [] else appealToCanonicalForm (get typeSpec) in 
@@ -47,7 +47,7 @@ let progressLemmasByOperators errorSpec typeSpec eliminator =
 
 let progressLemmasByErrorHandler errorHandler = 
 	let termDecl = specTerm_getSig errorHandler in 
-	let sensitivePositions = term_getValPositions termDecl in 
+	let sensitivePositions = term_getContextualPositions termDecl in 
 	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
 	let preamble = preambleproof_progress_lemmas sensitivePositions in 
 	let proof = combinatoricsWithErrorAnalysis  
@@ -60,19 +60,19 @@ let progressLemmasTypes errorSpec typeSpec =
 
 (* returns progressDef, (theorem, proof) list *)
 
-let generateProgressLemmas sl = match sl with SafeTypedLanguage(types, others, errorSpec) -> 
+let generateProgressLemmas ldl = match ldl with SafeTypedLanguage(types, derived, errorSpec) -> 
 	let progressLemmasForErrorRelated = if is_none errorSpec then [] else List.map progressLemmasByErrorHandler (specError_getHandlers errorSpec) @ [(progressLemmasByOperators errorSpec None) (specError_getError errorSpec)] in 
- 	   List.concat (List.map (progressLemmasTypes errorSpec) types) @ List.map (progressLemmasByOperators errorSpec None) others @ progressLemmasForErrorRelated
+ 	   List.concat (List.map (progressLemmasTypes errorSpec) types) @ List.map (progressLemmasByOperators errorSpec None) derived @ progressLemmasForErrorRelated
 
-let callProgressLemma operator = let termDecl = specTerm_getSig operator in Seq([ForEach(List.map toTypeOfE (term_getValPositions termDecl), Tactic(Apply("IH", ["x"]))) ; Tactic(Backchain("progress", term_getOperator termDecl))])
+let callProgressLemma operator = let termDecl = specTerm_getSig operator in Seq([ForEach(List.map toTypeOfE (term_getContextualPositions termDecl), Tactic(Apply("IH", ["x"]))) ; Tactic(Backchain("progress", term_getOperator termDecl))])
 
-let generateProgressTheorem sl = match sl with SafeTypedLanguage(types, others, errorSpec) -> 
+let generateProgressTheorem ldl = match ldl with SafeTypedLanguage(types, derived, errorSpec) -> 
          let theorem = "Theorem progress : forall E T, {typeOf E T} -> progresses E. \ninduction on 1. intros Main. TypeOfE1 : case Main." in
 		 let proofConstructors = Seq(List.map callProgressLemma (List.concat (List.map specType_getConstructors types))) in 
 		 let proofEliminators = Seq(List.map callProgressLemma (List.concat (List.map specType_getEliminators types))) in 
-         let proofOthers = Seq(List.map callProgressLemma others) in
+         let proofDerived = Seq(List.map callProgressLemma derived) in
 		 let proofErrors = if is_none errorSpec then Qed else Seq(List.map callProgressLemma ((specError_getHandlers errorSpec) @ [specError_getError errorSpec])) in 
-          Theorem(theorem, Seq([proofConstructors ; proofEliminators ; proofOthers ; proofErrors]))
+          Theorem(theorem, Seq([proofConstructors ; proofEliminators ; proofDerived ; proofErrors]))
 
 		  (*			
 		  (*

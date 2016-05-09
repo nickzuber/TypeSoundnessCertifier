@@ -2,7 +2,7 @@
 open Batteries
 open Aux
 open TypedLanguage
-open SafeTypedLanguage
+open Ldl
 open Proof
 
 let generateSigPreamble tsName = "sig " ^ tsName ^ ".\n\nkind term type.\nkind typ type.\n\n"

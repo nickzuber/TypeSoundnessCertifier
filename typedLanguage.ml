@@ -64,6 +64,9 @@ type typed_language =
 let toVar varname = Var(varname)
 
 let entry_toKindProduced entry = match entry with Simple(kind) -> kind | Abstraction(kind1, kind2) -> kind2
+let ctx_isMonotonic ctx = 
+	let monotonicityAtEveryEntry pair = match pair with (index, indexes) -> List.for_all (fun x -> index > x) indexes  in 
+	List.for_all monotonicityAtEveryEntry ctx  (* to do *)
 
 let term_isConstructor term = match term with Constructor(c, args) -> true  | otherwise -> false
 let term_isVar term = match term with Var(name) -> true | otherwise -> false
@@ -74,21 +77,35 @@ let term_getNestedFirstArgument term = term_getConstructor (List.hd (term_getArg
 let type_getOperator typeDecl = match typeDecl with DeclType(c,arguments) -> c
 let type_getArguments typeDecl = match typeDecl with DeclType(c,arguments) -> arguments
 let term_getOperator termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> c
+let termDecl_getArguments termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> arguments
 let term_getValPositions termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> valpos
 let term_getContextInfo termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> ctx
 let term_getContextualPositions termDecl = List.map fst (term_getContextInfo termDecl)
 let term_isBound term = term = Var("x") (* Needed in preservation. This should be done better *)
+
+let termDecl_insertCtx ctxlines termDecl = match termDecl with DeclTrm(c, _, _, arguments) ->
+	let ctxlinesOnlyThoseOfc = List.map snd (List.filter (fun pair -> fst pair = c) ctxlines) in 
+	let linesInNumbers = List.map (fun line -> List.mapi (fun i -> fun letter -> match letter with | "v" -> i+1 | "C" -> 0 | otherwise -> -1) line) ctxlinesOnlyThoseOfc in 
+	let contextualPositions = List.map (fun line -> 1 + get (List.index_of 0 line)) linesInNumbers in 
+	let valuehoodPositions = List.map (fun line -> List.filter (fun n -> n > 0) line) linesInNumbers in 
+	let contexts = List.combine contextualPositions valuehoodPositions in 
+	 DeclTrm(c, [], contexts, arguments)
+	 
 
 let rec term_getVariables term = match term with 
 | Var(name) as tt -> if term_isBound tt then [] else [Var(name)]
 | Constructor(name, arguments) -> List.concat (List.map term_getVariables arguments)
 | Application(term1, term2) -> term_getVariables term1 @ term_getVariables term2
 
-let term_getExpressionNumber termDecl = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> List.length (List.filter (fun entry -> entry_toKindProduced entry = termKind) arguments)
-let term_getExpressionVariables termDecl term = List.take (term_getExpressionNumber termDecl) (term_getVariables term)
-let term_disjointTerms args = args = removeDuplicates args
-let term_isCanonicalRelaxedFor operatorname term = if term_isConstructor term then term_getConstructor term = operatorname && List.for_all term_isVar (term_getArguments term) else false
-let term_isCanonicalFor operatorname term = term_isCanonicalRelaxedFor operatorname term && term_disjointTerms (term_getArguments term)
+let term_getExpressionVariables termDecl term = match termDecl with DeclTrm(c, valpos, ctx, arguments) -> 
+	let nullNonPrograms i entry = if entry_toKindProduced entry = termKind then List.nth (term_getVariables term) i else Var("0") in 
+	let stripNulls var = not(var = Var("0")) in
+		List.filter stripNulls (List.mapi nullNonPrograms arguments)
+
+let vars_disjoint vars = vars = removeDuplicates vars
+let term_isSkeletonFor operatorname term = if term_isConstructor term then term_getConstructor term = operatorname && List.for_all term_isVar (term_getArguments term) && vars_disjoint (term_getVariables term) else false
+let term_isSkeletonMayNestFor operatorname term = 	term_isSkeletonFor operatorname term || 
+													if term_getArguments term = [] then false else let nested = List.hd (term_getArguments term) in if term_isConstructor nested then term_isSkeletonFor (term_getNestedFirstArgument term) nested else false 
 let rule_getConclusion rule = match rule with Rule(name, premises, conclusion) -> conclusion
 let rule_getRuleName rule = match rule with Rule(name, premises, conclusion) -> name
 let rule_getPremises rule = match rule with Rule(name, premises, conclusion) -> premises
@@ -112,6 +129,14 @@ let tl_lookupTypeDecl tl c = let searchbyname typeDecl = type_getOperator typeDe
 let tl_lookupTermDecl tl c = let searchbyname termDecl = term_getOperator termDecl = c in try List.hd (List.filter searchbyname (tl_getTerms tl)) with Failure e -> raise(Failure ("tl_lookupTermDecl: " ^ c))
 let tl_isEmpty tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> rules = []
 
+let term_decls_lookup tl c =
+	let onlyByC term = term_getOperator term = c in 
+	List.hd (List.filter onlyByC (tl_getTerms tl))
+
+let types_decls_lookup tl c =
+	let onlyByC term = type_getOperator term = c in 
+	List.hd (List.filter onlyByC (tl_getTypes tl))
+
 let formula_isHypothetical premise = match premise with 
 	| Hypothetical(term1, term2, term3) -> true
 	| otherwise -> false
@@ -121,16 +146,18 @@ let formula_getFirstInput premise = match premise with
 	| Hypothetical(term1, term2, term3) -> term2
 	| Generic(term1, term2) -> term1
 
+let formula_getFirstOutput premise = match premise with 
+	| Formula(pred1, inputs, outputs) -> if outputs = [] then raise(Failure "formula_getFirstOutput") else List.hd outputs
+	| Hypothetical(term1, term2, term3) -> term3
+	| Generic(term1, term2) -> term2
+
 let formula_getHypotheticalPart premise = match premise with 
 	| Hypothetical(term1, term2, term3) -> term1
 	| _ -> raise(Failure "formula_getHypotheticalPart : the premise is not hypothetical")
 
 let formula_getFirstInputUpToApp premise = let term = (formula_getFirstInput premise) in if term_isApplication term then match term with Application(term1, term2) -> term1 else term
+let formula_getFirstOutputUpToApp premise = let term = (formula_getFirstOutput premise) in if term_isApplication term then match term with Application(term1, term2) -> term1 else term
 
-let formula_getFirstOutput premise = match premise with 
-	| Formula(pred1, inputs, outputs) -> if outputs = [] then raise(Failure "formula_getFirstOutput") else List.hd outputs
-	| Hypothetical(term1, term2, term3) -> term3
-	| Generic(term1, term2) -> term2
 	
 let formula_isPredicate pred1 premise = match premise with 
 | Formula(pred2, inputs, outputs) -> pred1 = pred2
@@ -163,18 +190,49 @@ let rec term_retrieveApplications term = match term with
 | Constructor(name, arguments) -> List.concat (List.map term_retrieveApplications arguments)
 | Application(term1, term2) -> if term_isVar term1 then [(term1, term2)] else raise(Failure ("term_retrieveApplications: error in Application(term1, term2), term1 is not a variable"))
 
-let term_toPosition term (abs, applied) = 
+(* adjustIndex takes the index of an argument, and subtract the number of arguments before that that are not programs. 
+   For example, in (abs T R), R comes with index 2, but here we adjust to return 1, as it is the first program variable. 
+   This index points to the first hypothesis in the proof of preservation, because hypothesis exists only for program arguments. 
+	*)
+let adjustIndex tl c index = let turnToZeroOnes i entry = if i < 4 && not(entry_toKindProduced entry = "term") then 1 else 0 in index - (List.fold_left (+) 0 (List.mapi turnToZeroOnes (termDecl_getArguments (term_decls_lookup tl c))))
+
+
+let term_toPosition tl term (abs, applied) = 
 	try 
-	let retrieve var = (let index = List.index_of var (term_getArguments term) in if is_none index then (2, get (List.index_of var (term_getArguments (List.hd (term_getArguments term))))) else (1, get index)) in
+	let retrieve var = (let index = List.index_of var (term_getArguments term) in 
+		if is_none index 
+			then let nestedTerm = List.hd (term_getArguments term) in 
+				 let kindOfArguments = (termDecl_getArguments (term_decls_lookup tl (term_getConstructor nestedTerm))) in 
+				 	(2, get (List.index_of var (term_getArguments nestedTerm)), kindOfArguments) 
+			else let kindOfArguments = (termDecl_getArguments (term_decls_lookup tl (term_getConstructor term))) in 
+				(1, get index, kindOfArguments)) in
 	let coordinatesAbs = retrieve abs in 
-	let ccordinatesApplied = if term_isVar applied then retrieve applied else (0, 0) in
+	let ccordinatesApplied = if term_isVar applied then retrieve applied else (0, 0, []) in (* if we apply a var we can find its hypothesis by position. Otherwise the tool simply generate an 'assert typeOf ..' *)
 	if term_isConstructor term then (coordinatesAbs, ccordinatesApplied, applied) else raise(Failure "term_toPosition : top level term is not a constructor.")
 	with _ -> raise(Failure("term_toPosition :" ^ toString term))
-	
-let toValuePremise term = Formula("value", [term], [])
 
+(* Index managements *)
+let index_fst (a,b,c) = a
+let index_snd (a,index,arguments) = let turnToZeroOnes i entry = if i < index && not(entry_toKindProduced entry = "term") then 1 else 0 in index - (List.fold_left (+) 0 (List.mapi turnToZeroOnes arguments))
+let index_sndReal (a,b,c) = b
+		
+let toValuePremise term = Formula("value", [term], [])
 	(*
 ((1,1),(2,2), "asd") 	 no, applied can be of the toplevel or nested term, and you need to grab that typing rule. 
 	Moreover the variable used in the reduction rule has nothing to do with the one in the typing rule 
 	let typingrule = ... in 
 *)
+		
+
+(* returns the operator and the position checked. so (c, [1,2 ..])*) 
+(* notice that it is ok for a variable to be checked for valuehood in a premise and NOT being part of the operator checked. 
+	example: step (unfold (fold V R)) V :- value V. V is in fold and not unfold, we do not return a position for that. i.e. return 0 and drop it.
+	
+	 *)
+let positionsCheckedForValuehood rule = 
+	let mentionedArgument term premise = (match (List.index_of (formula_getFirstInput premise) (term_getArguments term)) with 
+		| None -> 0
+		| Some i -> 1 + i)
+	in (rule_getConstructorOfInput rule, List.filter (fun x -> x > 0) (List.map (mentionedArgument (rule_getInputTerm rule)) (rule_getPremises rule))) 
+		
+		

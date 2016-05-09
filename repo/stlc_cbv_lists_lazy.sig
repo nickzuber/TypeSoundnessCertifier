@@ -5,7 +5,7 @@ kind typ type.
 
 type arrow typ -> typ -> typ.
 type list typ -> typ.
-type abs (term -> term) -> typ -> term.
+type abs typ -> (term -> term) -> term.
 type emptyList term.
 type cons term -> term -> term.
 type app term -> term -> term.

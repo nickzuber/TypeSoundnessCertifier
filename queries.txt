@@ -1,4 +1,4 @@
-ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml safeTypedLanguage.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml safeToTyped.ml typeCheckerSL.ml typeCheckerTL.ml preservation.ml preservationTests.ml parser.ml soundnessCertifier.ml
+ocamlfind ocamlc -package batteries -linkpkg aux.ml typedLanguage.ml ldl.ml  proof.ml generateLambdaProlog.ml canonicalForms.ml progress.ml values.ml contextualRules.ml errorManagement.ml ldlToTypedLanguage.ml typeCheckerProgress.ml typeCheckerTypedLanguage.ml preservation.ml typeCheckerPreservation.ml parser.ml soundnessCertifier.ml -o soundy
 
 #use "topfind";;
 #require "batteries";;
@@ -7,7 +7,7 @@ open Batteries;;
 
 #load  "aux.cmo";;
 #load  "typedLanguage.cmo" ;;
-#load  "safeTypedLanguage.cmo" ;;
+#load  "ldl.cmo" ;;
 #load  "proof.cmo" ;;
 #load  "generateLambdaProlog.cmo";;
 #load  "canonicalForms.cmo";;
@@ -15,17 +15,17 @@ open Batteries;;
 #load  "values.cmo";;
 #load  "contextualRules.cmo";;
 #load  "errorManagement.cmo";;
-#load  "safeToTyped.cmo";;
-#load  "typeCheckerSL.cmo";;
-#load  "typeCheckerTL.cmo";;
+#load  "ldlToTypedLanguage.cmo";;
+#load  "typeCheckerProgress.cmo";;
+#load  "typeCheckerTypedLanguage.cmo";;
 #load  "preservation.cmo";;
-#load  "preservationTests.cmo";;
+#load  "typeCheckerPreservation.cmo";;
 #load  "parser.cmo";;
 #load  "soundnessCertifier.cmo";;
 
 open Aux;;
 open TypedLanguage;;
-open SafeTypedLanguage;;
+open Ldl;;
 open Proof;;
 open GenerateLambdaProlog;;
 open CanonicalForms;;
@@ -33,11 +33,11 @@ open Progress;;
 open Values;;
 open ContextualRules;;
 open ErrorManagement;;
-open SafeToTyped;;
-open TypeCheckerSL;;
-open TypeCheckerTL;;
+open LdlToTypedLanguage;;
+open TypeCheckerProgress;;
+open TypeCheckerTypedLanguage;;
 open Preservation;;
-open PreservationTests;;
+open TypeCheckerPreservation;;
 open Parser;;
 open SoundnessCertifier;;
 

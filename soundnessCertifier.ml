@@ -4,9 +4,9 @@ open List
 open Unix
 open Aux
 open TypedLanguage
-open SafeTypedLanguage
-open SafeToTyped
-open TypeCheckerTL
+open Ldl
+open LdlToTypedLanguage
+open TypeCheckerTypedLanguage
 open Proof
 open Values
 open ErrorManagement
@@ -15,13 +15,20 @@ open ErrorManagement
 open CanonicalForms
 open Progress
 open Preservation
-open SafeToTyped
+open LdlToTypedLanguage
 open GenerateLambdaProlog
-open PreservationTests
+open TypeCheckerPreservation
 open Parser
 
+
 let sep = "\n\n"
-let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ (generateTheoremS (generateCanonicalFormsLemma ts)) ^ sep ^ (progressDefinition ts) ^ sep ^ (generateTheoremS (generateProgressLemmas ts)) ^ sep ^ (generateTheorem (generateProgressTheorem ts)) ^ sep ^ (generateTheorem (generatePreservationTheorem ts)) ^ sep ^ typesoundnessProof 
+let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ 
+							(generateTheoremS (generateCanonicalFormsLemma ts)) ^ sep ^ 
+							(progressDefinition ts) ^ sep ^ 
+							(generateTheoremS (generateProgressLemmas ts)) ^ sep ^ 
+							(generateTheorem (generateProgressTheorem ts)) ^ sep ^
+							(generateTheorem (generatePreservationTheorem ts)) ^ sep ^ 
+							typesoundnessProof 
 
 let checkResult tlName output = 
 	if String.exists (last output) "Abella < Goodbye." 
@@ -29,10 +36,10 @@ let checkResult tlName output =
 		else print_string ("FAILED Type Preservation. Specification: " ^ tlName ^ ". Rule: " ^ String.tail (fst (String.split (last output) "<")) (String.length "test_") ^ "\n")
 	
 
-let runPreservationTests tlName sl = 
+let runPreservationTests tlName ldl = 
 	let test_thm = open_out ("./generated/test_" ^ tlName ^ ".thm") in 
 		output_string test_thm ("Specification \"" ^ tlName ^ "\".\n\n");
-		List.map (output_string test_thm) (List.map generateAbellaQuery (preservationTestsAsRules sl));
+		List.map (output_string test_thm) (List.map generateAbellaQuery (preservationTestsAsRules ldl));
 		close_out test_thm;
 		let directory = getcwd () in 
 			chdir "generated"; 
@@ -168,23 +175,27 @@ let tlTable = [
 
 let testOne tlName =
 	let tlRaw = parseFile tlName in 
-	let sl = typecheck_tl tlRaw in 
-	let tl = compile sl in 
+	let ldl = typecheck_tl tlRaw in 
+	let tl = compile ldl in 
 	let mycalculus_sig = open_out ("./generated/" ^ tlName ^ ".sig") in
 	let mycalculus_mod = open_out ("./generated/" ^ tlName ^ ".mod") in
 	let mycalculus_thm = open_out ("./generated/" ^ tlName ^ ".thm") in
  	output_string mycalculus_sig (generateSignature tlName tl);
     output_string mycalculus_mod (generateModule tlName tl);
-	output_string mycalculus_thm (generateThm tlName sl); 
+    output_string mycalculus_thm (generateThm tlName ldl); 
     close_out mycalculus_sig;
     close_out mycalculus_mod;
-    close_out mycalculus_thm;
-	runPreservationTests tlName sl; 
+    close_out mycalculus_thm;	
+	runPreservationTests tlName ldl;
 	let directory = getcwd () in 
 		chdir "generated";
 		Unix.open_process_in ("abella " ^ (tlName ^ ".thm") ^ " > " ^ (tlName ^ "_output.txt"));
 		chdir directory;;
+	(*
+	let tlRaw2 = parseFile tlName in 
+	if tlRaw = tlRaw2 then print_string tlName else print_string tlName
+	let a = print_string tlName in 
+*)	
+let test = List.map testOne tlTable 
 
-
-let test = List.map testOne tlTable
 

@@ -2,7 +2,7 @@
 open Batteries
 open Aux
 open TypedLanguage
-open SafeTypedLanguage
+open Ldl
 
 let generateValues termDecl = 
 	let (canonical, vars) = term_getCanonical termDecl in

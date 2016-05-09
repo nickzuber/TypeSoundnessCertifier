@@ -13,14 +13,14 @@ type tt term.
 type cons term -> term -> term.
 type emptyList term.
 type absT (typ -> term) -> term.
-type abs (term -> term) -> typ -> term.
+type abs typ -> (term -> term) -> term.
 type excValue term.
 type if term -> term -> term -> term.
 type tail term -> term.
 type head term -> term.
 type appT term -> typ -> term.
 type app term -> term -> term.
-type letrec (term -> term) -> (term -> term) -> typ -> term.
+type letrec typ -> (term -> term) -> (term -> term) -> term.
 type let term -> (term -> term) -> term.
 type fix term -> term.
 type try term -> term -> term.

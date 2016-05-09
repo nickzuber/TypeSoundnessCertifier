@@ -10,7 +10,7 @@ typeOf (fst E) T1 :- typeOf E (times T1 T2).
 
 step (fst (pair E1 E2)) E1.
 
-value (pair E1 E2) :- value E1, value E2.
+value (pair E1 E2) :- value E1.
 
 step (pair E1 E2) (pair E1' E2) :- step E1 E1'.
 

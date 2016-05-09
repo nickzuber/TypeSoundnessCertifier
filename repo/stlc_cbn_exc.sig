@@ -5,7 +5,7 @@ kind typ type.
 
 type arrow typ -> typ -> typ.
 type excType typ.
-type abs (term -> term) -> typ -> term.
+type abs typ -> (term -> term) -> term.
 type excValue term.
 type app term -> term -> term.
 type try term -> term -> term.

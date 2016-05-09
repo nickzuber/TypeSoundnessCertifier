@@ -5,7 +5,7 @@ kind typ type.
 
 type arrow typ -> typ -> typ.
 type times typ -> typ -> typ.
-type abs (term -> term) -> typ -> term.
+type abs typ -> (term -> term) -> term.
 type pair term -> term -> term.
 type app term -> term -> term.
 type fst term -> term.

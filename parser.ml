@@ -22,6 +22,7 @@
 *)
 
 (* ----------------------------- opal.ml START ------------------------------ *)
+
 module LazyStream = struct
   type 'a t = Cons of 'a * 'a t Lazy.t | Nil
   let of_stream stream =
@@ -40,6 +41,7 @@ module LazyStream = struct
     in
     next f
 end
+
 let implode l = String.concat "" (List.map (String.make 1) l)
 let explode s =
   let l = ref [] in
@@ -292,14 +294,6 @@ and decl_remove_lastArg typeDecl = DeclType(type_getOperator typeDecl, remove_la
 DeclType("",[])DeclTrm("", [], [], [])
 *)
 
-let insertCtx ctxlines termDecl = match termDecl with DeclTrm(c, _, _, arguments) ->
-	let ctxs = List.map snd (List.filter (fun pair -> fst pair = c) ctxlines) in 
-	let toNumbers = List.map (fun ll -> List.mapi (fun i -> fun letter -> if letter = "v" || letter = "C" then i+1 else -1) ll) ctxs in 
-	let removeOther = List.map (fun ll -> List.sort compare (List.filter (fun n -> n > 0) ll)) toNumbers in 
-	let valpositions = List.map last removeOther in 
-	let contexts = List.map (fun ll -> (last ll, remove_last ll)) removeOther in 
-	 DeclTrm(c, valpositions, contexts, arguments)
-	 
 let wrap_tl = tl << (spaces << eof ())
 let wrap_sig = sigg << (spaces << eof ())
 let parse_sig input = parse wrap_sig input
@@ -315,7 +309,7 @@ let parseFile fileName =
 		(let src_mod = LazyStream.of_channel mymod in
 			match parse_tl src_mod with 
     		| None -> raise(Failure("Syntax Error in Module: " ^ fileName))
-			| Some (TypedLanguage(_, _, rules), ctxs) -> close_in mysig; close_in mymod; TypedLanguage(sigTypes, List.map (insertCtx ctxs) sigTerms, rules))
+			| Some (TypedLanguage(_, _, rules), ctxs) -> close_in mysig; close_in mymod; TypedLanguage(sigTypes, List.map (termDecl_insertCtx ctxs) sigTerms, rules))
 		
 		
 

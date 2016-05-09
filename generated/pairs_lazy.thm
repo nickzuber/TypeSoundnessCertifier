@@ -2,7 +2,7 @@ Specification "pairs_lazy".
 
 
 
-Theorem  canonical_form_times : forall E T1 T2, {typeOf E (times T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (pair Arg1 Arg2) /\ {value Arg1} /\ {value Arg2}).
+Theorem  canonical_form_times : forall E T1 T2, {typeOf E (times T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (pair Arg1 Arg2)).
 intros Main Value. case Main.
  case Value. search.
 

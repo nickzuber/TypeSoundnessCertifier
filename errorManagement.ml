@@ -3,7 +3,7 @@ open Batteries
 open Option
 open Aux
 open TypedLanguage
-open SafeTypedLanguage
+open Ldl
 
 let toErrorPremise term = Formula("error", [term], [])
 

@@ -2,7 +2,7 @@
 open Batteries
 open Aux
 open TypedLanguage
-open SafeTypedLanguage
+open Ldl
 open Values
 
 let toStepPremiseWithTickOn index term = Formula("step", [term], [term_withTick index term])

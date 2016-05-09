@@ -27,7 +27,7 @@ Define progresses : term -> prop by
 	 progresses E := {error E} ;
 	 progresses E := exists E', {step E E'}.
 
-Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((abs R1 T2)).
+Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((abs T1 R2)).
  search.
 
 

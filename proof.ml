@@ -1,6 +1,6 @@
 open Aux
 open TypedLanguage
-open SafeTypedLanguage
+open Ldl
 
 type hypothesis = string
 type lemmaName = string
