@@ -1,6 +1,6 @@
 Specification "stlc_cbn_let".
 
-Theorem test_r_app_abs : forall T T1 R EE T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
+Theorem test_r_app_abs : forall T T1 R EE T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2} /\ {typeOf EE T1}.
 intros. search.
-Theorem test_r_let : forall T1 R V T2, {typeOf V T1} -> {typeOf (R V) T2} -> {typeOf (R V) T2}.
+Theorem test_r_let : forall T1 R V T2, {typeOf V T1} -> {typeOf (R V) T2} -> {typeOf (R V) T2} /\ {typeOf V T1}.
 intros. search.

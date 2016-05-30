@@ -102,7 +102,7 @@ Theorem progress_absT : forall R1 T, {typeOf ((absT R1)) T} -> progresses ((absT
 
 Theorem progress_appT : forall E1 T2 T, {typeOf ((appT E1 T2)) T} -> progresses E1 -> progresses ((appT E1 T2)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_all to TypeOfE1 ProgressClause.   search. search. search.
+ Canonical : apply canonical_form_all to TypeOfE1 ProgressClause.  search. search. search.
 
 
 
@@ -113,7 +113,7 @@ Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((
 
 Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((app E1 E2)).
 intros Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. case PrgsE2.
- Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search. search. search. search.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.  search. search. search. search. search.
 
 
 

@@ -14,11 +14,11 @@ Theorem test_r_head_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {ty
 intros. search.
 Theorem test_r_appT_absT : forall R2 R X, {typeOf (absT R2) (all R)} -> {typeOf (R2 X) (R X)} -> {typeOf (R2 X) (R X)}.
 intros. search.
-Theorem test_r_app_abs : forall T T1 R EE T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
+Theorem test_r_app_abs : forall T T1 R EE T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2} /\ {typeOf EE T1}.
 intros. search.
 Theorem test_r_letrec : forall R1 T R2 T2, {(pi x\ typeOf x T => typeOf (R1 x) T)} -> {(pi x\ typeOf x T => typeOf (R2 x) T2)} -> {typeOf (let (fix (abs T R1)) R2) T2}.
 intros. search.
-Theorem test_r_let : forall T1 R V T2, {typeOf V T1} -> {typeOf (R V) T2} -> {typeOf (R V) T2}.
+Theorem test_r_let : forall T1 R V T2, {typeOf V T1} -> {typeOf (R V) T2} -> {typeOf (R V) T2} /\ {typeOf V T1}.
 intros. search.
 Theorem test_r_fix : forall V T, {typeOf V (arrow T T)} -> {typeOf (app V (fix V)) T}.
 intros. search.

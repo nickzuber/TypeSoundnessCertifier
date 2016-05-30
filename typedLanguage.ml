@@ -196,6 +196,7 @@ let rec term_retrieveApplications term = match term with
 	*)
 let adjustIndex tl c index = let turnToZeroOnes i entry = if i < 4 && not(entry_toKindProduced entry = "term") then 1 else 0 in index - (List.fold_left (+) 0 (List.mapi turnToZeroOnes (termDecl_getArguments (term_decls_lookup tl c))))
 
+let application_getApplied term = match term with Application(term1,term2) -> term2
 
 let term_toPosition tl term (abs, applied) = 
 	try 

@@ -24,13 +24,13 @@ intros Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. c
 
 Theorem progress_snd : forall E1 T, {typeOf ((snd E1)) T} -> progresses E1 -> progresses ((snd E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times to TypeOfE1 ProgressClause.   search. search.
+ Canonical : apply canonical_form_times to TypeOfE1 ProgressClause.  search. search.
 
 
 
 Theorem progress_fst : forall E1 T, {typeOf ((fst E1)) T} -> progresses E1 -> progresses ((fst E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times to TypeOfE1 ProgressClause.   search. search.
+ Canonical : apply canonical_form_times to TypeOfE1 ProgressClause.  search. search.
 
 
 

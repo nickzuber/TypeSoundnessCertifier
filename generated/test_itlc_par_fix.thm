@@ -1,6 +1,6 @@
 Specification "itlc_par_fix".
 
-Theorem test_r_app_abs : forall T1 R EE T2, {typeOf (abs R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2}.
+Theorem test_r_app_abs : forall T1 R EE T2, {typeOf (abs R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2} /\ {typeOf EE T1}.
 intros. search.
 Theorem test_r_fix : forall V T, {typeOf V (arrow T T)} -> {typeOf (app V (fix V)) T}.
 intros. search.

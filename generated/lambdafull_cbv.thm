@@ -103,7 +103,7 @@ intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
 
 Theorem progress_unfold : forall E1 T, {typeOf ((unfold E1)) T} -> progresses E1 -> progresses ((unfold E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_mu to TypeOfE1 ProgressClause.   search. search. search.
+ Canonical : apply canonical_form_mu to TypeOfE1 ProgressClause.  search. search. search.
 
 
 
@@ -114,7 +114,7 @@ Theorem progress_abs : forall R1 T, {typeOf ((abs R1)) T} -> progresses ((abs R1
 
 Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((app E1 E2)).
 intros Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. case PrgsE2.
- Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search. search. search. search.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.  search. search. search. search. search.
 
 
 

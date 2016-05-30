@@ -95,15 +95,16 @@ TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.\n"
 let rec generateTheorem theorem = match theorem with Theorem(statement, proof) -> statement ^ "\n" ^ generateProof proof
 let rec generateTheoremS theorems = String.concat "\n\n" (List.map generateTheorem theorems) ^ "\n\n" 
 
-let generateAbellaQuery rule = 
+let generateAbellaQuery (rule, checks) = 
 	let variablesInConclusion = formula_getAllVariables (rule_getConclusion rule) in 
 	let removedVacuousApplications = (rule_getPremises rule) in 
     let allVariables = variablesInConclusion @ List.concat (List.map formula_getAllVariables removedVacuousApplications) in
     let forallPreamble = if allVariables = [] then "" else "forall " ^ (String.concat " " (List.unique (List.map toString allVariables))) ^ ", " in 
 	let testname = rule_getRuleName rule in 
     let displayedPremises = List.map generateFormula removedVacuousApplications in
+	let displayChecks = List.map generateFormula checks in 
 	let implications = if displayedPremises = [] then "" else String.concat " -> " (List.map wrappedInBrackets displayedPremises) ^ " -> " in 
-        "Theorem " ^ testname ^ " : " ^ forallPreamble ^ implications ^ wrappedInBrackets (generateFormula (rule_getConclusion rule)) ^ ".\n" ^
+        "Theorem " ^ testname ^ " : " ^ forallPreamble ^ implications ^ (String.concat " /\\ " (wrappedInBrackets (generateFormula (rule_getConclusion rule)) :: (List.map wrappedInBrackets displayChecks))) ^ ".\n" ^
 		"intros. search.\n"
 
 

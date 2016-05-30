@@ -32,31 +32,31 @@ intros Main PrgsE1 PrgsE2 PrgsE3 PrgsE4 PrgsE5. TypeOfE1 : case Main. ProgressCl
 
 Theorem progress_select5 : forall E1 T, {typeOf ((select5 E1)) T} -> progresses E1 -> progresses ((select5 E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.  search. search.
 
 
 
 Theorem progress_select4 : forall E1 T, {typeOf ((select4 E1)) T} -> progresses E1 -> progresses ((select4 E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.  search. search.
 
 
 
 Theorem progress_select3 : forall E1 T, {typeOf ((select3 E1)) T} -> progresses E1 -> progresses ((select3 E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.  search. search.
 
 
 
 Theorem progress_select2 : forall E1 T, {typeOf ((select2 E1)) T} -> progresses E1 -> progresses ((select2 E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.  search. search.
 
 
 
 Theorem progress_select1 : forall E1 T, {typeOf ((select1 E1)) T} -> progresses E1 -> progresses ((select1 E1)).
 intros Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
- Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.   search. search.
+ Canonical : apply canonical_form_times5 to TypeOfE1 ProgressClause.  search. search.
 
 
 
@@ -67,7 +67,7 @@ Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((
 
 Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((app E1 E2)).
 intros Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. case PrgsE2.
- Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search. search.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.  search. search. search.
 
 
 
