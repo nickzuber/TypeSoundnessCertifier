@@ -7,7 +7,7 @@ type bool typ.
 type arrow typ -> typ -> typ.
 type ff term.
 type tt term.
-type abs typ -> (term -> term) -> term.
+type abs (term -> term) -> typ -> term.
 type if term -> term -> term -> term.
 type app term -> term -> term.
 

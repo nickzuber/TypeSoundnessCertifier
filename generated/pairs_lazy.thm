@@ -47,7 +47,7 @@ apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_pair.
  
 
 
-Theorem preservation : forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}.
+Theorem preservation : forall Exp Exp' T, {typeOf Exp T} -> {step Exp Exp'} -> {typeOf Exp' T}.
 induction on 2. intros TypeOf Main. Step : case Main.
  Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). search.
  Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). search.

@@ -4,7 +4,7 @@ kind term type.
 kind typ type.
 
 type arrow typ -> typ -> typ.
-type abs typ -> (term -> term) -> term.
+type abs (term -> term) -> typ -> term.
 type app term -> term -> term.
 type fix term -> term.
 

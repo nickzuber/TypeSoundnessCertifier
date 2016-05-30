@@ -52,7 +52,7 @@ let subProofContextual termDecl =
 	 List.map single_line (term_getContextualPositions termDecl)		 
 
 let generatePreservationTheorem ldl = 
-         let theorem = "Theorem preservation : forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}." in 
+         let theorem = "Theorem preservation : forall Exp Exp' T, {typeOf Exp T} -> {step Exp Exp'} -> {typeOf Exp' T}." in 
 		 let preamble = Seq([Tactic(Induction(2)) ; Tactic(Intros(["TypeOf" ; "Main"])) ; Tactic(Named("Step", Case("Main")))]) in
 		 let proofEliminators = List.map (subProof ldl doubleDestruction) (List.filter rule_isReductionRule (ldl_getRulesOfEliminators (ldl_getTypes ldl))) in 
 		 let proofDerived = List.map (subProof ldl singleDestruction) (List.filter rule_isReductionRule (List.concat (List.map specTerm_getRules (ldl_getDerived ldl)))) in 

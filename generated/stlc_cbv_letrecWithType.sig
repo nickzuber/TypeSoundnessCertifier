@@ -4,9 +4,9 @@ kind term type.
 kind typ type.
 
 type arrow typ -> typ -> typ.
-type abs typ -> (term -> term) -> term.
+type abs (term -> term) -> typ -> term.
 type app term -> term -> term.
-type letrec typ -> (term -> term) -> (term -> term) -> term.
+type letrec (term -> term) -> (term -> term) -> typ -> term.
 type let term -> (term -> term) -> term.
 type fix term -> term.
 

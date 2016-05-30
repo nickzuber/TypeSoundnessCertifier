@@ -16,7 +16,7 @@ Define progresses : term -> prop by
 	 progresses E := {value E} ;
 	 progresses E := exists E', {step E E'}.
 
-Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((abs T1 R2)).
+Theorem progress_abs : forall R1 T2 T, {typeOf ((abs R1 T2)) T} -> progresses ((abs R1 T2)).
  search.
 
 
@@ -27,7 +27,7 @@ intros Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. c
 
 
 
-Theorem progress_letrec : forall T1 R2 R3 T, {typeOf ((letrec T1 R2 R3)) T} -> progresses ((letrec T1 R2 R3)).
+Theorem progress_letrec : forall R1 R2 T3 T, {typeOf ((letrec R1 R2 T3)) T} -> progresses ((letrec R1 R2 T3)).
  search.
 
 
@@ -59,9 +59,9 @@ induction on 1. intros Main. TypeOfE1 : case Main.
  
 
 
-Theorem preservation : forall E E' T, {typeOf E T} -> {step E E'} -> {typeOf E' T}.
+Theorem preservation : forall Exp Exp' T, {typeOf Exp T} -> {step Exp Exp'} -> {typeOf Exp' T}.
 induction on 2. intros TypeOf Main. Step : case Main.
- Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). ToCut : inst Arg2_1 with n1 = EE. cut ToCut with Arg1_2. search.
+ Arg1_1 : case TypeOf(keep). Arg2_1 : case Arg1_1(keep). ToCut : inst Arg2_1 with n1 = V. cut ToCut with Arg1_2. search.
  Arg1_1 : case TypeOf(keep). search.
  Arg1_1 : case TypeOf(keep). ToCut : inst Arg1_2 with n1 = V. cut ToCut with Arg1_1. search.
  Arg1_1 : case TypeOf(keep). search.

@@ -10,7 +10,7 @@ type ff term.
 type tt term.
 type cons term -> term -> term.
 type emptyList term.
-type abs typ -> (term -> term) -> term.
+type abs (term -> term) -> typ -> term.
 type if term -> term -> term -> term.
 type isnil term -> term.
 type tail term -> term.

@@ -1,4 +1,4 @@
 Specification "stlc_par_unitt".
 
-Theorem test_r_app_abs : forall T T1 R EE T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2} /\ {typeOf EE T1}.
+Theorem test_r_app_abs : forall T T1 R E T2, {typeOf (abs R T) (arrow T1 T2)} -> {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
 intros. search.

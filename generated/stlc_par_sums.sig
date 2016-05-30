@@ -7,7 +7,7 @@ type sum typ -> typ -> typ.
 type arrow typ -> typ -> typ.
 type inr term -> term.
 type inl term -> term.
-type abs typ -> (term -> term) -> term.
+type abs (term -> term) -> typ -> term.
 type case term -> (term -> term) -> (term -> term) -> term.
 type app term -> term -> term.
 
