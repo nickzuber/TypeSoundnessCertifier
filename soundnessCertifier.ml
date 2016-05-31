@@ -23,13 +23,19 @@ open Parser
 
 let sep = "\n\n"
 let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ 
-							(generateTheoremS (generateCanonicalFormsLemma ts)) ^ sep ^ 
-							(progressDefinition ts) ^ sep ^ 
-							(generateTheoremS (generateProgressLemmas ts)) ^ sep ^ 
-							(generateTheorem (generateProgressTheorem ts)) ^ sep ^
-							(generateTheorem (generatePreservationTheorem ts)) ^ sep ^ 
+							(generateTheoremS (generateCanonicalFormsLemma ts)) 
+							^ sep ^ 
+							(progressDefinition ts) 
+							^ sep ^ 
+							(generateTheoremS (generateProgressLemmas ts)) 
+							^ sep ^ 
+							(generateTheorem (generateProgressTheorem ts)) 
+							^ sep ^
+							(generateTheorem (generatePreservationTheorem ts)) 
+							^ sep ^ 
 							typesoundnessProof 
 
+							
 let checkResult tlName output = 
 	if String.exists (last output) "Abella < Goodbye." 
 		then ()
@@ -171,6 +177,8 @@ let tlTable = [
 "fullFledged_cbn" ;
 "fullFledged_cbv" ;
 "fullFledged_par" ;
+(* Paper Mini-ML *)
+"miniML_cbv"
 ]
 
 let testOne tlName =
@@ -181,8 +189,8 @@ let testOne tlName =
 	let mycalculus_mod = open_out ("./generated/" ^ tlName ^ ".mod") in
 	let mycalculus_thm = open_out ("./generated/" ^ tlName ^ ".thm") in
  	output_string mycalculus_sig (generateSignature tlName tl);
-    output_string mycalculus_mod (generateModule tlName tl);
-    output_string mycalculus_thm (generateThm tlName ldl); 
+	output_string mycalculus_mod (generateModule tlName tl);	
+	output_string mycalculus_thm (generateThm tlName ldl);
     close_out mycalculus_sig;
     close_out mycalculus_mod;
     close_out mycalculus_thm;	
@@ -191,11 +199,18 @@ let testOne tlName =
 		chdir "generated";
 		Unix.open_process_in ("abella " ^ (tlName ^ ".thm") ^ " > " ^ (tlName ^ "_output.txt"));
 		chdir directory;;
+		
+(*	try typecheck_tl tlRaw ; () with _ -> print_string tlName
+*)	
+		
+let test = List.map testOne tlTable 
+
+
 	(*
+	try output_string mycalculus_thm (generateThm tlName ldl) ; () with _ -> print_string tlName     
+		
 	let tlRaw2 = parseFile tlName in 
 	if tlRaw = tlRaw2 then print_string tlName else print_string tlName
 	let a = print_string tlName in 
 *)	
-let test = List.map testOne tlTable 
-
 

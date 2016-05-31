@@ -5,7 +5,7 @@ kind typ type.
 
 type arrow typ -> typ -> typ.
 type times5 typ -> typ -> typ -> typ -> typ -> typ.
-type abs (term -> term) -> typ -> term.
+type abs typ -> (term -> term) -> term.
 type tuple5 term -> term -> term -> term -> term -> term.
 type app term -> term -> term.
 type select1 term -> term.

@@ -8,7 +8,7 @@ type all (typ -> typ) -> typ.
 type list typ -> typ.
 type excType typ.
 type bool typ.
-type abs (term -> term) -> typ -> term.
+type abs typ -> (term -> term) -> term.
 type absT (typ -> term) -> term.
 type emptyList term.
 type cons term -> term -> term.
@@ -22,7 +22,7 @@ type tail term -> term.
 type if term -> term -> term -> term.
 type fix term -> term.
 type let term -> (term -> term) -> term.
-type letrec (term -> term) -> (term -> term) -> typ -> term.
+type letrec typ -> (term -> term) -> (term -> term) -> term.
 type try term -> term -> term.
 type raise term -> term.
 

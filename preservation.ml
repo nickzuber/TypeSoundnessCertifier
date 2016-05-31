@@ -33,7 +33,7 @@ let substitutionLemma ldl rule =
 				then Tactic(InstAndCut(toArg abs_index, toString applied, toArg app_index)) 
 				else 	let op = if index_fst abs_index == 1 then term_getConstructor (rule_getInputTerm rule) else term_getNestedFirstArgument (rule_getInputTerm rule) in 
 						let typingruleOp = List.hd (List.filter (rule_isPredicateAndName typing op) (ldl_getAllRules ldl)) in 
-						let typOfApplied = formula_getHypotheticalPart (List.nth (rule_getPremises typingruleOp) (index_sndReal abs_index)) in 
+						let typOfApplied = formula_getHypotheticalPart (List.nth (rule_getPremises typingruleOp) (index_snd abs_index)) in 
 						 Seq([Tactic(Named("Cutting", Assert("{" ^ generateFormula (toTypeOfPremise  applied typOfApplied) ^ "}"))) ; Tactic(InstAndCut(toArg abs_index, toString applied, "Cutting"))]) 
 		else Tactic(Inst(toArg abs_index, toString applied))) in 
 	List.map instAndCut (List.map (term_toPosition tl (rule_getInputTerm rule)) (term_retrieveApplications (rule_getOutputTerm rule)))
