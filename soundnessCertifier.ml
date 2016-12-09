@@ -6,6 +6,7 @@ open Aux
 open TypedLanguage
 open Ldl
 open LdlToTypedLanguage
+open TypeChecker
 open TypeCheckerTypedLanguage
 open Proof
 open Values
@@ -37,10 +38,11 @@ let generateThm tsName ts = generateThmPreamble tsName ^ sep ^
 
 							
 let checkResult tlName output = 
-	if String.exists (last output) "Abella < Goodbye." 
-		then ()
-		else print_string ("FAILED Type Preservation. Specification: " ^ tlName ^ ". Rule: " ^ String.tail (fst (String.split (last output) "<")) (String.length "test_") ^ "\n")
-	
+	if (String.exists (last output) "< search.") 
+		(* if Abella 2.0.2, 2.0.3, and 2.0.4 fail our type preservation check, they quit abruptly after "search.", which is then the last line *)
+		(* this check above will be replaced with a better way to interact with Abella *)
+		then raise(Failure("FAILED Type Preservation. Specification: " ^ tlName ^ ". Rule: " ^ String.tail (fst (String.split (last output) "<")) (String.length "test_") ^ "\n"))
+		else ()
 
 let runPreservationTests tlName ldl = 
 	let test_thm = open_out ("./generated/test_" ^ tlName ^ ".thm") in 
@@ -51,7 +53,7 @@ let runPreservationTests tlName ldl =
 			chdir "generated"; 
 			let output = callAbella ("abella test_" ^ tlName ^ ".thm") in 
 				chdir directory;
-				checkResult tlName output;; 
+				checkResult tlName output;;
 
 				  
 let tlTable = [
@@ -183,7 +185,8 @@ let tlTable = [
 
 let testOne tlName =
 	let tlRaw = parseFile tlName in 
-	let ldl = typecheck_tl tlRaw in 
+	(try typecheck tlRaw with | Failure errorMessage -> raise(Failure("Typechecker Failure for " ^ tlName ^ ": " ^ errorMessage)));
+	let ldl = (try typecheck_tl tlRaw with | Failure errorMessage -> raise(Failure("Failure for " ^ tlName ^ ": " ^ errorMessage))) in 
 	let tl = compile ldl in 
 	let mycalculus_sig = open_out ("./generated/" ^ tlName ^ ".sig") in
 	let mycalculus_mod = open_out ("./generated/" ^ tlName ^ ".mod") in
@@ -203,7 +206,8 @@ let testOne tlName =
 (*	try typecheck_tl tlRaw ; () with _ -> print_string tlName
 *)	
 		
-let test = List.map testOne tlTable 
+let test = List.map testOne tlTable; print_string "All the specifications in input are type sound!\n";
+
 
 
 	(*

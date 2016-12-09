@@ -120,5 +120,6 @@ let rule_checkFreeReduction rule =
 let rule_typeCheckFirst rule = if (rule_getPremises rule) = [] then false else match formula_getFirstOutput (List.hd (rule_getPremises rule)) with 
 	| Constructor(c, args) -> true
 	| otherwise -> false
+let rule_getFirstTypeCheck_prem rule = List.hd (rule_getPremises rule) 
 let rule_getFirstTypeCheck rule = match List.hd (rule_getPremises rule) with Formula(pred, inputs, outputs) -> term_getConstructor (List.hd outputs)
 

@@ -24,7 +24,7 @@ typeOf (tail E) (list T) :- typeOf E (list T).
 
 step (tail (emptyList )) (raise (excValue )).
 
-step (tail (cons E1 E2)) E2.
+step (tail (cons E1 E2)) E1.
 
 typeOf (head E) T :- typeOf E (list T).
 

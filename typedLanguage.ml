@@ -121,6 +121,9 @@ let rule_checkEliminatesSome rule =
 		if args = [] then false else term_isConstructor (List.hd args) 
 	else false
 
+let rule_checkEliminatesWhat rule = 
+		let args = term_getArguments (rule_getInputTerm rule) in term_getConstructor (List.hd args) 
+	
 let tl_getTypes tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> type_decls
 let tl_getTerms tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> term_decls
 let tl_getRules tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> rules
