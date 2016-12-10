@@ -29,7 +29,7 @@ To clean: <br />
 </ul>
 
 
-# Examples of spotted design mistakes in language definitions.
+# Examples of Spotted Design Mistakes in Languages.
 
 Acting on the file "miniML_cbv.mod" in the folder "repo": 
 <br />(run ./soundy after the modification)
