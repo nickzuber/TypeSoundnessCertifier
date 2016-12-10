@@ -33,7 +33,7 @@ To clean: <br />
 
 Acting on the file "miniML_cbv.mod" in the folder "repo":
 <ul>		
-<li> Remove line 33: **step (pred (zero )) (raise (zero )).**
+<li> Remove line 33: <b>step (pred (zero )) (raise (zero )).</b>
 	 Spotted error: operator **pred** (predecessor for natural numbers) does not eliminate **zero**, hence progress does not hold.
 <li> Replace line 33: **step (pred (zero )) (raise (zero )).**  with **step (pred <span style="color:red;">(tt)</span>) (raise (zero )).**	 
 	 Spotted error: **pred** is eliminator for natural numbers but here eliminates a boolean value. 
