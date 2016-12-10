@@ -29,7 +29,7 @@ To clean: <br />
 </ul>
 
 
-## Examples of failed type checking.
+## Examples of spotted design mistakes in language definitions.
 
 Acting on the file "miniML_cbv.mod" in the folder "repo":
 <ul>
