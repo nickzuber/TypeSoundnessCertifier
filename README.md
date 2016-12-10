@@ -38,8 +38,7 @@ Acting on the file "miniML_cbv.mod" in the folder "repo":
 	<br /> Spotted error: operator <strong>pred</strong> (predecessor for natural numbers) does not eliminate <strong>zero</strong>, hence progress does not hold.
 <li style="margin: 20px;">  Replace line 33: <strong> step (pred (zero )) (raise (zero )).</strong>  with <strong> step (pred <strong style="color:red;">(tt)</strong>) (raise (zero )).</strong>	 
 	<br /> Spotted error: <strong>pred</strong> is eliminator for natural numbers but here eliminates a boolean value. 
-	<br /> Notice that the type system of a logical framework does not spot this error because <strong>pred</strong> accepts an expression as argument and <strong>(tt)</strong> is an expression. 
-	<br />This error can be spotted after our high-level classification of operators. 
+	<br /> Notice that the type system of a logical framework does not spot this error because <strong>pred</strong> accepts an expression as argument and <strong>(tt)</strong> is an expression. This error can be spotted after our high-level classification of operators. 
 <li style="margin: 20px;">  Replace line 45: <strong> step (fst (pair E1 E2)) E1.</strong>  with <strong> step (fst (pair E1 E2)) <strong style="color:red;"> E2</strong></strong>. 
 	<br /> Spotted error: Reduction rule is not type preserving because <strong>(fst (pair E1 E2))</strong> has the type of <strong>E1</strong>.
 <li style="margin: 20px;">  Remove line 133: <strong> % context app C e.</strong>
