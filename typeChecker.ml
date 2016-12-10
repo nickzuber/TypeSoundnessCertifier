@@ -167,7 +167,7 @@ let check_exhaustiveness bindingsRed (typ, values, eliminators) =
 	let actualEliminators = combine values (List.map (lookupEliminatorsByValue bindingsRed) values) in 
 	let checker (oneValue, itsEliminators) = 
 (*		let check = ck (not (typ = "list")) ("values: " ^ String.concat "-" values ^ "\n eliminators: " ^ String.concat "-" itsEliminators) in *)
-		ck (List.for_all (fun el -> List.mem el itsEliminators) eliminators) ("The value " ^ oneValue ^ "of type " ^ typ ^ " is not eliminated by all eliminators") in 
+		ck (List.for_all (fun el -> List.mem el itsEliminators) eliminators) ("The value " ^ oneValue ^ " of type " ^ typ ^ " is not eliminated by all eliminators") in 
 (*		   ck (difference = []) ("The value " ^ oneValue ^ "of type " ^ typ ^ "is not eliminated by the following eliminators: " ^ (String.concat "\n" difference)) in 
 *)	 List.for_all checker actualEliminators 
 	

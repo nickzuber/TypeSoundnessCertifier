@@ -67,7 +67,7 @@ let type_check_constructors typename termSpec =
 	type_check_typingRuleForConstructor (specTerm_getSig termSpec) typename (specTerm_getTyping termSpec) &&
 	ck (specTerm_getReduction termSpec = []) "type_check_constructors: spotted reduction rules for a constructor. " && (* i.e. no reduction rules for constructors *) 
 	ck (list_subset (term_getValPositions termDecl) (term_getContextualPositions termDecl)) "type_check_constructors: the arguments that require valuehood to form a value are not contextual" && (* i.e. the arguments that require valuehood are contextual *)
-	ck (ctx_isMonotonic ctx) "type_check_constructors: contextual information is not monotonic"
+	ck (ctx_isMonotonic ctx) "type_check_constructors: evaluation contexts contain cyclic dependencies."
 
 let type_check_eliminators typename listOfConstructors termSpec = 
 	let ctx = term_getContextInfo (specTerm_getSig termSpec) in 
@@ -76,7 +76,7 @@ let type_check_eliminators typename listOfConstructors termSpec =
 	ck (List.for_all (rule_checkEliminates listOfConstructors) (specTerm_getReduction termSpec)) ("type_check_eliminators: eliminator eliminates something that is not one of its values" ^ (String.concat "-" listOfConstructors) ^ (String.concat "\n" (List.map generateRule (specTerm_getReduction termSpec)))) &&
 	ck (List.for_all (rule_checkEliminatesAll (specTerm_getReduction termSpec)) listOfConstructors) ("type_check_eliminators: not all values are eliminated" ^ (String.concat "-" listOfConstructors) ^ (String.concat "\n" (List.map generateRule (specTerm_getReduction termSpec)))) &&
 	ck (List.mem 1 (List.map fst ctx)) "type_check_eliminators: the eliminating argument is not declared as contextual" && (* i.e. the eliminating argument is declared as contextual *)
-	ck (ctx_isMonotonic ctx) "type_check_eliminators: contextual information is not monotonic"
+	ck (ctx_isMonotonic ctx) "type_check_eliminators: evaluation contexts contain cyclic dependencies."
 
 let type_check_errorHandler errordDecl termSpec = 
 	let ctx = term_getContextInfo (specTerm_getSig termSpec) in 
@@ -85,7 +85,7 @@ let type_check_errorHandler errordDecl termSpec =
 	ck (List.exists (rule_checkEliminates [term_getOperator errordDecl]) (specTerm_getReduction termSpec)) "type_check_errorHandler: error handler does not eliminate the error" &&
 	(* Here you should check that the error handler has a reduction rule for a variable at eliminating argument *)
 	ck (List.mem 1 (List.map fst ctx)) "type_check_errorHandler: the eliminating argument that handles the error is not declared as contextual" && (* i.e. the eliminating argument that handles the error is declared as contextual *)
-	ck (ctx_isMonotonic ctx) "type_check_errorHandler: contextual information is not monotonic"
+	ck (ctx_isMonotonic ctx) "type_check_errorHandler: evaluation contexts contain cyclic dependencies."
 
 let typecheck_errors errorSpec = 
 	if is_none errorSpec then true else 
@@ -96,7 +96,7 @@ let typecheck_errors errorSpec =
 	List.for_all (type_check_errorHandler errordDecl) (specError_getHandlers errorSpec) &&
 	ck (specTerm_getReduction errorTermSpec = []) "typecheck_errors: spotted reduction rules for the error. " && 
 	ck (list_subset (term_getValPositions errordDecl) (term_getContextualPositions errordDecl)) "typecheck_errors: the arguments that require valuehood are not contextual" && (* i.e. the arguments that require valuehood are contextual *)
-	ck (ctx_isMonotonic ctx) "typecheck_errors: contextual information is not monotonic"
+	ck (ctx_isMonotonic ctx) "typecheck_errors: evaluation contexts contain cyclic dependencies."
 
 let typecheck_typeSpec typeSpec = 
 	let typename = type_getOperator (specType_getSig typeSpec) in 
