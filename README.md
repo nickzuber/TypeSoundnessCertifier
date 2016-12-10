@@ -31,7 +31,8 @@ To clean: <br />
 
 # Examples of spotted design mistakes in language definitions.
 
-Acting on the file "miniML_cbv.mod" in the folder "repo": (run ./soundy after the modification)
+Acting on the file "miniML_cbv.mod" in the folder "repo": 
+<br />(run ./soundy after the modification)
 <ul>
 	<li style="margin: 20px;"> Remove line 33: <strong> step (pred (zero )) (raise (zero )).</strong>
 	<br /> Spotted error: operator <strong>pred</strong> (predecessor for natural numbers) does not eliminate <strong>zero</strong>, hence progress does not hold.
