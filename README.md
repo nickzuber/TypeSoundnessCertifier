@@ -32,17 +32,17 @@ To clean: <br />
 ## Examples of failed type checking.
 
 Acting on the file "miniML_cbv.mod" in the folder "repo":
-<ul>		
-<li> Remove line 33: <b>step (pred (zero )) (raise (zero )).</b>
-	 Spotted error: operator **pred** (predecessor for natural numbers) does not eliminate **zero**, hence progress does not hold.
-<li> Replace line 33: **step (pred (zero )) (raise (zero )).**  with **step (pred <span style="color:red;">(tt)</span>) (raise (zero )).**	 
-	 Spotted error: **pred** is eliminator for natural numbers but here eliminates a boolean value. 
-	 Notice that the type system of a logical framework does not spot this error because <strong>pred</strong> accepts an expression as argument and **(tt)** is an expression. 
-	 This error can be spotted after our high-level classification of operators. 
-<li> Replace line 45: **step (fst (pair E1 E2)) E1.**  with  **step (fst (pair E1 E2)) <span style="color:red;"> E2</span>**. 
-	 Spotted error: Reduction rule is not type preserving because **(fst (pair E1 E2))** has the type of **E1**.
-<li> Remove line 133: **% context app C e.**
-	 Spotted error: the first argument of **app** is not an evaluation context, hence progress does not hold.
-<li> Replace line 21: **typeOf (cons E1 E2) (list T) :- <span style="color:red;">typeOf E1 T,</span> typeOf E2 (list T).** with **typeOf (cons E1 E2) (list T) :- typeOf E2 (list T).**
-	 Spotted error: the typing rule does not assign a type to **E1**.
+<ul>
+	<li style="margin: 20px;"> Remove line 33: <strong> step (pred (zero )) (raise (zero )).</strong>
+	<br /> Error to spot: operator <strong>pred</strong> (predecessor for natural numbers) does not eliminate <strong>zero</strong>, hence progress does not hold.
+<li style="margin: 20px;">  Replace line 33: <strong> step (pred (zero )) (raise (zero )).</strong>  with <strong> step (pred <strong style="color:red;">(tt)</strong>) (raise (zero )).</strong>	 
+	<br /> Error to spot: <strong>pred</strong> is eliminator for natural numbers but here eliminates a boolean value. 
+	<br /> Notice that the type system of a logical framework does not spot this error because <strong>pred</strong> accepts an expression as argument and <strong>(tt)</strong> is an expression. 
+	<br />This error can be spotted after our high-level classification of operators. 
+<li style="margin: 20px;">  Replace line 45: <strong> step (fst (pair E1 E2)) E1.</strong>  with <strong> step (fst (pair E1 E2)) <strong style="color:red;"> E2</strong></strong>. 
+	<br /> Error to spot: Reduction rule is not type preserving because <strong>(fst (pair E1 E2))</strong> has the type of <strong>E1</strong>.
+<li style="margin: 20px;">  Remove line 133: <strong> % context app C e.</strong>
+	<br /> Error to spot: the first argument of <strong>app</strong> is not an evaluation context, hence progress does not hold.
+<li style="margin: 20px;">  Replace line 21: <strong> typeOf (cons E1 E2) (list T) :- <strong style="color:red;">typeOf E1 T,</strong> typeOf E2 (list T).</strong> with <strong> typeOf (cons E1 E2) (list T) :- typeOf E2 (list T).</strong>
+	<br /> Error to spot: the typing rule does not assign a type to <strong>E1</strong>.
 </ul>
