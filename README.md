@@ -31,7 +31,7 @@ To clean: <br />
 
 # Examples of Spotted Design Mistakes in Languages.
 
-Only a few relevant exmples, acting on the file "<strong>miniML_cbv.mod</strong>" in the folder "<strong>repo</strong>": 
+Only a few relevant examples, acting on the file "<strong>miniML_cbv.mod</strong>" in the folder "<strong>repo</strong>": 
 <br />(run ./soundy after the modification)
 <ul>
 	<li style="margin: 20px;"> Remove line 33: <strong> step (pred (zero )) (raise (zero )).</strong>
