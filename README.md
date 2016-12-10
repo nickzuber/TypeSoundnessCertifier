@@ -43,6 +43,6 @@ Acting on the file "miniML_cbv.mod" in the folder "repo":
 	<br /> Spotted error: Reduction rule is not type preserving because <strong>(fst (pair E1 E2))</strong> has the type of <strong>E1</strong>.
 <li style="margin: 20px;">  Remove line 133: <strong> % context app C e.</strong>
 	<br /> Spotted error: the first argument of <strong>app</strong> is not an evaluation context, hence progress does not hold.
-<li style="margin: 20px;">  Replace line 21: <br /><strong> typeOf (cons E1 E2) (list T) :- <strong style="color:red;">typeOf E1 T,</strong> typeOf E2 (list T).</strong> with <strong> typeOf (cons E1 E2) (list T) :- typeOf E2 (list T).</strong>
+<li style="margin: 20px;">  Replace line 21: <br /><strong> typeOf (cons E1 E2) (list T) :- <strong style="color:red;">typeOf E1 T,</strong> typeOf E2 (list T).</strong>with <strong> typeOf (cons E1 E2) (list T) :- typeOf E2 (list T).</strong>
 	<br /> Spotted error: the typing rule does not assign a type to <strong>E1</strong>.
 </ul>
