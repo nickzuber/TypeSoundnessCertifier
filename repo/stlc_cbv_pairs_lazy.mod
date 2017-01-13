@@ -21,9 +21,9 @@ value (abs T1 R2).
 value (pair E1 E2).
 
 
-% context pair C e.
-% context pair e C.
-% context app C e.
-% context app v C.
-% context fst C.
-% context snd C.
+% context pair E e.
+% context pair e E.
+% context app E e.
+% context app v E.
+% context fst E.
+% context snd E.

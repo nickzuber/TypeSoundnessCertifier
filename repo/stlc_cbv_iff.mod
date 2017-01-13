@@ -25,6 +25,6 @@ value (ff ).
 
 
 
-% context app C e.
-% context app v C.
-% context if C e e.
+% context app E e.
+% context app v E.
+% context if E e e.

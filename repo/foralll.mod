@@ -9,4 +9,4 @@ step (appT (absT R2) X) (R2 X).
 value (absT R1).
 
 
-% context appT C e.
+% context appT E e.

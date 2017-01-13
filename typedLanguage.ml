@@ -1,4 +1,4 @@
-
+open Topo
 open Batteries
 open Option
 open Aux
@@ -64,10 +64,11 @@ type typed_language =
 let toVar varname = Var(varname)
 
 let entry_toKindProduced entry = match entry with Simple(kind) -> kind | Abstraction(kind1, kind2) -> kind2
-let ctx_isMonotonic ctx = 
+let ctx_isAcyclic ctx = try (let order = topo_compute_order ctx in true) with _ -> false
+(*
 	let monotonicityAtEveryEntry pair = match pair with (index, indexes) -> List.for_all (fun x -> index > x) indexes  in 
-	List.for_all monotonicityAtEveryEntry ctx  (* to do *)
-
+	List.for_all monotonicityAtEveryEntry ctx   to do 
+*)
 let term_isConstructor term = match term with Constructor(c, args) -> true  | otherwise -> false
 let term_isVar term = match term with Var(name) -> true | otherwise -> false
 let term_isApplication term = match term with Application(term1,term2) -> true | otherwise -> false
@@ -85,7 +86,7 @@ let term_isBound term = term = Var("x") (* Needed in preservation. This should b
 
 let termDecl_insertCtx ctxlines termDecl = match termDecl with DeclTrm(c, _, _, arguments) ->
 	let ctxlinesOnlyThoseOfc = List.map snd (List.filter (fun pair -> fst pair = c) ctxlines) in 
-	let linesInNumbers = List.map (fun line -> List.mapi (fun i -> fun letter -> match letter with | "v" -> i+1 | "C" -> 0 | otherwise -> -1) line) ctxlinesOnlyThoseOfc in 
+	let linesInNumbers = List.map (fun line -> List.mapi (fun i -> fun letter -> match letter with | "v" -> i+1 | "E" -> 0 | otherwise -> -1) line) ctxlinesOnlyThoseOfc in 
 	let contextualPositions = List.map (fun line -> 1 + get (List.index_of 0 line)) linesInNumbers in 
 	let valuehoodPositions = List.map (fun line -> List.filter (fun n -> n > 0) line) linesInNumbers in 
 	let contexts = List.combine contextualPositions valuehoodPositions in 
@@ -121,6 +122,9 @@ let rule_checkEliminatesSome rule =
 		if args = [] then false else term_isConstructor (List.hd args) 
 	else false
 
+let rule_checkEliminatesWhat rule = 
+		let args = term_getArguments (rule_getInputTerm rule) in term_getConstructor (List.hd args) 
+	
 let tl_getTypes tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> type_decls
 let tl_getTerms tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> term_decls
 let tl_getRules tl = match tl with TypedLanguage(type_decls, term_decls, rules) -> rules

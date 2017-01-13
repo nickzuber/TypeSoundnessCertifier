@@ -14,6 +14,6 @@ value (inl E1) :- value E1.
 
 value (inr E1) :- value E1.
 
-% context inl C.
-% context inr C.
-% context case C e e.
+% context inl E.
+% context inr E.
+% context case E e e.

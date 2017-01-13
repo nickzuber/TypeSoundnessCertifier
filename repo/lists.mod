@@ -25,7 +25,7 @@ error (myError ).
 typeOf (myError ) T.
 
 
-% context cons C e.
-% context cons v C.
-% context head C.
-% context tail C.
+% context cons E e.
+% context cons v E.
+% context head E.
+% context tail E.

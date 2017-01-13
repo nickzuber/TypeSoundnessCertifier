@@ -6,6 +6,7 @@ open Aux
 open TypedLanguage
 open Ldl
 open LdlToTypedLanguage
+open TypeChecker
 open TypeCheckerTypedLanguage
 open Proof
 open Values
@@ -15,6 +16,7 @@ open ErrorManagement
 open CanonicalForms
 open Progress
 open Preservation
+open TypeSoundness
 open LdlToTypedLanguage
 open GenerateLambdaProlog
 open TypeCheckerPreservation
@@ -22,25 +24,26 @@ open Parser
 
 
 let sep = "\n\n"
-let generateThm tsName ts = generateThmPreamble tsName ^ sep ^ 
-							(generateTheoremS (generateCanonicalFormsLemma ts)) 
+let generateThm tsName ldl = generateThmPreamble tsName ^ sep ^ 
+							(generateTheoremS (generateCanonicalFormsLemma ldl)) 
 							^ sep ^ 
-							(progressDefinition ts) 
+							(progressDefinition ldl) 
 							^ sep ^ 
-							(generateTheoremS (generateProgressLemmas ts)) 
+							(generateTheoremS (generateProgressLemmas ldl)) 
 							^ sep ^ 
-							(generateTheorem (generateProgressTheorem ts)) 
+							(generateTheorem (generateProgressTheorem ldl)) 
 							^ sep ^
-							(generateTheorem (generatePreservationTheorem ts)) 
+							(generateTheorem (generatePreservationTheorem ldl)) 
 							^ sep ^ 
-							typesoundnessProof 
+							typesoundnessProof (ldl_containErrors ldl)
 
 							
 let checkResult tlName output = 
-	if String.exists (last output) "Abella < Goodbye." 
-		then ()
-		else print_string ("FAILED Type Preservation. Specification: " ^ tlName ^ ". Rule: " ^ String.tail (fst (String.split (last output) "<")) (String.length "test_") ^ "\n")
-	
+	if (String.exists (last output) "< search.") 
+		(* if Abella 2.0.2, 2.0.3, and 2.0.4 fail our type preservation check, they quit abruptly after "search.", which is then the last line *)
+		(* this check above will be replaced with a better way to interact with Abella *)
+		then raise(Failure("FAILED Type Preservation. Specification: " ^ tlName ^ ". Rule: " ^ String.tail (fst (String.split (last output) "<")) (String.length "test_") ^ "\n"))
+		else ()
 
 let runPreservationTests tlName ldl = 
 	let test_thm = open_out ("./generated/test_" ^ tlName ^ ".thm") in 
@@ -51,7 +54,7 @@ let runPreservationTests tlName ldl =
 			chdir "generated"; 
 			let output = callAbella ("abella test_" ^ tlName ^ ".thm") in 
 				chdir directory;
-				checkResult tlName output;; 
+				checkResult tlName output;;
 
 				  
 let tlTable = [
@@ -62,20 +65,24 @@ let tlTable = [
 "pairs_superlazy" ; 
 "pairs_lazy" ; 
 "pairs_plain" ; 
+"pairs_rightToleft" ; 
 "pairs_onlyfstButBoth" ; 
 "iff" ;
 "lists" ;
 "lists_lazy" ;
+"lists_rightToleft" ;
 "listsIsNil";
 "listsIsNil_lazy" ;
+"listsIsNil_rightToleft" ;
 "sums" ;
 "unitt" ;
 "itlc_cbn" ;
 "itlc_cbv" ;
 "itlc_par" ;
+"tuples_plain" ;
 "tuples_lazy" ;
 "tuples_parallel" ;
-"tuples_plain" ;
+"tuples_rightToleft" ;
 "foralll" ;
 "recursive" ;
 (* STLC with if and booleans *)
@@ -89,32 +96,41 @@ let tlTable = [
 "stlc_cbn_pairs_lazy" ;
 "stlc_cbn_pairs_superlazy" ;
 "stlc_cbn_pairs_plain" ;
+"stlc_cbn_pairs_rightToleft" ;
 "stlc_cbn_pairs_onlyfstButBoth" ;
 "stlc_cbn_pairs_onlysnd" ;
 "stlc_cbv_pairs_lazy" ;
 "stlc_cbv_pairs_superlazy" ;
 "stlc_cbv_pairs_plain" ;
+"stlc_cbv_pairs_rightToleft" ;
 "stlc_cbv_pairs_onlyfstButBoth" ;
 "stlc_cbv_pairs_onlysnd" ;
 "stlc_par_pairs_lazy" ;
 "stlc_par_pairs_superlazy" ;
 "stlc_par_pairs_plain" ;
+"stlc_par_pairs_rightToleft" ;
 "stlc_par_pairs_onlyfstButBoth" ;
 "stlc_par_pairs_onlysnd" ;
 (* STLC with lists *)
 "stlc_cbn_lists" ;
 "stlc_cbn_lists_lazy" ;
+"stlc_cbn_lists_rightToleft" ;
 "stlc_cbv_lists" ;
 "stlc_cbv_lists_lazy" ;
+"stlc_cbv_lists_rightToleft" ;
 "stlc_par_lists" ;
 "stlc_par_lists_lazy" ;
+"stlc_par_lists_rightToleft" ;
 (* STLC with lists with booleans and isNil *)
 "stlc_cbn_listsIsNil" ;
 "stlc_cbn_listsIsNil_lazy" ;
+"stlc_cbn_listsIsNil_rightToleft" ;
 "stlc_cbv_listsIsNil" ;
 "stlc_cbv_listsIsNil_lazy" ;
+"stlc_cbv_listsIsNil_rightToleft" ;
 "stlc_par_listsIsNil" ;
 "stlc_par_listsIsNil_lazy" ;
+"stlc_par_listsIsNil_rightToleft" ;
 (* STLC with fix *)
 "stlc_cbn_fix" ;
 "stlc_cbv_fix" ;
@@ -155,35 +171,54 @@ let tlTable = [
 "stlc_cbn_tuples_lazy" ;
 "stlc_cbn_tuples_parallel" ;
 "stlc_cbn_tuples_plain" ;
+"stlc_cbn_tuples_rightToleft" ;
 "stlc_cbv_tuples_lazy" ;
 "stlc_cbv_tuples_parallel" ;
 "stlc_cbv_tuples_plain" ;
+"stlc_cbv_tuples_rightToleft" ;
 "stlc_par_tuples_lazy" ;
 "stlc_par_tuples_parallel" ;
 "stlc_par_tuples_plain" ;
+"stlc_par_tuples_rightToleft" ;
 (* System F *)
 "stlc_cbn_forall" ;
 "stlc_cbv_forall" ;
 "stlc_par_forall" ;
-(* LambdaFull *)
-"fullFledgedWithType_cbn" ;
-"fullFledgedWithType_cbv" ;
-"fullFledgedWithType_par" ;
-(* FullFledged Language: System F with if-then-else and booleans, lists, exceptions and letrec *)
-"lambdafull_cbn" ;
-"lambdafull_cbv" ;
-"lambdafull_par" ;
-(* FullFledged Language: System F with implicitly typed abstraction, if-then-else and booleans, lists, exceptions and letrec with no type annotations*)
-"fullFledged_cbn" ;
-"fullFledged_cbv" ;
-"fullFledged_par" ;
-(* Paper Mini-ML *)
-"miniML_cbv"
+(* STLC with recursive types *)
+"stlc_cbn_recursive" ;
+"stlc_cbv_recursive" ;
+"stlc_par_recursive" ;
+(** Some combinations **)
+(* STLC with booleans, lists, sums and letrec *)
+"lists_withMore_cbv" ;
+"lists_withMore_cbn" ;
+"lists_withMore_par" ;
+"lists_withMore_rightToleft_cbv" ;
+"lists_withMore_rightToleft_cbn" ;
+"lists_withMore_rightToleft_par" ;
+(* STLC with booleans, lists, sums and letrec *)
+"sums_and_pairs_cbv" ;
+"sums_and_pairs_cbn" ;
+"sums_and_pairs_par" ;
+(* STLC with booleans, lists, universal types, fix, let, letrec, and exceptions, with and without type annotations *)
+"forall_withMore_cbn" ;
+"forall_withMore_cbv" ;
+"forall_withMore_par" ;
+"forall_withMoreWithType_cbn" ;
+"forall_withMoreWithType_cbv" ;
+"forall_withMoreWithType_par" ;
+(* STLC with booleans, lists, recursive types, fix, letrec, and exceptions, with and without type annotations *)
+"recursive_withMore_cbn" ;
+"recursive_withMore_cbv" ;
+"recursive_withMore_par" ;
+(* Paper Fpl: STLC cbv with integers, booleans, pairs, sums, lists, universal types, recursive types, fix, letrec, and exceptions *)
+"fpl_cbv"
 ]
 
 let testOne tlName =
 	let tlRaw = parseFile tlName in 
-	let ldl = typecheck_tl tlRaw in 
+	(try typecheck tlRaw with | Failure errorMessage -> raise(Failure("Typechecker Failure for " ^ tlName ^ ": " ^ errorMessage)));
+	let ldl = (try typecheck_tl tlRaw with | Failure errorMessage -> raise(Failure("Failure for " ^ tlName ^ ": " ^ errorMessage))) in 
 	let tl = compile ldl in 
 	let mycalculus_sig = open_out ("./generated/" ^ tlName ^ ".sig") in
 	let mycalculus_mod = open_out ("./generated/" ^ tlName ^ ".mod") in
@@ -203,7 +238,8 @@ let testOne tlName =
 (*	try typecheck_tl tlRaw ; () with _ -> print_string tlName
 *)	
 		
-let test = List.map testOne tlTable 
+let test = List.map testOne tlTable; print_string "All the specifications in input are type sound!\n";
+
 
 
 	(*

@@ -13,6 +13,6 @@ step (let V R) (R V) :- value V.
 value (abs T1 R2).
 
 
-% context app C e.
-% context app e C.
-% context let C e.
+% context app E e.
+% context app e E.
+% context let E e.

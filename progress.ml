@@ -1,3 +1,4 @@
+open Topo
 open Batteries
 open Option
 open Aux
@@ -11,6 +12,7 @@ let toE i = "E" ^ (string_of_int i)
 let toPrgsE i = "PrgsE" ^ (string_of_int i)
 let toTypeOfE i = "TypeOfE" ^ (string_of_int i)
 let progressImplication var = "progresses " ^ var ^ " -> "
+let toCaseWithProgressClause i = if i = 1 then Tactic(Named("ProgressClause", Case((toPrgsE i)))) else toCase (toPrgsE i)
 
 let combinatoricsOfSearches sensitivePositions errorSpec flagErrorHandler = 
 	let multiply = if is_none errorSpec then 1 else 2 in 
@@ -28,7 +30,9 @@ let appealToCanonicalForm typeSpec =
 	let caseCanonicalIfNecessary = if List.length constructors = 1 then Qed else Tactic(Case("Canonical")) in 
   [Tactic(Named("Canonical", Apply("canonical_form_" ^ typeBeingProved, [(toTypeOfE 1) ; "ProgressClause"]))) ; caseCanonicalIfNecessary ; RepeatPlain((List.length constructors), Tactic(Search))] 
 
-let preambleproof_progress_lemmas sensitivePositionsRaw = let sensitivePositions = List.map toPrgsE sensitivePositionsRaw in if sensitivePositions = [] then Qed else Seq([Tactic(Intros("Main" :: sensitivePositions)) ; Tactic(Named((toTypeOfE 1), Case("Main"))) ; Tactic(Named("ProgressClause", Case((List.hd sensitivePositions))))] @ List.map toCase (List.tl sensitivePositions))
+let preambleproof_progress_lemmas sensitivePositionsRaw positionsInOrderRaw = 
+	let sensitivePositions = List.map toPrgsE sensitivePositionsRaw in 
+	if sensitivePositions = [] then Qed else Seq([Tactic(Intros("Main" :: sensitivePositions)) ; Tactic(Named((toTypeOfE 1), Case("Main")))] @ List.map toCaseWithProgressClause positionsInOrderRaw)
 
 let statement_progress_lemmas termDecl sensitivePositions = 
 	let extraPremise = String.concat "" (List.map progressImplication (List.map toE sensitivePositions)) in 
@@ -38,8 +42,9 @@ let statement_progress_lemmas termDecl sensitivePositions =
 let progressLemmasByOperators errorSpec typeSpec flagErrorHandler eliminator =  
 	let termDecl = specTerm_getSig eliminator in 
 	let sensitivePositions = (term_getContextualPositions termDecl) in 
+	let positionsInOrder = topo_compute_order (term_getContextInfo termDecl) in 
 	let theorem  = statement_progress_lemmas termDecl sensitivePositions in 	
-	let preamble = preambleproof_progress_lemmas sensitivePositions in 
+	let preamble = preambleproof_progress_lemmas sensitivePositions positionsInOrder in 
 	let proof_leftmost = if is_none typeSpec then [Tactic(Search)] else appealToCanonicalForm (get typeSpec) in 
 	let proofDischargeAllSubtrees = combinatoricsOfSearches sensitivePositions errorSpec flagErrorHandler in 
 	let finishErrorHandlerIfNeeded = if flagErrorHandler then [Tactic(Case("ProgressClause")) ; Tactic(Search) ; Tactic(Search)] else [] in 

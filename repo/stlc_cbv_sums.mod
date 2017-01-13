@@ -23,8 +23,8 @@ value (inl E1) :- value E1.
 value (inr E1) :- value E1.
 
 
-% context inl C.
-% context inr C.
-% context app C e.
-% context app v C.
-% context case C e e.
+% context inl E.
+% context inr E.
+% context app E e.
+% context app v E.
+% context case E e e.

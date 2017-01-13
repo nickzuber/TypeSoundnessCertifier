@@ -13,6 +13,6 @@ step (fix V) (app V (fix V)) :- value V.
 value (abs R1).
 
 
-% context app C e.
-% context app v C.
-% context fix C.
+% context app E e.
+% context app v E.
+% context fix E.

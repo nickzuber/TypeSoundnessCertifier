@@ -34,9 +34,9 @@ typeOf (myError ) T.
 
 
 
-% context cons C e.
-% context cons v C.
-% context app C e.
-% context app e C.
-% context head C.
-% context tail C.
+% context cons E e.
+% context cons v E.
+% context app E e.
+% context app e E.
+% context head E.
+% context tail E.

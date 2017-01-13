@@ -8,5 +8,5 @@ step (unfold (fold V R)) V :- value V.
 
 value (fold E1 U2) :- value E1.
 
-% context fold C e.
-% context unfold C.
+% context fold E e.
+% context unfold E.

@@ -86,12 +86,6 @@ let rec generateTactic tactic = match tactic with
 | ForEach(hyps, pr) -> String.concat " " (List.map generateProof (List.map (substituteXinProof pr) hyps))
 | RepeatPlain(n, pr) ->   String.concat " " (Array.to_list (Array.make n (generateProof pr)))
 
-let typesoundnessProof = 
-"Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'. \n
-induction on 2. intros Main NStep. Step1 : case NStep. \n
-backchain progress. \n
-TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.\n"
-
 let rec generateTheorem theorem = match theorem with Theorem(statement, proof) -> statement ^ "\n" ^ generateProof proof
 let rec generateTheoremS theorems = String.concat "\n\n" (List.map generateTheorem theorems) ^ "\n\n" 
 

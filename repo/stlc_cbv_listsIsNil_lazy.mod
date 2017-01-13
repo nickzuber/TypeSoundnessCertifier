@@ -57,9 +57,9 @@ typeOf (myError ) T.
 
 
 
-% context app C e.
-% context app v C.
-% context head C.
-% context tail C.
-% context isnil C.
-% context if C e e.
+% context app E e.
+% context app v E.
+% context head E.
+% context tail E.
+% context isnil E.
+% context if E e e.

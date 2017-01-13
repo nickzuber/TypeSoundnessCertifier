@@ -55,4 +55,9 @@ let addAnd str = " /\\ " ^ str
 
 let list_subset a b = List.for_all (fun x -> List.mem x b) a
 
+let list_difference a b = let notpresent x = not (List.mem b x) in List.filter notpresent a 
+
+
 let ck p message = if p then true else raise(Failure message)
+let ckIf p action message = if p then action else raise(Failure message)
+

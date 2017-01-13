@@ -152,7 +152,7 @@ let last l = List.nth l ( (List.length l) - 1 )
 let remove_last lst = List.rev (List.tl (List.rev lst))
 
 let ctxTag = "% context"
-let reserved = ["sig" ; "kind" ; "module" ; "(pi x\\ typeOf" ; "=> typeOf" ; ":-" ; "." ; "," ; "(" ; ")" ; "type" ; "->" ; ctxTag ; "e" ; "v" ; "C"]
+let reserved = ["sig" ; "kind" ; "module" ; "(pi x\\ typeOf" ; "=> typeOf" ; ":-" ; "." ; "," ; "(" ; ")" ; "type" ; "->" ; ctxTag ; "e" ; "v" ; "E"]
 
 let ident = (spaces >> letter <~> many alpha_num) => implode >>= function
   | s when List.mem s reserved -> mzero
@@ -263,7 +263,7 @@ let rec tl input =
 and ctxline input = 
 	(token ctxTag >>
 	 ident      >>= fun c ->
-	 many (token "v" <|> token "e" <|> token "C") >>=  fun args ->
+	 many (token "v" <|> token "e" <|> token "E") >>=  fun args ->
      token "." >>
 	 return (c, args)) input
 
