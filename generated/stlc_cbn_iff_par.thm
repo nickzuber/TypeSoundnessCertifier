@@ -84,7 +84,7 @@ induction on 2. intros. case H2. search.
 apply preservation to H1 H3. apply IH to H5 H4. search. 
 
 Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> 
-({value E'} /\ {typeOf E' T}) \/ {error E'} \/ exists E'', {step E' E''}.
+({value E'} /\ {typeOf E' T}) \/ exists E'', {step E' E''}.
 induction on 2. intros Main NStep. 
 TypeOfEPrime : apply preservation_nstep to Main NStep. Step1 : case NStep. 
 Progress : apply progress to TypeOfEPrime.
