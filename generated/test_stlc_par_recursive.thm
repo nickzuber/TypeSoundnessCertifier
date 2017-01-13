@@ -1,0 +1,6 @@
+Specification "stlc_par_recursive".
+
+Theorem test_r_unfold_fold : forall V R, {typeOf (fold V R) (mu R)} -> {typeOf V (R (mu R))} -> {typeOf V (R (mu R))}.
+intros. search.
+Theorem test_r_app_abs : forall T T1 R E T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
+intros. search.
