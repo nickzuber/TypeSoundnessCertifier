@@ -1,6 +1,7 @@
 # TypeSoundnessCertifier
 
 Author: Matteo Cimini (mcimini@indiana.edu)
+	<br />
 Tool tested with Abella 2.0.2, 2.0.3, and 2.0.4
 
 Quick usage: <br />
