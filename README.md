@@ -6,7 +6,7 @@ Tool tested with Abella 2.0.2, 2.0.3, and 2.0.4
 
 <br />
 
-##Update (December 2017): <br />
+## Update (December 2017): <br />
 As of July 2017 (a POPL 2018 submission), TypeSoundnessCertifier automatically solves the POPLMark Challenge 2A! 
 <br />(i.e. the tool automatically generates the full mechanized type soundness proof for System F with bounded subtyping, from its language definition.) 
 <br />See the reference below to this example.   
