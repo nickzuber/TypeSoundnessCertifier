@@ -4,10 +4,8 @@ Author: Matteo Cimini (mcimini@indiana.edu)
 	<br />
 Tool tested with Abella 2.0.2, 2.0.3, and 2.0.4
 
-<br />
-
 ## Update (December 2017): <br />
-As of July 2017 (a POPL 2018 submission), TypeSoundnessCertifier automatically solves the POPLMark Challenge 2A! 
+As of July 2017 (a POPL 2018 submission), ** _TypeSoundnessCertifier automatically solves the POPLMark Challenge 2A!! _ **
 <br />(i.e. the tool automatically generates the full mechanized type soundness proof for System F with bounded subtyping, from its language definition.) 
 <br />See the reference below to this example.   
 <br />
@@ -79,12 +77,12 @@ Only a few relevant examples, acting on the file "<strong>fpl_cbv.mod</strong>" 
 <li> fpl_cbv_sub.mod: The language fpl above, without recursive types, and with subtyping for all other types. 
 <li> systemFsub.mod: System F with bounded subtyping, i.e., POPLMark Challenge 2A. 
 <li> systemFsub_records: System F sub with records, i.e., POPLMark Challenge 2B without pattern-matching. 
-	 Disclaimer 1: that a list is either empty or a 'cons' is an admitted lemma. 
-	 Disclaimer 2: that labels in records have distinct names is an admitted lemma. 
-	 The rest of the type soundness proof is completely mechanized, automatically generated. 
+	  <br />Disclaimer 1: that a list is either empty or a 'cons' is an admitted lemma. 
+	  <br />Disclaimer 2: that labels in records have distinct names is an admitted lemma. 
+	  <br />The rest of the type soundness proof is completely mechanized, automatically generated. 
 <li> systemFsub_records_invoke: System F sub with records, and also an invoke operators, i.e. grab a function from the record to apply it to an argument. 
-	 Disclaimer 1: that a list is either empty or a 'cons' is an admitted lemma. 
-	 Disclaimer 2: that labels in records have distinct names is an admitted lemma. 
-	 The rest of the type soundness proof is completely mechanized, automatically generated. 
+	  <br />Disclaimer 1: that a list is either empty or a 'cons' is an admitted lemma. 
+	  <br />Disclaimer 2: that labels in records have distinct names is an admitted lemma. 
+	  <br />The rest of the type soundness proof is completely mechanized, automatically generated. 
 <li> systemFsub_kernel: Like System F sub, but the first argument of 'for all' is invariant.
 </ul> 
