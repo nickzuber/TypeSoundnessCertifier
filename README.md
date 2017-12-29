@@ -6,9 +6,10 @@ Tool tested with Abella 2.0.2, 2.0.3, and 2.0.4
 
 ## Update (December 2017): <br />
 As of July 2017 (a POPL 2018 submission), 
-<br />         **_TypeSoundnessCertifier automatically solves the POPLMark Challenge 2A!!_**
-<br />(i.e. the tool automatically generates the full mechanized type soundness proof for System F with bounded subtyping, from its language definition.) 
-<br />See the reference below to this example.   
+<br />
+<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**_TypeSoundnessCertifier automatically solves the POPLMark Challenge 2A!!_**
+<br /><br />(i.e. the tool automatically generates the full mechanized type soundness proof for System F with bounded subtyping, from its language definition.) 
+<br />See below for the reference to this example.   
 <br />
 
 Requirements: 
@@ -73,7 +74,7 @@ Only a few relevant examples, acting on the file "<strong>fpl_cbv.mod</strong>" 
 	<br /> Spotted error: the typing rule does not assign a type to <strong>E1</strong>.
 </ul>
 
-# Other Interesting Examples  <br />
+# Some Interesting Examples  in the Folder "repo"<br />
 <ul> 
 <li> fpl_cbv_sub.mod: The language fpl above, without recursive types, and with subtyping for all other types. 
 <li> systemFsub.mod: System F with bounded subtyping, i.e., POPLMark Challenge 2A. 
