@@ -1,0 +1,108 @@
+Specification "stlc_cbn_pairs_lefToright".
+
+
+
+
+
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (abs Arg1 Arg2)).
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+
+ case Value. case Value. case Value.
+ 
+
+
+Theorem  canonical_form_times : forall E T1 T2, {typeOf E (times T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (pair Arg1 Arg2) /\ {value Arg1} /\ {value Arg2}).
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+
+ case Value. case Value. case Value.
+ 
+
+
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((abs T1 R2)).
+
+ search.
+
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses ((app E1 E2)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search.
+
+
+
+Theorem progress_pair : forall E1 E2 T, {typeOf ((pair E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((pair E1 E2)).
+
+intros  Main PrgsE1 PrgsE2. TypeOfE1 : case Main. case PrgsE2. ProgressClause : case PrgsE1.
+ search. search. search.
+
+
+
+Theorem progress_fst : forall E1 T, {typeOf ((fst E1)) T} -> progresses E1 -> progresses ((fst E1)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times to TypeOfE1 ProgressClause.   search. search.
+
+
+
+Theorem progress_snd : forall E1 T, {typeOf ((snd E1)) T} -> progresses E1 -> progresses ((snd E1)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_times to TypeOfE1 ProgressClause.   search. search.
+
+
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. TypeOfE1 : case Main.
+ backchain progress_abs.
+ apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_pair.
+
+ apply IH to TypeOfE1. backchain progress_app.
+ apply IH to TypeOfE1. backchain progress_fst.
+ apply IH to TypeOfE1. backchain progress_snd.
+
+ 
+ 
+
+
+Theorem preservation : forall Exp Exp' Typ, {typeOf Exp Typ} -> {step Exp Exp'} -> {typeOf Exp' Typ}.
+induction on 1. intros  Main Step. Hyp1 : case Main.
+ Step : case Step.
+ Step : case Step. apply IH to Hyp1 Step. search.
+ apply IH to Hyp2 Step. search.
+
+ Step : case Step. Hyp1 : case Hyp1(keep). CutHyp : assert ({typeOf E2 T1}). ToCut : inst Hyp3 with n1 = E2. cut ToCut with CutHyp. clear CutHyp. clear ToCut. search.
+ apply IH to Hyp1 Step. search.
+
+ Step : case Step. Hyp1 : case Hyp1(keep). search.
+ apply IH to Hyp1 Step. search.
+
+ Step : case Step. Hyp1 : case Hyp1(keep). search.
+ apply IH to Hyp1 Step. search.
+
+
+
+
+
+
+Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'. 
+
+induction on 2. intros Main NStep. Step1 : case NStep. 
+
+backchain progress. 
+
+TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.

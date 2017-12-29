@@ -1,0 +1,253 @@
+Specification "systemFsub_records_invariant".
+
+
+
+Theorem subsumption_in_contexts: forall T1 T2, {subtype T1 T2} -> nabla x, {subtype x T1 |- subtype x T2}. 
+intros . search.
+
+
+Theorem inversion_subtype_arrow : forall Typ T1' T2', {subtype Typ (arrow T1' T2')} -> (exists T1 T2,  Typ = (arrow T1 T2) /\ {subtype T1' T1} /\ {subtype T2 T2'}).
+induction on 1. intros Main. Subtype1 : case Main(keep). 
+
+search.
+ search.
+ Arg_2_1 : apply IH to Subtype2. Arg_1_1 : apply IH to Subtype1. search.
+
+
+
+Theorem inversion_subtype_all : forall Typ T1' T2', {subtype Typ (all T1' T2')} -> (exists T1 T2, nabla x,  Typ = (all T1 T2) /\ {subtype T1' T1} /\ {subtype x T1' => subtype (T2 x) (T2' x)}).
+induction on 1. intros Main. Subtype1 : case Main(keep). 
+
+search.
+ search.
+ Arg_2_1 : apply IH to Subtype2. Arg_1_1 : apply IH to Subtype1. New1 : apply subsumption_in_contexts to Arg_2_1. cut Arg_1_2 with New1.
+ search.
+
+
+
+Theorem recordT_member_cases : forall List, {subtype (recordT List) (recordT List)} -> List = (emptyT_record ) \/ exists Arg1 Arg2 Arg3, List = (consT_record Arg1 Arg2 Arg3). skip.
+
+
+Theorem inversion_subtype_recordT : forall Typ List, {subtype Typ (recordT List)} ->  (exists List', Typ = (recordT List') /\ List = (emptyT_record )) \/ (exists L T1 Rest1 Rest1',  Typ = (recordT (consT_record L T1 Rest1)) /\ List = (consT_record L T1 Rest1')  /\ {subtype (recordT Rest1) (recordT Rest1')}).
+induction on 1. intros Main. Subtype1 : case Main(keep). 
+
+search. search. search.
+ Cases : apply recordT_member_cases to Main. case Cases. search. search.
+ Arg_2_1 : apply IH to Subtype2. case Arg_2_1. Arg_1_1 : apply IH to Subtype1. case Arg_1_1. search. search. Arg_1_1 : apply IH to Subtype1. case Arg_1_1. search.
+
+
+
+
+Theorem inversion_typing_abs : forall T1 R T1' T2', {typeOf (abs T1 R) (arrow T1' T2')} -> exists T2, nabla x, {typeOf x T1 => typeOf (R x) T2} /\ {subtype T1' T1} /\ {subtype T2 T2'}.
+
+induction on 1. intros Main. Subtype1 : case Main. 
+
+search.
+ Arg_1_1 : apply inversion_subtype_arrow to Subtype2. Arg_2_1 : apply IH to Subtype1. search.
+
+
+
+Theorem inversion_typing_absT : forall T1 R2 T1' T2', {typeOf (absT T1 R2) (all T1' T2')} -> exists R, nabla x, {subtype x T1 => typeOf (R2 x) (R x)} /\ {subtype T1' T1} /\ {subtype x T1' => subtype (R x) (T2' x)}.
+
+induction on 1. intros Main. Subtype1 : case Main. 
+
+search.
+ Arg_1_1 : apply inversion_subtype_all to Subtype2. Arg_2_1 : apply IH to Subtype1. New1 : apply subsumption_in_contexts to Arg_1_1. cut Arg_2_3 with New1.
+ search.
+
+
+
+
+
+Theorem  canonical_form_recordT : forall E List, {typeOf E (recordT List)} -> {value E} -> (exists Arg1, E = (record Arg1)).
+induction on 1. 
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+ case Value. search.
+
+ case Value. case Value. case Value.
+  Cases : apply inversion_subtype_recordT to Subsumption1. case Cases. apply IH to Subsumption Value. search. apply IH to Subsumption Value. search.
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (abs Arg1 Arg2)).
+induction on 1. 
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+
+ case Value. case Value. case Value.
+  apply inversion_subtype_arrow to Subsumption1. apply IH to Subsumption Value. search.
+
+
+Theorem  canonical_form_all : forall E T1 U2, {typeOf E (all T1 U2)} -> {value E} -> (exists Arg1 Arg2, E = (absT Arg1 Arg2)).
+induction on 1. 
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+
+ case Value. case Value. case Value.
+  apply inversion_subtype_all to Subsumption1. apply IH to Subsumption Value. search.
+
+
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem recordT_width: forall List1 List2 L T, {recordT_member List2 L T} -> {subtype (recordT List1) (recordT List2)} -> {recordT_member List1 L T}. 
+induction on 1. intros Main Subtype. case Main. 
+Cases : apply inversion_subtype_recordT to Subtype. case Cases. search. 
+Cases : apply inversion_subtype_recordT to Subtype. InvertedAssumption1 : case Cases. apply IH to H1 InvertedAssumption1. search. 
+
+
+
+Theorem recordT_member_synch : forall List1 List2 L T, {typeOf (record List1) (recordT List2)} -> {recordT_member List2 L T} ->  exists E, {record_member List1 L E}. 
+induction on 1. intros TypeOf Member. TypeOfList1 : case TypeOf. 
+case Member.  
+case Member. search. apply IH to TypeOfList2 H1. search.  
+Cases : apply inversion_subtype_recordT to TypeOfList2. InvertedAssumption1 : case Cases.  
+  case Member.  
+ Width : apply recordT_width to Member TypeOfList2.  
+ apply IH to TypeOfList1 Width. 
+ search.  
+
+
+
+Theorem record_update_synch : forall List L E1 E2, {record_member List L E1} ->  exists List', {record_update List L E2 List'}. 
+induction on 1. intros Main. Hyp : case Main. 
+search. 
+apply IH to Hyp with E2 = E2. search.
+ 
+
+
+Theorem record_update_synch_back : forall List List' L E1, {record_update List L E1 List'} ->  exists E2, {record_member List L E2}. 
+induction on 1. intros Main. Hyp : case Main. 
+search. 
+apply IH to Hyp. search.
+ 
+
+
+Theorem progress_record_empty : forall T, {typeOf (record (empty_record )) T} -> progresses (record (empty_record )).
+search.
+
+Theorem progress_record_cons : forall L E Rest1 T, {typeOf (record (cons_record L E Rest1)) T} -> progresses E -> progresses (record Rest1) -> progresses (record (cons_record L E Rest1)).
+induction on 1. intros  Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. ListMayStep : case PrgsE2. search. case ListMayStep. search. search. search. apply IH to TypeOfE1 PrgsE1 PrgsE2. search.
+
+
+Theorem progress_projection : forall E1 L T, {typeOf ((projection E1 L)) T} -> progresses E1 -> progresses ((projection E1 L)).
+induction on 1. 
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_recordT to TypeOfE1 ProgressClause.  MemberSynch : apply recordT_member_synch to TypeOfE1 TypeOfE2. search. search. apply IH to TypeOfE1 PrgsE1. search.
+
+
+
+Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((abs T1 R2)).
+
+ search.
+
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((app E1 E2)).
+induction on 1. 
+
+intros  Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. case PrgsE2.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search. search. apply IH to TypeOfE1 PrgsE1 PrgsE2. search.
+
+
+
+Theorem progress_absT : forall T1 R2 T, {typeOf ((absT T1 R2)) T} -> progresses ((absT T1 R2)).
+
+ search.
+
+
+
+Theorem progress_appT : forall E1 T2 T, {typeOf ((appT E1 T2)) T} -> progresses E1 -> progresses ((appT E1 T2)).
+induction on 1. 
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_all to TypeOfE1 ProgressClause.   search. search. apply IH to TypeOfE1 PrgsE1. search.
+
+
+
+Theorem progress_topObj : forall  T, {typeOf ((topObj )) T} -> progresses ((topObj )).
+
+ search.
+
+
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. TypeOfE1 : case Main.
+backchain progress_record_empty. apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_record_cons.
+  backchain progress_abs.
+  backchain progress_absT.
+  backchain progress_topObj.
+
+ apply IH to TypeOfE1. backchain progress_projection.
+ apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_app.
+ apply IH to TypeOfE1. backchain progress_appT.
+
+ 
+  apply IH to TypeOfE1. search.
+
+
+Theorem record_member_unique : forall L E E1 E2 Rest, {record_member (cons_record L E Rest) L E1} -> {record_member Rest L E2} -> false. skip.
+
+
+
+Theorem recordT_member_unique : forall L E E1 E2 Rest, {recordT_member (consT_record L E Rest) L E1} -> {recordT_member Rest L E2} -> false. skip.
+
+
+
+Theorem record_member_preserve : forall List1 List2 L T E, {typeOf (record List1) (recordT List2)} -> {recordT_member List2 L T} -> {record_member List1 L E} -> {typeOf E T}. 
+induction on 1. intros TypeOf Member1 Member2. TypeOf1 : case TypeOf(keep).  
+ case Member1.  
+
+ Member1_1 : case Member1(keep). 
+ Member2_1 : case Member2(keep). 
+ search.  
+ apply record_member_unique to Member2 Member2_1. 
+ Member2_1 : case Member2(keep). 
+ apply recordT_member_unique to Member1 Member1_1. 
+ apply IH to TypeOf2 Member1_1 Member2_1. search. 
+ Cases : apply inversion_subtype_recordT to TypeOf2. InvertedAssumptions1 : case Cases. case Member1.  
+ Width : apply recordT_width to Member1 TypeOf2. 
+ apply IH to TypeOf1 Width Member2. 
+ search.  
+
+
+
+Theorem preservation : forall Exp Exp' Typ, {typeOf Exp Typ} -> {step Exp Exp'} -> {typeOf Exp' Typ}.
+induction on 1. intros  Main Step. Hyp1 : case Main.
+ Step : case Step. Step : case Step. apply IH to Hyp1 Step. search.
+ apply IH to Hyp2 Step. search.
+
+ Step : case Step.
+ Step : case Step.
+ Step : case Step.
+ Step : case Step. apply record_member_preserve to Hyp1 Hyp2 Step. search.
+ apply IH to Hyp1 Step. search.
+
+ Step : case Step. Hyp1 : apply inversion_typing_abs to Hyp1. CutHyp : assert ({typeOf E2 T1}). ToCut : inst Hyp3 with n1 = E2. cut ToCut with CutHyp. clear CutHyp. clear ToCut. search.
+ apply IH to Hyp1 Step. search.
+ apply IH to Hyp2 Step. search.
+
+ Step : case Step. Hyp1 : apply inversion_typing_absT to Hyp1. CutHyp : assert ({subtype X T1}). ToCut : inst Hyp3 with n1 = X. cut ToCut with CutHyp. clear CutHyp. clear ToCut. CutHyp : assert ({subtype X T2}). ToCut : inst Hyp5 with n1 = X. cut ToCut with CutHyp. clear CutHyp. clear ToCut. search.
+ apply IH to Hyp1 Step. search.
+
+ apply IH to Hyp1 Step. search.
+
+
+
+
+Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> progresses E'. 
+
+induction on 2. intros Main NStep. Step1 : case NStep. 
+
+backchain progress. 
+
+TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.

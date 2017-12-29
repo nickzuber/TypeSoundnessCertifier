@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>TypeSoundnessCertifier</title>
+<style type="text/css">
+.navlist
+{
+    padding: 0em 1em;
+    margin: 0.5em 1em 1.5em 1em;
+}
+
+.navlist li
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dotted gray;
+}
+
+.navlist ul
+{
+    padding: 0em 1em;
+    margin: 0;
+}
+
+.navlist ul li
+{
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+section p + p,
+.section p + p {
+    margin-top: 1em !important;
+    text-indent: 0 !important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+</div>
+
+<div class="section">
+
+<div class="section">
+<center>
+<h1 id="main">
+  <em>TypeSoundnessCertifier</em>
+</h1>
+</center>
+<br/>
+
+Requirements: 
+<br />
+<ul>
+<li> To compile, Ocaml is required.
+<li> Ocaml Batteries package is required: (to install, run "opam install batteries")
+<li> To run:  the <a href="http://abella-prover.org">Abella proofs assistant</a> must be installed and the command "abella" must be in the $PATH 
+	 (to install, run "opam install abella")
+	  <br />The tool works with the latest Abella versions (2.0.2, 2.0.3, and 2.0.4)
+</ul>
+
+Quick usage: 
+<br />
+<ul>
+<li> make 
+<li> ./soundy 
+</ul>
+Output: a successful message means that <br />
+<ul>
+<li> The tool has succesfully type checked all the language specifications in the folder "repo". 
+<li> The tool has automatically generated Abella files (.sig, .mod, and especially .thm) in the folder "generated". <br /> 
+     These files contain the theorem and proof of type soundness for each language specification. 
+<li> Abella has succesfully proof-checked all the type soundness proofs generated. <br /> 
+     To be precise: the command "abella" runs to "Proof Completed" on all generated .thm in the folder "generated". <br />
+</ul>
+
+To clean: <br />
+<ul>
+<li> make cleanOnlyTool 
+	<br /> (removes compilation files and executable) 
+<li> make clean 
+	<br />  (removes compilation files, executable, and Abella files in "generated") 
+</ul>
+<br /><br />
+
+<center>
+<h1 id="tests">
+  <em>Some Type Checking Examples</em>
+</h1>
+</center>
+<br/>
+The language definitions in the folder "repo" are all type sound. However, benefits of the tool include spotting design mistakes. <br />
+Below, are some simple tests that can be reproduced by reviewers. 
+<br /><br />
+<i>Disclaimer (these aspects below can easily improve and we will improve them): </i>
+	<br /><i style="text-indent: 50px;"> &nbsp;&nbsp;Error messages are a bit rough at the moment. </i>
+	<br /><i style="text-indent: 50px;"> &nbsp;&nbsp;The parser is not precise: to recognize constants, one should write <strong>(tt)</strong> rather than <strong>tt</strong>, for example. 	<br /><i style="text-indent: 50px;"> &nbsp;&nbsp;The paper says that we apply a timeout of 3 seconds. We have removed that timeout in this version for not having to call yet another external program (gtimeout). </i>
+</i>
+<br /><br />
+To do the test below, please modify "fpl_cbv.mod" in the folder "repo" as suggested and run ./soundy 
+<br /> (fpl_cbv.mod contains the language definition for a functional language with integers, booleans, pairs, sums, lists, universal types, recursive types, fix, letrec, and exceptions (try, raise))
+<br />
+<br />
+<ul>
+	<li style="margin: 20px;"> Remove line 33: <strong> step (pred (zero )) (raise (zero )).</strong>
+	<br /> Error to spot: operator <strong>pred</strong> (predecessor for natural numbers) does not eliminate <strong>zero</strong>, hence progress does not hold.
+<li style="margin: 20px;">  Replace line 33: <strong> step (pred (zero )) (raise (zero )).</strong>  with <strong> step (pred <strong style="color:red;">(tt)</strong>) (raise (zero )).</strong>	 
+	<br /> Error to spot: <strong>pred</strong> is eliminator for natural numbers but here eliminates a boolean value. 
+	<br /> Notice that the type system of a logical framework does not spot this error because <strong>pred</strong> accepts an expression as argument and <strong>(tt)</strong> is an expression. 
+	<br />This error can be spotted after our high-level classification of operators. 
+<li style="margin: 20px;">  Replace line 45: <strong> step (fst (pair E1 E2)) E1.</strong>  with <strong> step (fst (pair E1 E2)) <strong style="color:red;"> E2</strong></strong>. 
+	<br /> Error to spot: Reduction rule is not type preserving because <strong>(fst (pair E1 E2))</strong> has the type of <strong>E1</strong>.
+<li style="margin: 20px;">  Remove line 133: <strong> % context app C e.</strong>
+	<br /> Error to spot: the first argument of <strong>app</strong> is not an evaluation context, hence progress does not hold.
+<li style="margin: 20px;">  Replace line 21: <strong> typeOf (cons E1 E2) (list T) :- <strong style="color:red;">typeOf E1 T,</strong> typeOf E2 (list T).</strong> with <strong> typeOf (cons E1 E2) (list T) :- typeOf E2 (list T).</strong>
+	<br /> Error to spot: the typing rule does not assign a type to <strong>E1</strong>.
+</ul>
+<br />
+
+Other interesting language definitions in "repo":  <br />
+<ul> 
+<li> Combinations of features from Fpl are in "repo" with appropriate name. For example, 
+	<ul>
+		<li> stlc_cbv_sums.mod: Simply Typed Lambda Calculus, in call-by-value strategy and with sum types. 
+	 	  <li> stlc_cbn_lists_lazy.mod: STLC, in call-by-name strategy and with lazy lists. 
+		</ul> 	  
+<li> fpl_cbv_sub.mod: The language fpl above, without recursive types, and with subtyping for all other types. 
+<li> systemFsub.mod: System F with bounded subtyping.  
+<li> systemFsub_records: System F sub with records. 
+<li> systemFsub_records_invoke: System F sub with records, and also an invoke operators, i.e. grab a function from the record to apply it to an argument.
+<li> systemFsub_kernel: Like System F sub, but the first argument of 'for all' is invariant 
+</ul> 
+</body>
+</html>
+

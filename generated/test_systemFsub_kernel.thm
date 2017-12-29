@@ -1,0 +1,6 @@
+Specification "systemFsub_kernel".
+
+Theorem test_r_app_abs : forall R E2 T1' T1 T2 T2', {typeOf (abs T1 R) (arrow T1' T2')} -> {typeOf E2 T1'} -> {typeOf (R E2) T2} -> {subtype T1' T1} -> {subtype T2 T2'} -> {typeOf (R E2) T2'} /\ {typeOf E2 T1}.
+intros. search.
+Theorem test_r_appT_absT : forall T R2 X T' R R', {typeOf (absT T R2) (all T' R')} -> {subtype X T'} -> {typeOf (R2 X) (R X)} -> {subtype (R X) (R' X)} -> {subtype T' T'} -> {(pi x\ subtype x T' => subtype (R x) (R' x))} -> {typeOf (R2 X) (R' X)} /\ {subtype X T'} /\ {subtype X T'}.
+intros. search.
