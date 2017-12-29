@@ -1,8 +1,8 @@
 Specification "stlc_cbn_exc".
 
-Theorem test_r_app_abs : forall T T1 R E T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
+Theorem test_r_app_abs : forall T1 R E2 T2, {typeOf (abs T1 R) (arrow T1 T2)} -> {typeOf E2 T1} -> {typeOf (R E2) T2} -> {typeOf (R E2) T2} /\ {typeOf E2 T1}.
 intros. search.
 Theorem test_r_try : forall E1 E2 T, {typeOf E1 T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E1 T}.
 intros. search.
-Theorem test_r_try_raise : forall E2 T E1, {typeOf (raise E1) T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E1 (excType )} -> {typeOf (app E2 E1) T}.
+Theorem test_r_try_raise : forall E2 T E, {typeOf (raise E) T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E (excType )} -> {typeOf (app E2 E) T}.
 intros. search.

@@ -26,5 +26,5 @@ typeOf (myError ) T.
 
 
 
-% context head E.
-% context tail E.
+% context head C.
+% context tail C.

@@ -1,20 +1,20 @@
 Specification "stlc_par_listsIsNil".
 
-Theorem test_r_if_tt : forall E1 E2 T, {typeOf (tt ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E1 T}.
-intros. search.
-Theorem test_r_if_ff : forall E1 E2 T, {typeOf (ff ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E2 T}.
-intros. search.
-Theorem test_r_isnil_emptyList : forall T, {typeOf (emptyList ) (list T)} -> {typeOf (tt ) (bool )}.
-intros. search.
-Theorem test_r_isnil_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf (ff ) (bool )}.
-intros. search.
-Theorem test_r_tail_emptyList : forall T, {typeOf (emptyList ) (list T)} -> {typeOf (myError ) (list T)}.
-intros. search.
-Theorem test_r_tail_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E2 (list T)}.
+Theorem test_r_app_abs : forall T1 R E2 T2, {typeOf (abs T1 R) (arrow T1 T2)} -> {typeOf E2 T1} -> {typeOf (R E2) T2} -> {typeOf (R E2) T2} /\ {typeOf E2 T1}.
 intros. search.
 Theorem test_r_head_emptyList : forall T, {typeOf (emptyList ) (list T)} -> {typeOf (myError ) T}.
 intros. search.
 Theorem test_r_head_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E1 T}.
 intros. search.
-Theorem test_r_app_abs : forall T T1 R E T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
+Theorem test_r_tail_emptyList : forall T, {typeOf (emptyList ) (list T)} -> {typeOf (myError ) (list T)}.
+intros. search.
+Theorem test_r_tail_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E2 (list T)}.
+intros. search.
+Theorem test_r_isnil_emptyList : forall T, {typeOf (emptyList ) (list T)} -> {typeOf (tt ) (bool )}.
+intros. search.
+Theorem test_r_isnil_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf (ff ) (bool )}.
+intros. search.
+Theorem test_r_if_tt : forall E2 E3 T, {typeOf (tt ) (bool )} -> {typeOf E2 T} -> {typeOf E3 T} -> {typeOf E2 T}.
+intros. search.
+Theorem test_r_if_ff : forall E2 E3 T, {typeOf (ff ) (bool )} -> {typeOf E2 T} -> {typeOf E3 T} -> {typeOf E3 T}.
 intros. search.

@@ -5,6 +5,7 @@ open List
 open Aux
 open TypedLanguage
 open Ldl
+open ListManagement
 open TypeCheckerProgress
 open GenerateLambdaProlog
 open LdlToTypedLanguage
@@ -78,6 +79,15 @@ let bindingTyp_sameTypeValue bindingsTyp op c1 =
 		| ErrorT n -> false
 		else false 
 
+let extraCheckForLists tl typingRule = 
+	let typeEliminated = (extractTypeOfEliminatingArgument typingRule) in 
+	let lists_DeclTerms = List.map toRecordName (List.map term_getOperator (tl_getLists tl)) in 
+	if List.mem typeEliminated lists_DeclTerms 
+		then match rule_getPremises typingRule with 
+			| ((Formula(pred1, inn, [record])) :: (Formula(pred2, [listt], [l ; t])) :: rest) -> String.ends_with pred2 "_member" && (List.mem listt (term_getVariables record)) 
+			| _ -> raise(Failure("This typing rule does not handle records properly: " ^ (generateRule typingRule)))
+		else true
+
 let typecheckTyp tl reductionrules bindingsDef rule = 
 	if rule_wellFormed2_ tl rule  
 		then 
@@ -85,8 +95,12 @@ let typecheckTyp tl reductionrules bindingsDef rule =
 			if List.mem_assoc op bindingsDef (* then it is a value or an error *)
 			   then let assignedtype = (rule_getOutputTerm rule) in 
 					match List.assoc op bindingsDef with 
-					 | Value n -> let innerCheck = ckIf (term_isSkeletonFor (term_getConstructor assignedtype) assignedtype) (op, ValueT((term_getConstructor assignedtype), n)) ("The type assigned to the value " ^ op ^ "is not a constructed type") in 
+					(*
+					  | Value n -> let innerCheck = ckIf (term_isSkeletonFor (term_getConstructor assignedtype) assignedtype) (op, ValueT((term_getConstructor assignedtype), n)) ("The type assigned to the value " ^ op ^ " is not a constructed type: " ^ generateRule rule) in 
 									ckIf (term_isConstructor assignedtype) (innerCheck) ("The type assigned to the value " ^ op ^ "is not a constructed type")					
+					  *)
+					| Value n -> let innerCheck = (op, ValueT((term_getConstructor assignedtype), n)) in 
+					 				ckIf (term_isConstructor assignedtype) (innerCheck) ("The type assigned to the value " ^ op ^ " is not a constructed type: " ^ generateRule rule)					
 					| Error n -> ckIf (term_isFreeVar rule assignedtype) (op, ErrorT n) ("The type of the error is not a free variable")
 			   else let reductionsForOp = List.filter (rule_isPredicateAndName reduction op) reductionrules in 
 					 if (List.for_all  (fun rule -> not (rule_checkEliminatesSome rule)) reductionsForOp) 
@@ -94,7 +108,7 @@ let typecheckTyp tl reductionrules bindingsDef rule =
 						  else 
 							  if (List.exists (fun rule -> not (rule_checkEliminatesSome rule)) reductionsForOp) 
 								  then (tryErrorHandler op reductionsForOp) 
-						  		  else ckIf (List.for_all (bindingDef_isValue bindingsDef) (List.map rule_checkEliminatesWhat reductionsForOp)) 
+						  		  else ckIf ((List.for_all (bindingDef_isValue bindingsDef) (List.map rule_checkEliminatesWhat reductionsForOp)) && extraCheckForLists tl rule)
 								  			(op, Elim (extractTypeOfEliminatingArgument rule)) 
 								  			("Failed in Classifying operator " ^ op) 
 		else raise(Failure "typecheckTyp") (* here rule_wellFormed2 has already raised its error *) 				
@@ -161,16 +175,19 @@ let uniqueness_of_bindingDef bindingsDef =
 
 let uniqueness_of_bindingTyp bindingsTyp = 
 	let operators = (List.map fst bindingsTyp) in 
-	ckIf (List.length operators = List.length (removeDuplicates operators)) bindingsTyp "Error, some operator has multiple typing rules or multiple roles in the language."
+	ckIf (List.length operators = List.length (removeDuplicates operators)) bindingsTyp ("Error, some operator has multiple typing rules or multiple roles in the language: " ^ String.concat "---" operators)
 
 let check_exhaustiveness bindingsRed (typ, values, eliminators) = 
 	let actualEliminators = combine values (List.map (lookupEliminatorsByValue bindingsRed) values) in 
 	let checker (oneValue, itsEliminators) = 
 (*		let check = ck (not (typ = "list")) ("values: " ^ String.concat "-" values ^ "\n eliminators: " ^ String.concat "-" itsEliminators) in *)
-		ck (List.for_all (fun el -> List.mem el itsEliminators) eliminators) ("The value " ^ oneValue ^ "of type " ^ typ ^ " is not eliminated by all eliminators") in 
+		ck (List.for_all (fun el -> List.mem el itsEliminators) eliminators) ("The value " ^ oneValue ^ " of type " ^ typ ^ " is not eliminated by all eliminators") in 
 (*		   ck (difference = []) ("The value " ^ oneValue ^ "of type " ^ typ ^ "is not eliminated by the following eliminators: " ^ (String.concat "\n" difference)) in 
 *)	 List.for_all checker actualEliminators 
-	
+
+let addBindingValForLists termDecl = let c = term_getOperator termDecl in (c, Value(term_getValPositions termDecl)) 
+let addBindingTypForLists termDecl = let c = term_getOperator termDecl in (c, ValueT(c ^ "T", term_getValPositions termDecl)) 
+
 let wellformed_final_bindings bindingsTyp bindingsRed = 
 		 let types = retrieveTypes bindingsTyp in 
 		   let valuesByType = combine types (List.map (lookupValuesByTyp bindingsTyp) types) in (* (type, values) *)
@@ -184,7 +201,8 @@ let typecheck tlInput =
 	let values = List.filter (rule_isPredicate valuePred) (tl_getRules tlInput) in 
 	let typing = List.filter rule_isTypingRule (tl_getRules tlInput) in 
 	let reductionrules = List.filter (rule_isPredicate reduction) (tl_getRules tlInput) in 
-	let bindingsDef = uniqueness_of_bindingDef (List.map (typecheckVal tlInput) values) @ (List.map (typecheckErr tlInput) errors) in 
+	let bindingsDef = uniqueness_of_bindingDef (List.map (typecheckVal tlInput) values) @ (List.map (typecheckErr tlInput) errors) @ (List.map addBindingValForLists (tl_getLists tlInput)) in 
 	let bindingsTyp = uniqueness_of_bindingTyp (List.map (typecheckTyp tlInput reductionrules bindingsDef) typing) in 
+	let bindingsTyp = bindingsTyp @ (List.map addBindingTypForLists (tl_getLists tlInput)) in 
 	let bindingsRed = (List.map (typecheckRed tlInput bindingsTyp) reductionrules) in 
 	  	(wellformed_final_bindings bindingsTyp bindingsRed) 

@@ -3,7 +3,7 @@ sig stlc_par_let.
 kind term type.
 kind typ type.
 
-type arrow typ -> typ -> typ.
+kind label type.type arrow typ -> typ -> typ.
 type abs typ -> (term -> term) -> term.
 type app term -> term -> term.
 type let term -> (term -> term) -> term.

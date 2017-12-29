@@ -1,8 +1,8 @@
 Specification "stlc_cbn_pairs_onlysnd".
 
-Theorem test_r_snd_pair : forall E1 T1 E2 T2, {typeOf (pair E1 E2) (times T1 T2)} -> {typeOf E1 T1} -> {typeOf E2 T2} -> {typeOf E2 T2}.
+Theorem test_r_app_abs : forall T1 R E2 T2, {typeOf (abs T1 R) (arrow T1 T2)} -> {typeOf E2 T1} -> {typeOf (R E2) T2} -> {typeOf (R E2) T2} /\ {typeOf E2 T1}.
 intros. search.
 Theorem test_r_fst_pair : forall E1 T1 E2 T2, {typeOf (pair E1 E2) (times T1 T2)} -> {typeOf E1 T1} -> {typeOf E2 T2} -> {typeOf E1 T1}.
 intros. search.
-Theorem test_r_app_abs : forall T T1 R E T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
+Theorem test_r_snd_pair : forall E1 T1 E2 T2, {typeOf (pair E1 E2) (times T1 T2)} -> {typeOf E1 T1} -> {typeOf E2 T2} -> {typeOf E2 T2}.
 intros. search.

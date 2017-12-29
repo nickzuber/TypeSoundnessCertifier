@@ -3,12 +3,12 @@ sig stlc_cbn_recursive.
 kind term type.
 kind typ type.
 
+kind label type.type arrow typ -> typ -> typ.
 type mu (typ -> typ) -> typ.
-type arrow typ -> typ -> typ.
-type fold term -> (typ -> typ) -> term.
 type abs typ -> (term -> term) -> term.
-type unfold term -> term.
+type fold term -> (typ -> typ) -> term.
 type app term -> term -> term.
+type unfold term -> term.
 
 type value term -> o.
 

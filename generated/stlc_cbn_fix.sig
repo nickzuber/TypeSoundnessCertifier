@@ -3,7 +3,7 @@ sig stlc_cbn_fix.
 kind term type.
 kind typ type.
 
-type arrow typ -> typ -> typ.
+kind label type.type arrow typ -> typ -> typ.
 type abs typ -> (term -> term) -> term.
 type app term -> term -> term.
 type fix term -> term.

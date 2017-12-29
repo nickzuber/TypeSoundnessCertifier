@@ -3,10 +3,10 @@ sig pairs_plain.
 kind term type.
 kind typ type.
 
-type times typ -> typ -> typ.
+kind label type.type times typ -> typ -> typ.
 type pair term -> term -> term.
-type snd term -> term.
 type fst term -> term.
+type snd term -> term.
 
 type value term -> o.
 

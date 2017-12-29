@@ -1,6 +1,5 @@
 open Aux
 open TypedLanguage
-open Ldl
 
 type hypothesis = string
 type lemmaName = string
@@ -15,8 +14,10 @@ type tactic =
   | Assert of string  
   | Inst of hypothesis * string
   | InstAndCut of hypothesis * string * hypothesis
+  | Cut of hypothesis * hypothesis
   | Search
   | Named of hypothesis * tactic
+  | Clear of hypothesis 
 
 type proof =
   | Qed
@@ -48,10 +49,7 @@ let rec substituteXinProof pr hyp = let swapped = fun pr -> substituteXinProof p
 | Seq(proofs) -> Seq(List.map swapped proofs)
 | other -> other
 
-	 
-	 (*
-let existentiallyClosedEquation var signatureTerms canonicalTermDecl = 
-	let (canonical, vars) = canonicalForTerm canonicalTermDecl in 
-	let existentials = if vars = [] then "" else "exists " ^ String.concat " " (List.map toStringWith' vars) ^ ", " in 
-	 existentials ^ var ^ " = " ^ (toStringWith' canonical) 
-	 *)
+let universalQuantification vars = if vars = [] then "" else "forall " ^ String.concat " " vars ^ ", "
+let existentialQuantification vars = if vars = [] then "" else "exists " ^ String.concat " " vars ^ ", "
+let replaceHypothesis hyp1 hyp2 = [Tactic(Clear(hyp1)) ; Tactic(Named(hyp1, Apply(hyp2, []))) ; Tactic(Clear(hyp2))]
+

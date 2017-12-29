@@ -1,3 +1,4 @@
+open Batteries
 
 let range a b =
     let rec aux a b =
@@ -8,6 +9,12 @@ let getFormalVariables prefix n = if n = 0 then [] else
     let numbers = (range 1 n) in
     let getVars = (fun n -> (prefix^(string_of_int n))) in
     List.map getVars numbers 
+
+let var_ticked var = var ^ "'"
+
+let get3_1 (a, _, _) = a
+let get3_2 (_, a, _) = a
+let get3_3 (_, _, a) = a
 
 let repeat obj n = if n = 0 then [] else 
     let numbers = (range 1 n) in
@@ -23,7 +30,10 @@ let stringReplace input output =
 let find obj myList = 
 	let getIndex = fun obj1 -> fun index -> fun obj2 -> if obj1 = obj2 then index+1 else 0 in 
 		List.fold_left max 0 (List.mapi (getIndex obj) myList)
-	
+
+let findIndicesByPred pred myList = 
+	let getIndex = fun pred -> fun index -> fun el -> if pred el then index+1 else 0 in 
+	List.filter (fun n -> n>0) (List.mapi (getIndex pred) myList)
 let decrement n = n-1
 
 let safeTail myList = if myList = [] then [] else List.tl myList
@@ -55,9 +65,18 @@ let addAnd str = " /\\ " ^ str
 
 let list_subset a b = List.for_all (fun x -> List.mem x b) a
 
-let list_difference a b = let notpresent x = not (List.mem b x) in List.filter notpresent a 
+let list_difference a b = let notpresent x = not (List.mem x b) in List.filter notpresent a 
 
 
 let ck p message = if p then true else raise(Failure message)
 let ckIf p action message = if p then action else raise(Failure message)
 
+let fillToPairs (a, l) = List.map (fun el -> (a,el)) l
+
+let getAllValuesForKey l c1 = let selected = List.filter (fun ((c2,i), variance) -> c1 == c2) l in (c1, List.map (fun ((c2,i), variance) -> (i,variance)) selected)
+let getAllArrangedByKey l = List.map (getAllValuesForKey l) (removeDuplicates (List.map (fun ((c,i), variance) -> c) l))
+
+let list_deleteAt l i = List.take i l @ List.drop (i+1) l
+
+let chop_last_char str chr =
+    if String.get str ((String.length str) - 1) = chr then String.sub str 0 ((String.length str) - 1) else str

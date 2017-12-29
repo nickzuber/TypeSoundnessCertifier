@@ -16,9 +16,9 @@ step (app (abs T R) E) (R E) :- value E.
 
 typeOf (case EE R1 R2) T :- typeOf EE (sum T1 T2), (pi x\ typeOf x T1 => typeOf (R1 x) T), (pi x\ typeOf x T2 => typeOf (R2 x) T).
 
-step (case (inl EE) R1 R2) (R1 EE).
+step (case (inl V) R1 R2) (R1 V) :- value V.
 
-step (case (inr EE) R1 R2) (R2 EE).
+step (case (inr V) R1 R2) (R2 V) :- value V.
 
 typeOf (head E) T :- typeOf E (list T).
 
@@ -46,12 +46,12 @@ error (myError ).
 
 typeOf (myError ) T.
 
-% context inl E.
-% context inr E.
-% context app E e.
-% context app v E.
-% context case E e e.
-% context cons E e.
-% context cons v E.
-% context head E.
-% context tail E.
+% context inl C.
+% context inr C.
+% context app C e.
+% context app v C.
+% context case C e e.
+% context cons C e.
+% context cons v C.
+% context head C.
+% context tail C.

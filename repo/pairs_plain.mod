@@ -12,7 +12,7 @@ step (snd (pair E1 E2)) E2.
 
 value (pair E1 E2) :- value E1, value E2.
 
-% context pair E e.
-% context pair v E.
-% context fst E.
-% context snd E.
+% context pair C e.
+% context pair v C.
+% context fst C.
+% context snd C.

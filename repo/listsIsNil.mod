@@ -45,11 +45,11 @@ error (myError ).
 typeOf (myError ) T.
 
 
-% context cons E e.
-% context cons v E.
+% context cons C e.
+% context cons v C.
 
 
-% context head E.
-% context tail E.
-% context isnil E.
-% context if E e e.
+% context head C.
+% context tail C.
+% context isnil C.
+% context if C e e.

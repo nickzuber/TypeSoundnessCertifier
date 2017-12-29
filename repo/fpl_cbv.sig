@@ -1,4 +1,4 @@
-sig fpl_cbv.
+sig miniML_cbv.
 
 kind term type.
 kind typ type.

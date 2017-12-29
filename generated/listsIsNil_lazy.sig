@@ -3,16 +3,16 @@ sig listsIsNil_lazy.
 kind term type.
 kind typ type.
 
+kind label type.type list typ -> typ.
 type bool typ.
-type list typ -> typ.
-type ff term.
-type tt term.
 type cons term -> term -> term.
 type emptyList term.
-type if term -> term -> term -> term.
-type isnil term -> term.
-type tail term -> term.
+type ff term.
+type tt term.
 type head term -> term.
+type tail term -> term.
+type isnil term -> term.
+type if term -> term -> term -> term.
 type myError term.
 
 type value term -> o.

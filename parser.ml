@@ -125,6 +125,8 @@ let token s =
 (* ------------------------------ opal.ml END ------------------------------- *)
 
 open TypedLanguage
+open ListManagement
+open Subtyping
 
 type exp = PlusExp of exp * exp
          | SubExp of exp * exp
@@ -152,7 +154,20 @@ let last l = List.nth l ( (List.length l) - 1 )
 let remove_last lst = List.rev (List.tl (List.rev lst))
 
 let ctxTag = "% context"
-let reserved = ["sig" ; "kind" ; "module" ; "(pi x\\ typeOf" ; "=> typeOf" ; ":-" ; "." ; "," ; "(" ; ")" ; "type" ; "->" ; ctxTag ; "e" ; "v" ; "E"]
+let subsumptionTag = "% declarative-subtyping"
+let subtyping_top_Tag = "% subtyping-top"
+let subtyping_special_Tag = "% subtyping-for"
+let contravariantTag = "% contravariant"
+let invariantTag = "% invariant"
+let recursiveTag = "% recursive"
+let listInfoTag = "% list-info"
+let listKeyword = "record-list"
+let listSelfKeyword = "list-with-self"
+let widthKeyword = "width"
+let reserved = ["sig" ; "kind" ; "module" ; "(pi x\\" ; "=> typeOf" ; ":-" ; "." ; "," ; "(" ; ")" ; "type" ; "->" 
+				; ctxTag ; "e" ; "v" ; "C" ; subsumptionTag ; subtyping_top_Tag ; subtyping_special_Tag ; contravariantTag ; invariantTag ; recursiveTag 
+				; listInfoTag ; widthKeyword ; listKeyword ; listSelfKeyword
+				]
 
 let ident = (spaces >> letter <~> many alpha_num) => implode >>= function
   | s when List.mem s reserved -> mzero
@@ -188,22 +203,6 @@ let onlyTerms decl = true
 
 let conId input = ((many alpha_num) => implode >>= function s -> return s) input
 
-let simple input = 
-	(ident >>= fun c -> 
-	return (Simple(c))) input
-	
-let hoas input = 
-	(token "(" >> 
-	 ident >>= fun c1 ->
-	 token "->" >> 
-	 ident >>= fun c2 ->
-	 token ")" >> 
-	 return (Abstraction(c1, c2))) input
-
-
-let rec entries input = (sep_by typeEntry (token "->") => (fun l -> l)) input
-and typeEntry input =  (simple <|> hoas) input
-
 let rec term input = (variable <|> x <|> application <|> constructed) input
 and variable input = (var >>= fun myvar -> return (Var(myvar))) input
 and x input = (ident >>= fun myvar -> return (Var(myvar))) input
@@ -220,26 +219,58 @@ and constructed input =
 	 token ")" >>
 		 return (Constructor(c, trms))) input
 
+let simple input = 
+	(ident >>= fun c -> 
+	return (Simple(Cov, c))) input
+	
+let hoas input = 
+	(token "(" >> 
+	 ident >>= fun c1 ->
+	 token "->" >> 
+	 ident >>= fun c2 ->
+	 token ")" >> 
+	 return (Abstraction(Cov, (c1, c2)))) input
+
+let listEntry c input = 
+	(token "(" >> 
+	 token listKeyword >>
+	 term >>=  fun trm -> 
+	 token ")" >>
+	 return (List((Cov,true), c , trm))) input
+
+let listSelfEntry c input = 
+	(token "(" >> 
+	 token listSelfKeyword >>
+	 term >>=  fun trm -> 
+	 token ")" >>
+	 return (ListSelf((Cov,true),c, trm))) input
+
+let rec entries c input = (sep_by (typeEntry c) (token "->") => (fun l -> l)) input
+and typeEntry c input =  (simple <|> hoas <|> listEntry c <|> listSelfEntry c) input
+
 let rec premise input = (formula <|> hypothetical <|> generic) input
 and formula input = 
 	(ident      >>= fun pred ->
 	 many term >>=  fun trms -> 
 	 return (Formula(pred,[List.hd trms], List.tl trms))) input
 and hypothetical input = 
-	(token "(pi x\\ typeOf" 	>>
+	(token "(pi x\\" 	>>
+	 ident >>= fun pred1 ->	
 	 ident >>
   	 term >>=  fun trm1 -> 
-	 token "=> typeOf" >>
+	 token "=>" >>
+	 ident >>= fun pred2 ->	
   	 term >>=  fun trm2 -> 
   	 term >>=  fun trm3 -> 
 	 token ")" >>	 
- 	 return (Hypothetical(trm1, trm2, trm3))) input
+ 	 return (Hypothetical(Formula(pred1, [Var("x")], [trm1]), Formula(pred2, [trm2], [trm3])))) input
 and generic input = 
-	(token "(pi x\\ typeOf" 	>>
+	(token "(pi x\\" 	>>
+	 token "typeOf" >>
  	 term >>=  fun trm1 -> 
  	 term >>=  fun trm2 -> 
      token ")" >>
- 	 return (Generic(trm1, trm2))) input
+ 	 return (Generic(Formula("typeOf", [trm1], [trm2])))) input
 
 let rec rule input = (fact <|> ruleReal) input
 and fact input = 
@@ -259,14 +290,62 @@ let rec tl input =
 	(module_pre >>
 	 many rule >>=  fun rules ->
 	 many ctxline >>=  fun ctxs ->
-		return ((TypedLanguage([], [], rules)), ctxs)) input
+	 many listline >>=  fun listinfo ->
+	 option false subtyping >>=  fun upTo ->
+	 option None subtyping_top >>=  fun top ->	 
+	 many variance >>=  fun varianceList ->
+	 many subtyping_special >>=  fun specialRules -> (* specialRules is a pair (op, rule) *)
+		 return ((TypedLanguage([], [], rules)), ctxs, listinfo, varianceList, create_subtyping upTo top varianceList specialRules)) input
 and ctxline input = 
 	(token ctxTag >>
 	 ident      >>= fun c ->
-	 many (token "v" <|> token "e" <|> token "E") >>=  fun args ->
+	 many (token "v" <|> token "e" <|> token "C") >>=  fun args ->
      token "." >>
 	 return (c, args)) input
-
+and listline input = 
+	(token listInfoTag >>
+   	 ident      >>= fun c ->
+	 number      >>= fun value ->
+	 number      >>= fun ctx -> 
+     token "." >>
+	 return (c, (value, ctx))) input
+(*
+	 and listline input = 
+	(token listTag >>
+   	 ident      >>= fun c ->
+	 listValue      >>= fun value ->
+	 listCtx      >>= fun ctx -> 
+     token "." >>
+	 return (c, value, ctx)) input
+and listValue input = ((token "allValue" >> return All <|> token "firstValue" >> return First <|> token "noneValue" >> return NoneV) >>= fun tag -> return tag) input 
+and listCtx input = ((token "sequential" >> return Sequential <|> token "parallel" >> return Parallel) >>= fun tag -> return tag) input 
+*)
+and subtyping input = 
+	(token subsumptionTag >> 
+	 token "." 
+     >> return true) input
+and subtyping_top input = 
+	(token subtyping_top_Tag >> 
+   	 ident >>= fun top ->	
+	 token "." >>
+	 return (Some (top))) input
+and subtyping_special input = 
+	(token subtyping_special_Tag >> 
+   	 ident >>= fun op ->	
+	 token ":" >>
+ 	 ((rule >>= fun rule -> return ((op, rule))) <|> (token widthKeyword >> token "." >> return (op ^ "T", (subtyping_widthRule op)))) >>= fun pair -> 
+   	 (* rule >>= fun rule -> *)
+	 (* return (op, rule)) input *)
+ 	return pair) input
+and	variance input = 
+	(( (token contravariantTag >> return Contra) <|> 
+   	   (token invariantTag >> return Inv) <|> 
+	   (token recursiveTag >> return Rec)) >>=  fun tag ->
+	ident >>= fun c ->
+	number >>=  fun n ->
+	token "." >>
+	return ((c,n-1), tag)) input
+ 
 let sig_pre input = (token "sig" >> ident >> token "." >> return "") input
 let kindDecl input = (token "kind" >> ident >> token "type" >> token "." >> return "") input
 
@@ -279,11 +358,11 @@ let rec sigg input =
 and declaration input = 
 	(token "type" >>
 	 ident      >>= fun c ->
-	 entries >>= fun args ->
+	 entries c >>= fun args ->
 	 token "." >>
 	 return (DeclType(c,args))) input	 
-and onlyTypes typeDecl = (last (type_getArguments typeDecl)) = Simple("typ")
-and onlyTerms typeDecl = (last (type_getArguments typeDecl)) = Simple("term")
+and onlyTypes typeDecl = entry_toKindProduced (last (type_getArguments typeDecl)) = "typ"
+and onlyTerms typeDecl = entry_toKindProduced (last (type_getArguments typeDecl)) = "term"
 and convertToTerm typeDecl = DeclTrm(type_getOperator typeDecl, [], [], remove_last (type_getArguments typeDecl))
 and decl_remove_lastArg typeDecl = DeclType(type_getOperator typeDecl, remove_last (type_getArguments typeDecl))
 	 
@@ -299,6 +378,7 @@ let wrap_sig = sigg << (spaces << eof ())
 let parse_sig input = parse wrap_sig input
 let parse_tl input = parse wrap_tl input
 
+		
 let parseFile fileName = 
 	let mysig = open_in ("./repo/" ^ fileName ^ ".sig") in 
 	let mymod = open_in ("./repo/" ^ fileName ^ ".mod") in 
@@ -309,23 +389,5 @@ let parseFile fileName =
 		(let src_mod = LazyStream.of_channel mymod in
 			match parse_tl src_mod with 
     		| None -> raise(Failure("Syntax Error in Module: " ^ fileName))
-			| Some (TypedLanguage(_, _, rules), ctxs) -> close_in mysig; close_in mymod; TypedLanguage(sigTypes, List.map (termDecl_insertCtx ctxs) sigTerms, rules))
+			| Some (TypedLanguage(_, _, rules), ctxs, listinfo, varianceInfo, subtyping) -> close_in mysig; close_in mymod; (tl_extend (TypedLanguage(sigTypes, List.map (termDecl_insertListInfo listinfo varianceInfo) (List.map (termDecl_insertCtx ctxs) sigTerms), rules)) (tl_generateLanguageWithLists sigTerms), subtyping))
 		
-		
-
-(*
-			| Some (TypedLanguage(_, _, rules), ctxs) -> TypedLanguage(sigTypes, List.map (insertCtx ctxs) sigTerms, rules))
-			
-let parse_tl input = parse tl input
-
-let () =
-  let src = LazyStream.of_channel stdin in
-  match parse_tl src with
-  | None -> raise Syntax_error
-  | Some prog ->
-      let env = Hashtbl.create 16 in
-      eval prog env;
-      let pairs = Hashtbl.fold (fun k v acc -> (k, v) :: acc) env [] in
-      let pairs' = List.sort (fun (k1, _) (k2, _) -> compare k1 k2) pairs in
-      List.iter (fun (k, v) -> Printf.printf "%s %d\n" k v) pairs'
-*)

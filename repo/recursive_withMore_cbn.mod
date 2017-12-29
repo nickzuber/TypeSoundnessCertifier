@@ -73,19 +73,19 @@ error (raise E1) :- value E1.
 typeOf (raise E) T :- typeOf E (excType ).
 
 
-% context fold E e.
+% context fold C e.
 
-% context cons E e.
-% context cons v E.
+% context cons C e.
+% context cons v C.
 
 
 
-% context app E e.
-% context unfold E.
-% context head E.
-% context tail E.
-% context if E e e.
-% context fix E.
+% context app C e.
+% context unfold C.
+% context head C.
+% context tail C.
+% context if C e e.
+% context fix C.
 
-% context try E e.
-% context raise E.
+% context try C e.
+% context raise C.

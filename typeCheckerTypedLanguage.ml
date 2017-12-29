@@ -4,6 +4,8 @@ open Option
 open Aux
 open TypedLanguage
 open Ldl
+open ListManagement
+open AlphaConversion
 open TypeCheckerProgress
 open GenerateLambdaProlog
 open LdlToTypedLanguage
@@ -39,7 +41,7 @@ let typecheck_theRestByTypingRules_ (ldl, tl) rule =
 	let term = (tl_lookupTermDecl tl (rule_getConstructorOfInput rule)) in 
 	let (reductionRules, tl') = tl_popReductionRulesForTerm tl (rule_getConstructorOfInput rule) in  
 	if rule_typeCheckFirst rule && List.for_all rule_checkEliminatesSome reductionRules 
-		then let typ = tl_lookupTypeDecl tl (rule_getFirstTypeCheck rule) in (ldl_withEliminator ldl typ term rule reductionRules, tl') 
+		then let typ = tl_lookupTypeDecl tl (rule_getFirstTypeCheck rule) in (ldl_withEliminator ldl typ term rule reductionRules, tl')
 		else if List.for_all rule_checkFreeReduction reductionRules 
 			then (ldl_withDerived ldl term rule reductionRules, tl') 
 			else if ldl_containErrors ldl && List.exists rule_checkFreeReduction reductionRules && List.exists (rule_checkEliminates [(ldl_getErrorConstructor ldl)]) reductionRules 
@@ -60,12 +62,21 @@ let typecheck_valueDefinitions (ldl, tl) = let (valueDefinitions, tl') = tl_popV
 		then (List.fold_left ldl_addValueDefinitions ldl (List.map positionsCheckedForValuehood valueDefinitions), tl') 
 		else raise(Failure "Typecheck TL: Value Definition not in form WF1.")
 
-(* Here below, typecheck_theRestByTypingRules also classifies the reduction rules associated to the remaining typing rules.  *)
-let typecheck_tl tlInput = 
-	let (ldl, tl) = typecheck_theRestByTypingRules (typecheck_valueDefinitions (typecheck_typingForConstructors (typecheck_error tlInput))) in 
-	if tl_isEmpty tl 
-		then if typecheck_ldl ldl  
+let typecheck_lists (ldl, tl) = 
+	let typecheck_lists_ (ldl, tl) termDecl = 
+		(let c = term_getOperator termDecl in 
+			let (mainTypingRule, otherTypingRules) = (if termDecl_isSelfList termDecl 
+														then (rule_typeOfTheSelfList c, [rule_typeOfEmptyList true c ; rule_typeOfConsList termDecl])
+														else (rule_typeOfEmptyList false c, [rule_typeOfConsList termDecl]))
+			in (ldl_addType ldl (SpecType(DeclType(c ^ "T", termDecl_getArguments termDecl), [SpecTerm(termDecl, mainTypingRule, otherTypingRules)], [])), tl)) 
+	 in List.fold_left typecheck_lists_ (ldl, tl) (tl_getLists tl)
+
+let typecheck_tl_ tlInput =  typecheck_theRestByTypingRules (typecheck_valueDefinitions (typecheck_lists (typecheck_typingForConstructors (typecheck_error tlInput))))
+let typecheck_tl tlInput subtyping = 
+	let (ldl, tl) = typecheck_tl_ tlInput in 
+	let tlInput = renameVariablesIfNeeded tlInput ldl subtyping in 
+	let (ldl, tl) = typecheck_tl_ tlInput in 
+	 if typecheck_ldl ldl
 			then ldl 
 			else raise(Failure "TypedLanguage does not typecheck into an Logically designed language.") 
-		else raise(Failure ("Typed language contains unclassified parts." ^ (generateModule "dontcarethename" tl))) 
-	
+

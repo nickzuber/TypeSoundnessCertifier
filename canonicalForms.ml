@@ -4,46 +4,40 @@ open Option
 open Aux
 open TypedLanguage
 open Ldl
+open ListManagement
 open Proof
+open Subtyping 
 open GenerateLambdaProlog
 
-let universalQuantification vars = if vars = [] then "" else "forall " ^ String.concat " " vars ^ ", "
-
-let existentiallyClosedEquation var termSpec = 
-	let (canonical, vars) = term_getCanonicalNoClash (specTerm_getSig termSpec) in 
-	if vars = [] then var ^ " = " ^ (toString canonical) else let existentials = "exists " ^ String.concat " " (List.map toString vars) ^ ", " in 
-	let valueTests = String.concat "" (List.map addAnd (List.map wrappedInBrackets (List.map generateFormula (List.map toValuePremise  (List.map (nthMinusOne vars) (term_getValPositions (specTerm_getSig termSpec))))))) in 
-	 "(" ^ existentials ^ var ^ " = " ^ (toString canonical) ^ valueTests ^ ")"
-
-let eachCanonicalForm nonResults errorSpec typeSpec = 
+let eachCanonicalForm nonResults errorSpec upTo typeSpec = 
 	let typeOperator = type_getOperator (specType_getSig typeSpec) in 
 	let (canonical, newVars) = type_getCanonical (specType_getSig typeSpec) in 
 	let newVarsInString = List.map toString newVars in
-	let theorem = "Theorem " ^ " canonical_form_" ^ typeOperator ^ " : " ^ universalQuantification ("E"::newVarsInString) ^ "{typeOf E " ^ (toString canonical) ^ "} -> {value E} -> " ^ String.concat " \\/ " (List.map (existentiallyClosedEquation "E") (specType_getConstructors typeSpec) ) ^ "." in
-	let preamble = createSeq([Intros(["Main" ; "Value"]) ; Case("Main")]) in
-	let proofConstructors = Seq(repeat (Seq([Tactic(Case("Value")) ; Tactic(Search)])) (List.length (specType_getConstructors typeSpec))) in 
+	let constructorsSpecs = (specType_getConstructors typeSpec) in 
+	let constructorsTermDecls = List.map specTerm_getSig constructorsSpecs in 
+	let induction = if upTo then "induction on 1. \n" else "" in 
+	let theorem = "Theorem " ^ " canonical_form_" ^ typeOperator ^ " : " ^ universalQuantification ("E"::newVarsInString) ^ "{typeOf E " ^ (toString canonical) ^ "} -> {value E} -> " ^ String.concat " \\/ " (List.map (term_existentiallyClosedEquation "E") constructorsTermDecls ) ^ ".\n" ^ induction in
+	let preamble = createSeq([Intros(["Main" ; "Value"]) ; Named("Subsumption", Case("Main"))]) in
+	let numberOfConstructors = List.length constructorsSpecs in 
+	let numberOfConstructors = if typeDecl_isListButNotSelf (specType_getSig typeSpec) then numberOfConstructors + 1 else numberOfConstructors in 
+	let searchForEachValueFormed = if typeDecl_isSelfList (specType_getSig typeSpec) then [Tactic(Search) ; Tactic(Search)] else [Tactic(Search)] in 
+	let proofConstructors = Seq(repeat (Seq([Tactic(Case("Value"))] @ searchForEachValueFormed)) numberOfConstructors) in 
 	let unifiableNonResults = List.length (List.filter (unifiableWithConstructor typeOperator) (specTerms_getAllTypingRules nonResults)) in
 	let proofUnifiableNonResults = Seq(repeat (Tactic(Case("Value"))) unifiableNonResults) in 
 	let proofErrors = if is_none errorSpec then Qed else 
 		let unifiableErrors = 1 + List.length (List.filter (unifiableWithConstructor typeOperator) (specError_getHandlersTypingRules errorSpec)) in 
-		Seq(repeat (Tactic(Case("Value"))) unifiableErrors)  
-          in Theorem(theorem, Seq([preamble ; proofConstructors ; proofUnifiableNonResults ; proofErrors]))
+		Seq(repeat (Tactic(Case("Value"))) unifiableErrors) in 
+ 	let finalUpTo = 
+		if upTo then 
+			if typeDecl_isList (specType_getSig typeSpec) 
+				then [Tactic(Named("Cases", Apply(inversion_subtype_NAME ^ "_" ^ typeOperator , ["Subsumption1"]))) ; Tactic(Case("Cases")) ; Tactic(Apply("IH", ["Subsumption" ; "Value"])) ; Tactic(Search) ; Tactic(Apply("IH", ["Subsumption" ; "Value"])) ; Tactic(Search)]
+				else [Tactic(Apply(inversion_subtype_NAME ^ "_" ^ typeOperator , ["Subsumption1"])) ; Tactic(Apply("IH", ["Subsumption" ; "Value"])) ; Tactic(Search)]  
+		else [] 
+		 in Theorem(theorem, Seq([preamble ; proofConstructors ; proofUnifiableNonResults ; proofErrors] @ finalUpTo))
 
-let generateCanonicalFormsLemma tl = 
-	match tl with SafeTypedLanguage(types, derived, errorSpec) -> 
-		List.map (eachCanonicalForm ((ldl_getAllEliminators tl) @ derived) errorSpec) types
+let generateCanonicalFormsLemma ldl subtyping = let upTo = is_some subtyping in 
+	match ldl with SafeTypedLanguage(types, derived, errorSpec) -> 
+		let typesThatHaveEliminators = List.filter (fun specType -> not (specType_getEliminators specType = [])) types in 
+		List.map (eachCanonicalForm ((ldl_getAllEliminators ldl) @ derived) errorSpec upTo) typesThatHaveEliminators
 
 
-(*
-		
-		1 + .. because the error has always type T and unifies. 
-	let proofEliminators = Seq(repeat (Tactic(Case("Value"))) (List.length eliminators)) in 
-		
-		-> match signature with DeclType(c,arguments) ->
-		  Algorithm:
-		  	for all types T, generate the canonical form theorem for T. that is for all e of type T and value e, the it is the OR of the constructor. 
-		  	Proof: 	for all constructors of T: search.
-		  		   	for all deconstructors whose typing rule conclusion UNIFY with T, "case Value." for contradiction. 
-		  			Interestingly: this is the only point where a complex type in the conclusion change the methodology. 
-*) 
-		  

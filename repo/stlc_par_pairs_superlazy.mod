@@ -22,7 +22,7 @@ value (pair E1 E2).
 
 
 
-% context app E e.
-% context app e E.
-% context fst E.
-% context snd E.
+% context app C e.
+% context app e C.
+% context fst C.
+% context snd C.

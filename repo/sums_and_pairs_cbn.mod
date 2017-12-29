@@ -14,9 +14,9 @@ step (app (abs T R) V) (R V).
 
 typeOf (case EE R1 R2) T :- typeOf EE (sum T1 T2), (pi x\ typeOf x T1 => typeOf (R1 x) T), (pi x\ typeOf x T2 => typeOf (R2 x) T).
 
-step (case (inl EE) R1 R2) (R1 EE).
+step (case (inl V) R1 R2) (R1 V) :- value V. 
 
-step (case (inr EE) R1 R2) (R2 EE).
+step (case (inr V) R1 R2) (R2 V) :- value V. 
 
 typeOf (fst E) T1 :- typeOf E (times T1 T2).
 
@@ -34,12 +34,12 @@ value (inr E1) :- value E1.
 
 value (pair E1 E2) :- value E1, value E2.
 
-% context inl E.
-% context inr E.
-% context app E e.
-% context case E e e.
-% context pair E e.
-% context pair v E.
-% context fst E.
-% context snd E.
+% context inl C.
+% context inr C.
+% context app C e.
+% context case C e e.
+% context pair C e.
+% context pair v C.
+% context fst C.
+% context snd C.
 

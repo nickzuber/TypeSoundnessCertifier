@@ -1,10 +1,12 @@
 open Batteries
+open Option
 open Enum
 open List
 open Unix
 open Aux
 open TypedLanguage
 open Ldl
+open ListLemmas
 open LdlToTypedLanguage
 open TypeChecker
 open TypeCheckerTypedLanguage
@@ -15,28 +17,29 @@ open ContextualRules
 open ErrorManagement
 open CanonicalForms
 open Progress
-open Preservation
-open TypeSoundness
+open Preservation 
 open LdlToTypedLanguage
 open GenerateLambdaProlog
-open TypeCheckerPreservation
+open TypeCheckerPreservation 
 open Parser
-
+open Subtyping
 
 let sep = "\n\n"
-let generateThm tsName ldl = generateThmPreamble tsName ^ sep ^ 
-							(generateTheoremS (generateCanonicalFormsLemma ldl)) 
+let generateThm tsName ldl subtyping = generateThmPreamble tsName 
+							^ sep ^ 
+							(generateTheoremS (generateSubtypingLemmas ldl subtyping)) 
+							^ sep ^ 
+							(generateTheoremS (generateCanonicalFormsLemma ldl subtyping)) 
 							^ sep ^ 
 							(progressDefinition ldl) 
 							^ sep ^ 
-							(generateTheoremS (generateProgressLemmas ldl)) 
+							(generateTheoremS (generateProgressLemmas ldl subtyping)) 
 							^ sep ^ 
-							(generateTheorem (generateProgressTheorem ldl)) 
+							(generateTheorem (generateProgressTheorem ldl subtyping)) 
 							^ sep ^
-							(generateTheorem (generatePreservationTheorem ldl)) 
+ 							(generateTheoremS (generatePreservationTheorem ldl subtyping)) 
 							^ sep ^ 
-							typesoundnessProof (ldl_containErrors ldl)
-
+							typesoundnessProof 
 							
 let checkResult tlName output = 
 	if (String.exists (last output) "< search.") 
@@ -45,14 +48,19 @@ let checkResult tlName output =
 		then raise(Failure("FAILED Type Preservation. Specification: " ^ tlName ^ ". Rule: " ^ String.tail (fst (String.split (last output) "<")) (String.length "test_") ^ "\n"))
 		else ()
 
-let runPreservationTests tlName ldl = 
+let runPreservationTests tlName ldl subtyping = 
+	(* timeout is 3 seconds, with gtimeout 
+	let timeout = "" in 
+	let timeout = " gtimeout 3s " in 
+	*)
+	let timeout = "" in 
 	let test_thm = open_out ("./generated/test_" ^ tlName ^ ".thm") in 
 		output_string test_thm ("Specification \"" ^ tlName ^ "\".\n\n");
-		List.map (output_string test_thm) (List.map generateAbellaQuery (preservationTestsAsRules ldl));
+		List.map (output_string test_thm) (List.map generateAbellaQuery (preservationTestsAsRules ldl subtyping)); 
 		close_out test_thm;
 		let directory = getcwd () in 
 			chdir "generated"; 
-			let output = callAbella ("abella test_" ^ tlName ^ ".thm") in 
+			let output = callAbella (timeout ^ "abella test_" ^ tlName ^ ".thm") in 
 				chdir directory;
 				checkResult tlName output;;
 
@@ -65,15 +73,15 @@ let tlTable = [
 "pairs_superlazy" ; 
 "pairs_lazy" ; 
 "pairs_plain" ; 
-"pairs_rightToleft" ; 
+"pairs_leftToRight" ; 
 "pairs_onlyfstButBoth" ; 
 "iff" ;
 "lists" ;
 "lists_lazy" ;
-"lists_rightToleft" ;
+"lists_lefToright" ;
 "listsIsNil";
 "listsIsNil_lazy" ;
-"listsIsNil_rightToleft" ;
+"listsIsNil_lefToright" ;
 "sums" ;
 "unitt" ;
 "itlc_cbn" ;
@@ -82,7 +90,7 @@ let tlTable = [
 "tuples_plain" ;
 "tuples_lazy" ;
 "tuples_parallel" ;
-"tuples_rightToleft" ;
+"tuples_lefToright" ;
 "foralll" ;
 "recursive" ;
 (* STLC with if and booleans *)
@@ -96,41 +104,41 @@ let tlTable = [
 "stlc_cbn_pairs_lazy" ;
 "stlc_cbn_pairs_superlazy" ;
 "stlc_cbn_pairs_plain" ;
-"stlc_cbn_pairs_rightToleft" ;
+"stlc_cbn_pairs_lefToright" ;
 "stlc_cbn_pairs_onlyfstButBoth" ;
 "stlc_cbn_pairs_onlysnd" ;
 "stlc_cbv_pairs_lazy" ;
 "stlc_cbv_pairs_superlazy" ;
 "stlc_cbv_pairs_plain" ;
-"stlc_cbv_pairs_rightToleft" ;
+"stlc_cbv_pairs_lefToright" ;
 "stlc_cbv_pairs_onlyfstButBoth" ;
 "stlc_cbv_pairs_onlysnd" ;
 "stlc_par_pairs_lazy" ;
 "stlc_par_pairs_superlazy" ;
 "stlc_par_pairs_plain" ;
-"stlc_par_pairs_rightToleft" ;
+"stlc_par_pairs_lefToright" ;
 "stlc_par_pairs_onlyfstButBoth" ;
 "stlc_par_pairs_onlysnd" ;
 (* STLC with lists *)
 "stlc_cbn_lists" ;
 "stlc_cbn_lists_lazy" ;
-"stlc_cbn_lists_rightToleft" ;
+"stlc_cbn_lists_lefToright" ;
 "stlc_cbv_lists" ;
 "stlc_cbv_lists_lazy" ;
-"stlc_cbv_lists_rightToleft" ;
+"stlc_cbv_lists_lefToright" ;
 "stlc_par_lists" ;
 "stlc_par_lists_lazy" ;
-"stlc_par_lists_rightToleft" ;
+"stlc_par_lists_lefToright" ;
 (* STLC with lists with booleans and isNil *)
 "stlc_cbn_listsIsNil" ;
 "stlc_cbn_listsIsNil_lazy" ;
-"stlc_cbn_listsIsNil_rightToleft" ;
+"stlc_cbn_listsIsNil_lefToright" ;
 "stlc_cbv_listsIsNil" ;
 "stlc_cbv_listsIsNil_lazy" ;
-"stlc_cbv_listsIsNil_rightToleft" ;
+"stlc_cbv_listsIsNil_lefToright" ;
 "stlc_par_listsIsNil" ;
 "stlc_par_listsIsNil_lazy" ;
-"stlc_par_listsIsNil_rightToleft" ;
+"stlc_par_listsIsNil_lefToright" ;
 (* STLC with fix *)
 "stlc_cbn_fix" ;
 "stlc_cbv_fix" ;
@@ -171,15 +179,15 @@ let tlTable = [
 "stlc_cbn_tuples_lazy" ;
 "stlc_cbn_tuples_parallel" ;
 "stlc_cbn_tuples_plain" ;
-"stlc_cbn_tuples_rightToleft" ;
+"stlc_cbn_tuples_lefToright" ;
 "stlc_cbv_tuples_lazy" ;
 "stlc_cbv_tuples_parallel" ;
 "stlc_cbv_tuples_plain" ;
-"stlc_cbv_tuples_rightToleft" ;
+"stlc_cbv_tuples_lefToright" ;
 "stlc_par_tuples_lazy" ;
 "stlc_par_tuples_parallel" ;
 "stlc_par_tuples_plain" ;
-"stlc_par_tuples_rightToleft" ;
+"stlc_par_tuples_lefToright" ;
 (* System F *)
 "stlc_cbn_forall" ;
 "stlc_cbv_forall" ;
@@ -193,9 +201,9 @@ let tlTable = [
 "lists_withMore_cbv" ;
 "lists_withMore_cbn" ;
 "lists_withMore_par" ;
-"lists_withMore_rightToleft_cbv" ;
-"lists_withMore_rightToleft_cbn" ;
-"lists_withMore_rightToleft_par" ;
+"lists_withMore_leftToRight_cbv" ;
+"lists_withMore_leftToRight_cbn" ;
+"lists_withMore_leftToRight_par" ;
 (* STLC with booleans, lists, sums and letrec *)
 "sums_and_pairs_cbv" ;
 "sums_and_pairs_cbn" ;
@@ -212,41 +220,44 @@ let tlTable = [
 "recursive_withMore_cbv" ;
 "recursive_withMore_par" ;
 (* Paper Fpl: STLC cbv with integers, booleans, pairs, sums, lists, universal types, recursive types, fix, letrec, and exceptions *)
-"fpl_cbv"
+"fpl_cbv" ;
+(* Subtyping 
+   fpl_cbv_sub: is Fpl but without recursive types. *)
+"fpl_cbv_sub" ;
+"systemFsub" ;
+"systemFsub_kernel" ;
+"systemFsub_records" ;
+"systemFsub_records_invariant" ;
+"systemFsub_records_invariant_2" ;    
+"systemFsub_records_noWidth" ;
+"systemFsub_records_invoke" ;
 ]
 
 let testOne tlName =
-	let tlRaw = parseFile tlName in 
+	let (tlRaw, subtypingRaw) = parseFile tlName in 
 	(try typecheck tlRaw with | Failure errorMessage -> raise(Failure("Typechecker Failure for " ^ tlName ^ ": " ^ errorMessage)));
-	let ldl = (try typecheck_tl tlRaw with | Failure errorMessage -> raise(Failure("Failure for " ^ tlName ^ ": " ^ errorMessage))) in 
-	let tl = compile ldl in 
+	let ldl = (try typecheck_tl tlRaw subtypingRaw with | Failure errorMessage -> raise(Failure("Failure for " ^ tlName ^ ": " ^ errorMessage))) in 
+	let tl = compile ldl in 	
+	let subtyping = subtyping_expand ldl subtypingRaw in 
 	let mycalculus_sig = open_out ("./generated/" ^ tlName ^ ".sig") in
 	let mycalculus_mod = open_out ("./generated/" ^ tlName ^ ".mod") in
 	let mycalculus_thm = open_out ("./generated/" ^ tlName ^ ".thm") in
  	output_string mycalculus_sig (generateSignature tlName tl);
+	output_string mycalculus_sig (subtyping_declaration subtyping);
 	output_string mycalculus_mod (generateModule tlName tl);	
-	output_string mycalculus_thm (generateThm tlName ldl);
+	output_string mycalculus_mod (generateRules (subtyping_definition ldl subtyping));
+	output_string mycalculus_thm (generateThm tlName ldl subtyping); 
     close_out mycalculus_sig;
     close_out mycalculus_mod;
-    close_out mycalculus_thm;	
-	runPreservationTests tlName ldl;
+    close_out mycalculus_thm;
+	runPreservationTests tlName ldl subtyping; 
 	let directory = getcwd () in 
 		chdir "generated";
 		Unix.open_process_in ("abella " ^ (tlName ^ ".thm") ^ " > " ^ (tlName ^ "_output.txt"));
 		chdir directory;;
-		
-(*	try typecheck_tl tlRaw ; () with _ -> print_string tlName
-*)	
+
+	
 		
 let test = List.map testOne tlTable; print_string "All the specifications in input are type sound!\n";
 
-
-
-	(*
-	try output_string mycalculus_thm (generateThm tlName ldl) ; () with _ -> print_string tlName     
-		
-	let tlRaw2 = parseFile tlName in 
-	if tlRaw = tlRaw2 then print_string tlName else print_string tlName
-	let a = print_string tlName in 
-*)	
 

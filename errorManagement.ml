@@ -26,9 +26,3 @@ let generateErrorManagement errorSpec signatureOfAllButErrorHandlers = if is_non
 	let errorContextualRules = List.concat (List.map toErrorContextsByOp signatureOfAllButErrorHandlers) in 
 	 errorDefinition :: errorTypingRule :: errorContextualRules
 
-(*
-let generateTypingError termDecl = 
-	 	let (canonical, vars) = term_getCanonical termDecl in
-	 	 Rule("errorTyping", [], toTypeOfPremise canonical (Var("T")))
-	
-*)

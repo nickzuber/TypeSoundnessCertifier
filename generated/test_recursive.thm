@@ -1,4 +1,4 @@
 Specification "recursive".
 
-Theorem test_r_unfold_fold : forall V R, {typeOf (fold V R) (mu R)} -> {typeOf V (R (mu R))} -> {typeOf V (R (mu R))}.
+Theorem test_r_unfold_fold : forall E R, {typeOf (fold E R) (mu R)} -> {typeOf E (R (mu R))} -> {typeOf E (R (mu R))}.
 intros. search.

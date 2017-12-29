@@ -79,18 +79,18 @@ typeOf (raise E) T :- typeOf E (excType ).
 
 
 
-% context cons E e.
-% context cons v E.
+% context cons C e.
+% context cons v C.
 
 
 
-% context app E e.
-% context appT E e.
-% context head E.
-% context tail E.
-% context if E e e.
-% context fix E.
-% context let E e.
+% context app C e.
+% context appT C e.
+% context head C.
+% context tail C.
+% context if C e e.
+% context fix C.
+% context let C e.
 
-% context try E e.
-% context raise E.
+% context try C e.
+% context raise C.

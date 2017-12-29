@@ -1,6 +1,6 @@
 Specification "stlc_par_forall".
 
-Theorem test_r_appT_absT : forall R2 R X, {typeOf (absT R2) (all R)} -> {typeOf (R2 X) (R X)} -> {typeOf (R2 X) (R X)}.
+Theorem test_r_app_abs : forall T1 R E2 T2, {typeOf (abs T1 R) (arrow T1 T2)} -> {typeOf E2 T1} -> {typeOf (R E2) T2} -> {typeOf (R E2) T2} /\ {typeOf E2 T1}.
 intros. search.
-Theorem test_r_app_abs : forall T T1 R E T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
+Theorem test_r_appT_absT : forall R2 R X, {typeOf (absT R2) (all R)} -> {typeOf (R2 X) (R X)} -> {typeOf (R2 X) (R X)}.
 intros. search.

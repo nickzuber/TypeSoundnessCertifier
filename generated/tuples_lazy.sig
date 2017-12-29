@@ -3,13 +3,13 @@ sig tuples_lazy.
 kind term type.
 kind typ type.
 
-type times5 typ -> typ -> typ -> typ -> typ -> typ.
+kind label type.type times5 typ -> typ -> typ -> typ -> typ -> typ.
 type tuple5 term -> term -> term -> term -> term -> term.
-type select5 term -> term.
-type select4 term -> term.
-type select3 term -> term.
-type select2 term -> term.
 type select1 term -> term.
+type select2 term -> term.
+type select3 term -> term.
+type select4 term -> term.
+type select5 term -> term.
 
 type value term -> o.
 

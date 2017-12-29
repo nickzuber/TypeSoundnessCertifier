@@ -3,7 +3,7 @@ sig iff.
 kind term type.
 kind typ type.
 
-type bool typ.
+kind label type.type bool typ.
 type ff term.
 type tt term.
 type if term -> term -> term -> term.

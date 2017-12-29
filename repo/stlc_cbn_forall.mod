@@ -18,5 +18,5 @@ value (absT R1).
 
 
 
-% context app E e.
-% context appT E e.
+% context app C e.
+% context appT C e.

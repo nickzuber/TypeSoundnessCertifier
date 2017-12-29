@@ -3,7 +3,7 @@ sig stlc_par_exc.
 kind term type.
 kind typ type.
 
-type arrow typ -> typ -> typ.
+kind label type.type arrow typ -> typ -> typ.
 type excType typ.
 type abs typ -> (term -> term) -> term.
 type excValue term.

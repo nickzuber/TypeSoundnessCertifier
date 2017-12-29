@@ -21,7 +21,7 @@ step (letrec R1 R2) (let (fix (abs R1)) R2).
 value (abs R1).
 
 
-% context app E e.
-% context app e E.
-% context fix E.
-% context let E e.
+% context app C e.
+% context app e C.
+% context fix C.
+% context let C e.

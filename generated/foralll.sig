@@ -3,7 +3,7 @@ sig foralll.
 kind term type.
 kind typ type.
 
-type all (typ -> typ) -> typ.
+kind label type.type all (typ -> typ) -> typ.
 type absT (typ -> term) -> term.
 type appT term -> typ -> term.
 

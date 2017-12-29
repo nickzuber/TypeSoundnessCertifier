@@ -34,10 +34,10 @@ value (tuple5 E1 E2 E3 E4 E5).
 
 
 
-% context app E e.
-% context app v E.
-% context select1 E.
-% context select2 E.
-% context select3 E.
-% context select4 E.
-% context select5 E.
+% context app C e.
+% context app v C.
+% context select1 C.
+% context select2 C.
+% context select3 C.
+% context select4 C.
+% context select5 C.

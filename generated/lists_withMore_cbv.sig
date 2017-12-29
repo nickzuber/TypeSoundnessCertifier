@@ -3,18 +3,18 @@ sig lists_withMore_cbv.
 kind term type.
 kind typ type.
 
-type list typ -> typ.
+kind label type.type arrow typ -> typ -> typ.
 type sum typ -> typ -> typ.
-type arrow typ -> typ -> typ.
-type cons term -> term -> term.
-type emptyList term.
+type list typ -> typ.
+type abs typ -> (term -> term) -> term.
 type inr term -> term.
 type inl term -> term.
-type abs typ -> (term -> term) -> term.
-type tail term -> term.
-type head term -> term.
-type case term -> (term -> term) -> (term -> term) -> term.
+type cons term -> term -> term.
+type emptyList term.
 type app term -> term -> term.
+type case term -> (term -> term) -> (term -> term) -> term.
+type head term -> term.
+type tail term -> term.
 type myError term.
 
 type value term -> o.

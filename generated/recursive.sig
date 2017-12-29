@@ -3,7 +3,7 @@ sig recursive.
 kind term type.
 kind typ type.
 
-type mu (typ -> typ) -> typ.
+kind label type.type mu (typ -> typ) -> typ.
 type fold term -> (typ -> typ) -> term.
 type unfold term -> term.
 

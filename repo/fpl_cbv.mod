@@ -1,4 +1,4 @@
-module fpl_cbv.
+module miniML_cbv.
 
 typeOf (abs T1 R) (arrow T1 T2) :- (pi x\ typeOf x T1 => typeOf (R x) T2).
 
@@ -50,9 +50,9 @@ step (snd (pair E1 E2)) E2.
 
 typeOf (case EE R1 R2) T :- typeOf EE (sum T1 T2), (pi x\ typeOf x T1 => typeOf (R1 x) T), (pi x\ typeOf x T2 => typeOf (R2 x) T).
 
-step (case (inl EE) R1 R2) (R1 EE).
+step (case (inl E) R1 R2) (R1 E) :- value E.
 
-step (case (inr EE) R1 R2) (R2 EE).
+step (case (inr E) R1 R2) (R2 E) :- value E.
 
 typeOf (head E) T :- typeOf E (list T).
 
@@ -72,11 +72,11 @@ step (appT (absT R2) X) (R2 X).
 
 typeOf (unfold E) (R (mu R)) :- typeOf E (mu R).
 
-step (unfold (fold V R)) V :- value V.
+step (unfold (fold E R)) E :- value E.
 
 typeOf (fix E) T :- typeOf E (arrow T T).
 
-step (fix V) (app V (fix V)) :- value V.
+step (fix E) (app E (fix E)) :- value E.
 
 typeOf (letrec T1 R1 R2) T2 :- (pi x\ typeOf x T1 => typeOf (R1 x) T1), (pi x\ typeOf x T1 => typeOf (R2 x) T2).
 
@@ -114,34 +114,34 @@ value (fold E1 U2) :- value E1.
 
 error (raise E1) :- value E1.
 
-typeOf (raise E) T :- typeOf E (int ).
+typeOf (raise E1) T :- typeOf E1 (int ).
 
 
 
-% context succ E.
+% context succ C.
 
 
-% context pair E e.
-% context pair v E.
-% context inl E.
-% context inr E.
+% context pair C e.
+% context pair v C.
+% context inl C.
+% context inr C.
 
-% context cons E e.
-% context cons v E.
+% context cons C e.
+% context cons v C.
 
-% context fold E e.
-% context app E e.
-% context app v E.
-% context pred E.
-% context if E e e.
-% context fst E.
-% context snd E.
-% context case E e e.
-% context head E.
-% context tail E.
-% context appT E e.
-% context unfold E.
-% context fix E.
+% context fold C e.
+% context app C e.
+% context app v C.
+% context pred C.
+% context if C e e.
+% context fst C.
+% context snd C.
+% context case C e e.
+% context head C.
+% context tail C.
+% context appT C e.
+% context unfold C.
+% context fix C.
 
-% context try E e.
-% context raise E.
+% context try C e.
+% context raise C.

@@ -9,4 +9,4 @@ step (app (abs T R) E) (R E).
 value (abs T1 R2).
 
 
-% context app E e.
+% context app C e.

@@ -17,8 +17,8 @@ value (abs T1 R2).
 value (fold E1 U2) :- value E1.
 
 
-% context app E e.
-% context app v E.
-% context fold E e.
-% context unfold E.
+% context app C e.
+% context app v C.
+% context fold C e.
+% context unfold C.
 

@@ -4,6 +4,21 @@ Author: Matteo Cimini (mcimini@indiana.edu)
 	<br />
 Tool tested with Abella 2.0.2, 2.0.3, and 2.0.4
 
+<br />
+
+News: The tool has been extended to new features such as subtyping and record. Soon to be updated! 
+<br />
+
+Requirements: 
+<br />
+<ul>
+<li> To compile, Ocaml is required.
+<li> Ocaml Batteries package is required: (to install, run "opam install batteries")
+<li> To run:  the <a href="http://abella-prover.org">Abella proofs assistant</a> must be installed and the command "abella" must be in the $PATH 
+	 (to install, run "opam install abella")
+	  <br />The tool works with the latest Abella versions (2.0.2, 2.0.3, and 2.0.4)
+</ul>
+
 Quick usage: <br />
 <ul>
 <li> make 
@@ -17,7 +32,6 @@ Output: a successful message means that <br />
      These files contain the theorem and proof of type soundness together with all the related theorems. 
 <li> Abella has succesfully proof-checked all the type soundness theorems generated <br /> 
      To be precise: the command "abella" runs to "Proof Completed" on all generated .thm in the folder "generated" <br />
-     (* Important: you need the <a href="http://abella-prover.org">Abella proofs assistant</a> installed and "abella" must be in the $PATH *)  
 <br />
 </ul>
 

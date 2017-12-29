@@ -3,7 +3,7 @@ sig itlc_par_letrecFix.
 kind term type.
 kind typ type.
 
-type arrow typ -> typ -> typ.
+kind label type.type arrow typ -> typ -> typ.
 type abs (term -> term) -> term.
 type app term -> term -> term.
 type letrec (term -> term) -> (term -> term) -> term.

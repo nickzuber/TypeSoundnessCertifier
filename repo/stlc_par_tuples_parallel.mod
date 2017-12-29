@@ -33,15 +33,15 @@ value (abs T1 R2).
 value (tuple5 E1 E2 E3 E4 E5) :- value E1, value E2, value E3, value E4, value E5.
 
 
-% context tuple5 E e e e e.
-% context tuple5 e E e e e.
-% context tuple5 e e E e e.
-% context tuple5 e e e E e.
-% context tuple5 e e e e E.
-% context app E e.
-% context app e E.
-% context select1 E.
-% context select2 E.
-% context select3 E.
-% context select4 E.
-% context select5 E.
+% context tuple5 C e e e e.
+% context tuple5 e C e e e.
+% context tuple5 e e C e e.
+% context tuple5 e e e C e.
+% context tuple5 e e e e C.
+% context app C e.
+% context app e C.
+% context select1 C.
+% context select2 C.
+% context select3 C.
+% context select4 C.
+% context select5 C.

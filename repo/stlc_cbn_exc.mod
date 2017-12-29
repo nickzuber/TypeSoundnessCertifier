@@ -24,6 +24,6 @@ typeOf (raise E) T :- typeOf E (excType ).
 
 
 
-% context app E e.
-% context try E e.
-% context raise E.
+% context app C e.
+% context try C e.
+% context raise C.

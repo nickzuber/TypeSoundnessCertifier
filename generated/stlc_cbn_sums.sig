@@ -3,13 +3,13 @@ sig stlc_cbn_sums.
 kind term type.
 kind typ type.
 
+kind label type.type arrow typ -> typ -> typ.
 type sum typ -> typ -> typ.
-type arrow typ -> typ -> typ.
+type abs typ -> (term -> term) -> term.
 type inr term -> term.
 type inl term -> term.
-type abs typ -> (term -> term) -> term.
-type case term -> (term -> term) -> (term -> term) -> term.
 type app term -> term -> term.
+type case term -> (term -> term) -> (term -> term) -> term.
 
 type value term -> o.
 

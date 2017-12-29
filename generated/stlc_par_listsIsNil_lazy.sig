@@ -3,19 +3,19 @@ sig stlc_par_listsIsNil_lazy.
 kind term type.
 kind typ type.
 
-type bool typ.
+kind label type.type arrow typ -> typ -> typ.
 type list typ -> typ.
-type arrow typ -> typ -> typ.
-type ff term.
-type tt term.
+type bool typ.
+type abs typ -> (term -> term) -> term.
 type cons term -> term -> term.
 type emptyList term.
-type abs typ -> (term -> term) -> term.
-type if term -> term -> term -> term.
-type isnil term -> term.
-type tail term -> term.
-type head term -> term.
+type ff term.
+type tt term.
 type app term -> term -> term.
+type head term -> term.
+type tail term -> term.
+type isnil term -> term.
+type if term -> term -> term -> term.
 type myError term.
 
 type value term -> o.

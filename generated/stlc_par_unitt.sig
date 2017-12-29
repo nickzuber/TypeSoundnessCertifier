@@ -3,7 +3,7 @@ sig stlc_par_unitt.
 kind term type.
 kind typ type.
 
-type arrow typ -> typ -> typ.
+kind label type.type arrow typ -> typ -> typ.
 type unitType typ.
 type abs typ -> (term -> term) -> term.
 type unit term.

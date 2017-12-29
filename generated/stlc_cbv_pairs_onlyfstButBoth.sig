@@ -3,13 +3,13 @@ sig stlc_cbv_pairs_onlyfstButBoth.
 kind term type.
 kind typ type.
 
+kind label type.type arrow typ -> typ -> typ.
 type times typ -> typ -> typ.
-type arrow typ -> typ -> typ.
-type pair term -> term -> term.
 type abs typ -> (term -> term) -> term.
-type snd term -> term.
-type fst term -> term.
+type pair term -> term -> term.
 type app term -> term -> term.
+type fst term -> term.
+type snd term -> term.
 
 type value term -> o.
 

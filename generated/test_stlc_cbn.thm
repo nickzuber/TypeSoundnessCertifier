@@ -1,4 +1,4 @@
 Specification "stlc_cbn".
 
-Theorem test_r_app_abs : forall T T1 R E T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
+Theorem test_r_app_abs : forall T1 R E2 T2, {typeOf (abs T1 R) (arrow T1 T2)} -> {typeOf E2 T1} -> {typeOf (R E2) T2} -> {typeOf (R E2) T2} /\ {typeOf E2 T1}.
 intros. search.

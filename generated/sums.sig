@@ -3,7 +3,7 @@ sig sums.
 kind term type.
 kind typ type.
 
-type sum typ -> typ -> typ.
+kind label type.type sum typ -> typ -> typ.
 type inr term -> term.
 type inl term -> term.
 type case term -> (term -> term) -> (term -> term) -> term.

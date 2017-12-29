@@ -3,7 +3,7 @@ sig unitt.
 kind term type.
 kind typ type.
 
-type unitType typ.
+kind label type.type unitType typ.
 type unit term.
 
 type value term -> o.

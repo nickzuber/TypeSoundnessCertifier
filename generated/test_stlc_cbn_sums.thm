@@ -1,8 +1,8 @@
 Specification "stlc_cbn_sums".
 
-Theorem test_r_case_inl : forall R1 T2 R2 T EE T1, {typeOf (inl EE) (sum T1 T2)} -> {typeOf (R1 EE) T} -> {(pi x\ typeOf x T2 => typeOf (R2 x) T)} -> {typeOf EE T1} -> {typeOf (R1 EE) T} /\ {typeOf EE T1}.
+Theorem test_r_app_abs : forall T1 R E2 T2, {typeOf (abs T1 R) (arrow T1 T2)} -> {typeOf E2 T1} -> {typeOf (R E2) T2} -> {typeOf (R E2) T2} /\ {typeOf E2 T1}.
 intros. search.
-Theorem test_r_case_inr : forall T1 R1 R2 T EE T2, {typeOf (inr EE) (sum T1 T2)} -> {(pi x\ typeOf x T1 => typeOf (R1 x) T)} -> {typeOf (R2 EE) T} -> {typeOf EE T2} -> {typeOf (R2 EE) T} /\ {typeOf EE T2}.
+Theorem test_r_case_inl : forall R1 T2 R2 T E T1, {typeOf (inl E) (sum T1 T2)} -> {typeOf (R1 E) T} -> {(pi x\ typeOf x T2 => typeOf (R2 x) T)} -> {typeOf E T1} -> {typeOf (R1 E) T}.
 intros. search.
-Theorem test_r_app_abs : forall T T1 R E T2, {typeOf (abs T R) (arrow T1 T2)} -> {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
+Theorem test_r_case_inr : forall T1 R1 R2 T E T2, {typeOf (inr E) (sum T1 T2)} -> {(pi x\ typeOf x T1 => typeOf (R1 x) T)} -> {typeOf (R2 E) T} -> {typeOf E T2} -> {typeOf (R2 E) T}.
 intros. search.

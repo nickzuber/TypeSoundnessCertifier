@@ -1,28 +1,28 @@
 Specification "forall_withMore_par".
 
-Theorem test_r_if_tt : forall E1 E2 T, {typeOf (tt ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E1 T}.
+Theorem test_r_app_abs : forall T1 R E2 T2, {typeOf (abs R) (arrow T1 T2)} -> {typeOf E2 T1} -> {typeOf (R E2) T2} -> {typeOf (R E2) T2} /\ {typeOf E2 T1}.
 intros. search.
-Theorem test_r_if_ff : forall E1 E2 T, {typeOf (ff ) (bool )} -> {typeOf E1 T} -> {typeOf E2 T} -> {typeOf E2 T}.
-intros. search.
-Theorem test_r_tail_emptyList : forall T, {typeOf (emptyList ) (list T)} -> {typeOf (raise (excValue )) (list T)}.
-intros. search.
-Theorem test_r_tail_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E2 (list T)}.
+Theorem test_r_appT_absT : forall R2 R X, {typeOf (absT R2) (all R)} -> {typeOf (R2 X) (R X)} -> {typeOf (R2 X) (R X)}.
 intros. search.
 Theorem test_r_head_emptyList : forall T, {typeOf (emptyList ) (list T)} -> {typeOf (raise (excValue )) T}.
 intros. search.
 Theorem test_r_head_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E1 T}.
 intros. search.
-Theorem test_r_appT_absT : forall R2 R X, {typeOf (absT R2) (all R)} -> {typeOf (R2 X) (R X)} -> {typeOf (R2 X) (R X)}.
+Theorem test_r_tail_emptyList : forall T, {typeOf (emptyList ) (list T)} -> {typeOf (raise (excValue )) (list T)}.
 intros. search.
-Theorem test_r_app_abs : forall T1 R EE T2, {typeOf (abs R) (arrow T1 T2)} -> {typeOf EE T1} -> {typeOf (R EE) T2} -> {typeOf (R EE) T2} /\ {typeOf EE T1}.
+Theorem test_r_tail_cons : forall E1 E2 T, {typeOf (cons E1 E2) (list T)} -> {typeOf E1 T} -> {typeOf E2 (list T)} -> {typeOf E2 (list T)}.
+intros. search.
+Theorem test_r_if_tt : forall E2 E3 T, {typeOf (tt ) (bool )} -> {typeOf E2 T} -> {typeOf E3 T} -> {typeOf E2 T}.
+intros. search.
+Theorem test_r_if_ff : forall E2 E3 T, {typeOf (ff ) (bool )} -> {typeOf E2 T} -> {typeOf E3 T} -> {typeOf E3 T}.
 intros. search.
 Theorem test_r_letrec : forall R1 T1 R2 T2, {(pi x\ typeOf x T1 => typeOf (R1 x) T1)} -> {(pi x\ typeOf x T1 => typeOf (R2 x) T2)} -> {typeOf (let (fix (abs R1)) R2) T2}.
 intros. search.
-Theorem test_r_let : forall T1 R V T2, {typeOf V T1} -> {typeOf (R V) T2} -> {typeOf (R V) T2} /\ {typeOf V T1}.
+Theorem test_r_let : forall T1 R E T2, {typeOf E T1} -> {typeOf (R E) T2} -> {typeOf (R E) T2} /\ {typeOf E T1}.
 intros. search.
-Theorem test_r_fix : forall V T, {typeOf V (arrow T T)} -> {typeOf (app V (fix V)) T}.
+Theorem test_r_fix : forall E T, {typeOf E (arrow T T)} -> {typeOf (app E (fix E)) T}.
 intros. search.
 Theorem test_r_try : forall E1 E2 T, {typeOf E1 T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E1 T}.
 intros. search.
-Theorem test_r_try_raise : forall E2 T E1, {typeOf (raise E1) T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E1 (excType )} -> {typeOf (app E2 E1) T}.
+Theorem test_r_try_raise : forall E2 T E, {typeOf (raise E) T} -> {typeOf E2 (arrow (excType ) T)} -> {typeOf E (excType )} -> {typeOf (app E2 E) T}.
 intros. search.

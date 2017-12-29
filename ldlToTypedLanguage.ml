@@ -8,6 +8,7 @@ open Values
 open ContextualRules
 open ErrorManagement
 
+			
 let compile ldl = 
 	let types = ldl_getTypes ldl in 
 	let derived = ldl_getDerived ldl in 
@@ -24,7 +25,7 @@ let compile ldl =
 	let ruleForEliminators = ldl_getRulesOfEliminators types in 
 	let ruleForDerived = List.concat (List.map specTerm_getRules derived) in 
 	let ruleForErrorHandlers = if is_none errorSpec then [] else List.concat (List.map specTerm_getRules (specError_getHandlers errorSpec)) in 
-	let valueDefinitions = List.map generateValues signatureConstructors in 
+	let valueDefinitions = List.concat (List.map generateValues signatureConstructors) in 
 	let contextualRules = List.concat (List.map generateContextualRules signatureTerms) in 
 	let errorManagement = generateErrorManagement errorSpec (signatureOfAllButError @ signatureError) in
 	 TypedLanguage(signatureTypes, signatureTerms, ruleForConstructors @ ruleForEliminators @ ruleForDerived @ ruleForErrorHandlers @ valueDefinitions @ contextualRules @ errorManagement)

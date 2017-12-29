@@ -18,6 +18,6 @@ value (absT R1).
 
 
 
-% context app E e.
-% context app v E.
-% context appT E e.
+% context app C e.
+% context app v C.
+% context appT C e.

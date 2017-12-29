@@ -3,14 +3,14 @@ sig stlc_par_lists_lazy.
 kind term type.
 kind typ type.
 
+kind label type.type arrow typ -> typ -> typ.
 type list typ -> typ.
-type arrow typ -> typ -> typ.
+type abs typ -> (term -> term) -> term.
 type cons term -> term -> term.
 type emptyList term.
-type abs typ -> (term -> term) -> term.
-type tail term -> term.
-type head term -> term.
 type app term -> term -> term.
+type head term -> term.
+type tail term -> term.
 type myError term.
 
 type value term -> o.
