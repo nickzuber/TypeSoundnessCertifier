@@ -6,7 +6,10 @@ Tool tested with Abella 2.0.2, 2.0.3, and 2.0.4
 
 <br />
 
-News: The tool has been extended to new features such as subtyping and record. Soon to be updated! 
+##Update (December 2017): <br />
+As of July 2017 (a POPL 2018 submission), TypeSoundnessCertifier automatically solves the POPLMark Challenge 2A! 
+<br />(i.e. the tool automatically generates the full mechanized type soundness proof for System F with bounded subtyping, from its language definition.) 
+<br />See the reference below to this example.   
 <br />
 
 Requirements: 
@@ -48,6 +51,7 @@ To clean: <br />
 
 Only a few relevant examples, acting on the file "<strong>fpl_cbv.mod</strong>" in the folder "<strong>repo</strong>": 
 <br />(./soundy after each modification)
+<br />fpl_cbv.mod, which stands for 'functional programming language', contains the language definition for a functional language with integers, booleans, pairs, sums, lists, universal types, recursive types, fix, letrec, and exceptions (try, raise))
 <ul>
 	<li style="margin: 20px;"> Remove line 33: <strong> step (pred (zero )) (raise (zero )).</strong>
 	<br /> Spotted error: <strong>pred</strong> (predecessor for natural numbers) does not eliminate <strong>zero</strong>, hence progress does not hold.
@@ -69,3 +73,18 @@ Only a few relevant examples, acting on the file "<strong>fpl_cbv.mod</strong>" 
 	<br /> with <strong >typeOf (cons E1 E2) (list T) :- typeOf E2 (list T).</strong>
 	<br /> Spotted error: the typing rule does not assign a type to <strong>E1</strong>.
 </ul>
+
+# Other Interesting Examples  <br />
+<ul> 
+<li> fpl_cbv_sub.mod: The language fpl above, without recursive types, and with subtyping for all other types. 
+<li> systemFsub.mod: System F with bounded subtyping, i.e., POPLMark Challenge 2A. 
+<li> systemFsub_records: System F sub with records, i.e., POPLMark Challenge 2B without pattern-matching. 
+	 Disclaimer 1: that a list is either empty or a 'cons' is an admitted lemma. 
+	 Disclaimer 2: that labels in records have distinct names is an admitted lemma. 
+	 The rest of the type soundness proof is completely mechanized, automatically generated. 
+<li> systemFsub_records_invoke: System F sub with records, and also an invoke operators, i.e. grab a function from the record to apply it to an argument. 
+	 Disclaimer 1: that a list is either empty or a 'cons' is an admitted lemma. 
+	 Disclaimer 2: that labels in records have distinct names is an admitted lemma. 
+	 The rest of the type soundness proof is completely mechanized, automatically generated. 
+<li> systemFsub_kernel: Like System F sub, but the first argument of 'for all' is invariant.
+</ul> 
