@@ -1,0 +1,99 @@
+Specification "stlc_cbn_forall".
+
+
+
+
+
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (abs Arg1 Arg2)).
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+
+ case Value. case Value.
+ 
+
+
+Theorem  canonical_form_all : forall E U1, {typeOf E (all U1)} -> {value E} -> (exists Arg1, E = (absT Arg1)).
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+
+ case Value. case Value.
+ 
+
+
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((abs T1 R2)).
+
+ search.
+
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses ((app E1 E2)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search.
+
+
+
+Theorem progress_absT : forall R1 T, {typeOf ((absT R1)) T} -> progresses ((absT R1)).
+
+ search.
+
+
+
+Theorem progress_appT : forall E1 T2 T, {typeOf ((appT E1 T2)) T} -> progresses E1 -> progresses ((appT E1 T2)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_all to TypeOfE1 ProgressClause.   search. search.
+
+
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. TypeOfE1 : case Main.
+ backchain progress_abs.
+  backchain progress_absT.
+
+ apply IH to TypeOfE1. backchain progress_app.
+ apply IH to TypeOfE1. backchain progress_appT.
+
+ 
+ 
+
+
+Theorem preservation : forall Exp Exp' Typ, {typeOf Exp Typ} -> {step Exp Exp'} -> {typeOf Exp' Typ}.
+induction on 1. intros  Main Step. Hyp1 : case Main.
+ Step : case Step.
+ Step : case Step.
+ Step : case Step. Hyp1 : case Hyp1(keep). CutHyp : assert ({typeOf E2 T1}). ToCut : inst Hyp3 with n1 = E2. cut ToCut with CutHyp. clear CutHyp. clear ToCut. search.
+ apply IH to Hyp1 Step. search.
+
+ Step : case Step. Hyp1 : case Hyp1(keep). inst Hyp2 with n1 = X. search.
+ apply IH to Hyp1 Step. search.
+
+
+
+
+
+
+Theorem preservation_nstep : forall Exp Exp' Typ, {typeOf Exp Typ} -> {nstep Exp Exp'} -> {typeOf Exp' Typ}. 
+induction on 2. intros. case H2. search. 
+apply preservation to H1 H3. apply IH to H5 H4. search. 
+
+
+Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> 
+({value E'} /\ {typeOf E' T}) \/ exists E'', ({step E' E''} /\ {typeOf E''  T}).
+induction on 2. intros Main NStep. 
+TypeOfEPrime : apply preservation_nstep to Main NStep. Step1 : case NStep. 
+Progress : apply progress to TypeOfEPrime.
+case Progress. search. apply preservation to TypeOfEPrime H1. search.
+TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.

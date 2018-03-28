@@ -1,0 +1,9 @@
+% context app C e.
+% context app v C.
+% context appT C e.
+% context projection C e.
+% list-info record 3 1.
+% declarative-subtyping.
+% subtyping-top top.
+% contravariant arrow 1.
+% subtyping-for record:

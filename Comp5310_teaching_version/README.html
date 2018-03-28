@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>TypeSoundnessCertifier</title>
+<style type="text/css">
+.navlist
+{
+    padding: 0em 1em;
+    margin: 0.5em 1em 1.5em 1em;
+}
+
+.navlist li
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dotted gray;
+}
+
+.navlist ul
+{
+    padding: 0em 1em;
+    margin: 0;
+}
+
+.navlist ul li
+{
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+section p + p,
+.section p + p {
+    margin-top: 1em !important;
+    text-indent: 0 !important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+</div>
+
+<div class="section">
+
+<div class="section">
+<center>
+<h1 id="main">
+  <em>TypeSoundnessCertifier</em>
+</h1>
+</center>
+<br/>
+
+Requirements: 
+<br />
+<ul>
+<li> To compile, Ocaml is required.
+<li> Ocaml Batteries package is required: (to install, run "opam install batteries")
+<li> To run:  the <a href="http://abella-prover.org">Abella proofs assistant</a> must be installed and the command "abella" must be in the $PATH 
+	 (to install, run "opam install abella")
+	  <br />The tool has been tested with Abella versions 2.0.2, 2.0.3, and 2.0.4
+	  <br />The tool has not been tested with the very recent Abella version 2.0.5. It may work with that version as well. 
+</ul>
+
+Quick usage: 
+<br />
+<ul>
+<li> make 
+<li> ./soundy 
+</ul>
+Output: a successful message means that <br />
+<ul>
+<li> The tool has succesfully type checked all the language specifications in the folder "repo". 
+<li> The tool has automatically generated Abella files (.sig, .mod, and especially .thm) in the folder "generated". <br /> 
+     These files contain the theorem and proof of type soundness for each language specification. 
+<li> Abella has succesfully proof-checked all the type soundness proofs generated. <br /> 
+     To be precise: the command "abella" runs to "Proof Completed" on all generated .thm in the folder "generated". <br />
+</ul>
+
+To clean: <br />
+<ul>
+<li> make cleanOnlyTool 
+	<br /> (removes compilation files and executable) 
+<li> make clean 
+	<br />  (removes Abella files in "generated") 
+</ul>
+<br /><br />
+
+
+</body>
+</html>
+

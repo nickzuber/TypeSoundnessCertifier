@@ -1,0 +1,63 @@
+Expression E ::= x | (abs (x)E) | (fold E (X)T) | (emptyList ) | (cons E E) | (excValue ) | (tt ) | (ff ) | (app E E) | (unfold E) | (head E) | (tail E) | (if E E E) | (fix E) | (letrec (x)E (x)E) | (try E E) | (raise E)
+Type T ::= (arrow T T) | (mu (X)T) | (list T) | (excType ) | (bool )
+Value V ::= (abs R1) | (fold V1 U2) | (emptyList ) | (cons V1 V2) | (excValue ) | (tt ) | (ff )
+Error ::= (raise V1)
+Context C ::= [] | (fold C e) | (cons C e) | (cons v C) | (app C e) | (unfold C) | (head C) | (tail C) | (if C e e) | (fix C) | (try C e) | (raise C)
+
+Gamma |- (abs R) : (arrow T1 T2) <== Gamma, x : T1 |- R : T2.
+
+Gamma |- (fold E R) : (mu R) <== Gamma |- E : R[(mu R)/x].
+
+Gamma |- (emptyList ) : (list T).
+
+Gamma |- (cons E1 E2) : (list T) <== Gamma |- E1 : T /\ Gamma |- E2 : (list T).
+
+Gamma |- (excValue ) : (excType ).
+
+Gamma |- (tt ) : (bool ).
+
+Gamma |- (ff ) : (bool ).
+
+Gamma |- (app E1 E2) : T2 <== Gamma |- E1 : (arrow T1 T2) /\ Gamma |- E2 : T1.
+
+(app (abs R) EE) --> R[EE/x].
+
+Gamma |- (unfold E) : R[(mu R)/x] <== Gamma |- E : (mu R).
+
+(unfold (fold V R)) --> V <== value V.
+
+Gamma |- (head E) : T <== Gamma |- E : (list T).
+
+(head (emptyList )) --> (raise (excValue )).
+
+(head (cons E1 E2)) --> E1.
+
+Gamma |- (tail E) : (list T) <== Gamma |- E : (list T).
+
+(tail (emptyList )) --> (raise (excValue )).
+
+(tail (cons E1 E2)) --> E2.
+
+Gamma |- (if E1 E2 E3) : T <== Gamma |- E1 : (bool ) /\ Gamma |- E2 : T /\ Gamma |- E3 : T.
+
+(if (tt ) E1 E2) --> E1.
+
+(if (ff ) E1 E2) --> E2.
+
+Gamma |- (fix E) : T <== Gamma |- E : (arrow T T).
+
+(fix V) --> (app V (fix V)) <== value V.
+
+Gamma |- (letrec R1 R2) : T2 <== Gamma, x : T1 |- R1 : T1 /\ Gamma, x : T1 |- R2 : T2.
+
+(letrec R1 R2) --> R2[(fix (abs R1))/x].
+
+Gamma |- (try E1 E2) : T <== Gamma |- E1 : T /\ Gamma |- E2 : (arrow (excType ) T).
+
+(try E1 E2) --> E1 <== value E1.
+
+(try (raise E1) E2) --> (app E2 E1).
+
+Gamma |- (raise E) : T <== Gamma |- E : (excType ).
+
+

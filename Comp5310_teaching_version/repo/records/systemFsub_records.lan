@@ -1,0 +1,33 @@
+Gamma |- (abs T1 R) : (arrow T1 T2) <== Gamma, x : T1 |- R : T2.
+
+Gamma |- (absT T1 R2) : (all T1 R) <== Gamma, X <: T1 |- R2 : R.
+
+Gamma |- (projection E L) : T <== Gamma |- E : (recordT List) /\ recordT_member List L T.
+
+Gamma |- (topObj ) : (top ).
+
+Gamma |- (app E1 E2) : T2 <== Gamma |- E1 : (arrow T1' T2) /\ Gamma |- E2 : T1'.
+
+(app (abs T1 R) V) --> R[V/x] <== value V.
+
+Gamma |- (appT E X) : R'[X/x] <== Gamma |- E : (all T2 R') /\ X <: T2.
+
+(appT (absT T1 R2) X) --> R2[X/x].
+
+(projection (record ListExp) L) --> E' <== record_member ListExp L E'.
+
+value (abs T1 R2).
+
+value (absT T R1).
+
+
+% context app C e.
+% context app v C.
+% context appT C e.
+% context projection C e.
+% list-info record 3 1.
+% declarative-subtyping.
+% subtyping-top top.
+% contravariant arrow 1.
+% subtyping-for record: width.
+% subtyping-for all: subtype (all T1 T2) (all T1' T2') :- subtype T1' T1, (pi x\ subtype x T1' => subtype (T2 x) (T2' x)).

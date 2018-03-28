@@ -1,0 +1,13 @@
+Expression E ::= x | (fold E (X)T) | (unfold E)
+Type T ::= (mu (X)T)
+Value V ::= (fold V1 U2)
+Error ::= 
+Context C ::= [] | (fold C e) | (unfold C)
+
+Gamma |- (fold E R) : (mu R) <== Gamma |- E : R[(mu R)/x].
+
+Gamma |- (unfold E) : R[(mu R)/x] <== Gamma |- E : (mu R).
+
+(unfold (fold V R)) --> V <== value V.
+
+

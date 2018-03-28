@@ -1,0 +1,191 @@
+Specification "stlc_cbv_listsIsNil_lazy".
+
+
+
+
+
+
+
+Theorem  canonical_form_arrow : forall E T1 T2, {typeOf E (arrow T1 T2)} -> {value E} -> (exists Arg1 Arg2, E = (abs Arg1 Arg2)).
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+
+ case Value. case Value. case Value.
+ case Value.
+
+
+
+Theorem  canonical_form_list : forall E T1, {typeOf E (list T1)} -> {value E} -> (exists Arg1 Arg2, E = (cons Arg1 Arg2)) \/ E = (emptyList ).
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+ case Value. search.
+
+ case Value. case Value. case Value. case Value.
+ case Value.
+
+
+
+Theorem  canonical_form_bool : forall E, {typeOf E (bool )} -> {value E} -> E = (ff ) \/ E = (tt ).
+
+intros  Main Value. Subsumption : case Main.
+ case Value. search.
+ case Value. search.
+
+ case Value. case Value. case Value. case Value.
+ case Value.
+
+
+
+
+
+Define progresses : term -> prop by
+	 progresses E := {value E} ;
+	 progresses E := {error E} ;
+	 progresses E := exists E', {step E E'}.
+
+Theorem progress_abs : forall T1 R2 T, {typeOf ((abs T1 R2)) T} -> progresses ((abs T1 R2)).
+
+ search.
+
+
+
+Theorem progress_app : forall E1 E2 T, {typeOf ((app E1 E2)) T} -> progresses E1 -> progresses E2 -> progresses ((app E1 E2)).
+
+intros  Main PrgsE1 PrgsE2. TypeOfE1 : case Main. ProgressClause : case PrgsE1. case PrgsE2.
+ Canonical : apply canonical_form_arrow to TypeOfE1 ProgressClause.   search. search. search. search. search.
+
+
+
+Theorem progress_cons : forall E1 E2 T, {typeOf ((cons E1 E2)) T} -> progresses ((cons E1 E2)).
+
+ search.
+
+
+
+Theorem progress_emptyList : forall  T, {typeOf ((emptyList )) T} -> progresses ((emptyList )).
+
+ search.
+
+
+
+Theorem progress_head : forall E1 T, {typeOf ((head E1)) T} -> progresses E1 -> progresses ((head E1)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_list to TypeOfE1 ProgressClause. case Canonical.  search. search. search. search.
+
+
+
+Theorem progress_tail : forall E1 T, {typeOf ((tail E1)) T} -> progresses E1 -> progresses ((tail E1)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_list to TypeOfE1 ProgressClause. case Canonical.  search. search. search. search.
+
+
+
+Theorem progress_isnil : forall E1 T, {typeOf ((isnil E1)) T} -> progresses E1 -> progresses ((isnil E1)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_list to TypeOfE1 ProgressClause. case Canonical.  search. search. search. search.
+
+
+
+Theorem progress_ff : forall  T, {typeOf ((ff )) T} -> progresses ((ff )).
+
+ search.
+
+
+
+Theorem progress_tt : forall  T, {typeOf ((tt )) T} -> progresses ((tt )).
+
+ search.
+
+
+
+Theorem progress_if : forall E1 E2 E3 T, {typeOf ((if E1 E2 E3)) T} -> progresses E1 -> progresses ((if E1 E2 E3)).
+
+intros  Main PrgsE1. TypeOfE1 : case Main. ProgressClause : case PrgsE1.
+ Canonical : apply canonical_form_bool to TypeOfE1 ProgressClause. case Canonical.  search. search. search. search.
+
+
+
+Theorem progress_myError : forall  T, {typeOf ((myError )) T} -> progresses ((myError )).
+
+ search.
+
+
+
+
+
+Theorem progress : forall E T, {typeOf E T} -> progresses E. 
+induction on 1. intros Main. TypeOfE1 : case Main.
+ backchain progress_abs.
+  backchain progress_cons.
+  backchain progress_emptyList.
+  backchain progress_ff.
+  backchain progress_tt.
+
+ apply IH to TypeOfE1. apply IH to TypeOfE2. backchain progress_app.
+ apply IH to TypeOfE1. backchain progress_head.
+ apply IH to TypeOfE1. backchain progress_tail.
+ apply IH to TypeOfE1. backchain progress_isnil.
+ apply IH to TypeOfE1. backchain progress_if.
+
+ 
+  backchain progress_myError.
+
+
+
+
+Theorem error_types_all: forall E T1 T2, {typeOf E T1} -> {error E} -> {typeOf E T2}. 
+
+intros Hyp1 Error. case Error. case Hyp1. 
+
+search.
+
+Theorem preservation : forall Exp Exp' Typ, {typeOf Exp Typ} -> {step Exp Exp'} -> {typeOf Exp' Typ}.
+induction on 1. intros  Main Step. Hyp1 : case Main.
+ Step : case Step.
+ Step : case Step.
+ Step : case Step.
+ Step : case Step.
+ Step : case Step.
+ Step : case Step. Hyp1 : case Hyp1(keep). CutHyp : assert ({typeOf E2 T1}). ToCut : inst Hyp3 with n1 = E2. cut ToCut with CutHyp. clear CutHyp. clear ToCut. search.
+ apply IH to Hyp1 Step. search.
+ apply IH to Hyp2 Step. search.
+ backchain error_types_all. backchain error_types_all.
+ Step : case Step. Hyp1 : case Hyp1(keep). search.
+ Hyp1 : case Hyp1(keep). search.
+ apply IH to Hyp1 Step. search.
+ backchain error_types_all.
+ Step : case Step. Hyp1 : case Hyp1(keep). search.
+ Hyp1 : case Hyp1(keep). search.
+ apply IH to Hyp1 Step. search.
+ backchain error_types_all.
+ Step : case Step. Hyp1 : case Hyp1(keep). search.
+ Hyp1 : case Hyp1(keep). search.
+ apply IH to Hyp1 Step. search.
+ backchain error_types_all.
+ Step : case Step. Hyp1 : case Hyp1(keep). search.
+ Hyp1 : case Hyp1(keep). search.
+ apply IH to Hyp1 Step. search.
+ backchain error_types_all.
+ Step : case Step.
+
+
+
+
+
+Theorem preservation_nstep : forall Exp Exp' Typ, {typeOf Exp Typ} -> {nstep Exp Exp'} -> {typeOf Exp' Typ}. 
+induction on 2. intros. case H2. search. 
+apply preservation to H1 H3. apply IH to H5 H4. search. 
+
+
+Theorem type_soundness : forall E E' T, {typeOf E T} -> {nstep E E'} -> 
+({value E'} /\ {typeOf E' T}) \/ {error E'} \/ exists E'', ({step E' E''} /\ {typeOf E''  T}).
+induction on 2. intros Main NStep. 
+TypeOfEPrime : apply preservation_nstep to Main NStep. Step1 : case NStep. 
+Progress : apply progress to TypeOfEPrime.
+case Progress. search. search. apply preservation to TypeOfEPrime H1. search. 
+TypeOfE2: apply preservation to Main Step1. backchain IH with E = E2.
