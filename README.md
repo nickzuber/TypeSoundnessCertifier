@@ -15,8 +15,8 @@ As of July 2017 (a POPL 2018 submission),
 Requirements: 
 <br />
 <ul>
-<li> To compile, Ocaml is required.
-<li> Ocaml Batteries package is required: (to install, run "opam install batteries")
+<li> To compile, Ocaml v4.02.1 is required.
+<li> Ocaml Batteries package v2.5.3 is required: (to install, run `opam install "batteries<=2.6"`)
 <li> To run:  the <a href="http://abella-prover.org">Abella proofs assistant</a> must be installed and the command "abella" must be in the $PATH 
 	 (to install, run "opam install abella")
 	  <br />The tool works with the latest Abella versions (2.0.2, 2.0.3, and 2.0.4)
